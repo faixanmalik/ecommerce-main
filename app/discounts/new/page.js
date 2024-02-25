@@ -1,5 +1,5 @@
 "use client"
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Heading from "@/components/Heading";
 import { IoIosArrowRoundBack, IoMdTime } from "react-icons/io";
@@ -11,16 +11,21 @@ import {
   CardBody,
   Typography,
   Button,
-  CardFooter,
-  Tooltip,
-  Avatar,
   ButtonGroup,
-  Select,
-  Option,
   Input,
   Radio,
+  Dialog,
+  DialogHeader,
+  DialogBody,
+  DialogFooter,
 } from "@material-tailwind/react";
 import { AiOutlinePercentage } from "react-icons/ai";
+
+import { IoCloseSharp, IoImageOutline } from "react-icons/io5";
+import { CiShoppingTag } from "react-icons/ci";
+import { TbShoppingBagDiscount } from "react-icons/tb";
+import { LiaShippingFastSolid } from "react-icons/lia";
+import { IoIosArrowForward } from "react-icons/io";
 
 export const dynamic = "force-dynamic"
 
@@ -29,6 +34,46 @@ export default function NewDiscount() {
   const searchParams = useSearchParams();
   const type = searchParams.get('type');
   console.log(type);
+
+  const [open, setOpen] = React.useState(false);
+  const [size, setSize] = React.useState(null);
+  const handleOpen = (value) => setSize(value);
+
+
+  const [collections, setCollections] = useState([])
+
+  const [searchCollection, setSearchCollection] = useState('')
+  const handleCollection = (e)=>{
+    if(e.target.name === 'searchCollection'){
+      setSearchCollection(e.target.value)
+    }
+  }
+
+  useEffect(() => {
+      
+    const newCollections = collections.filter((item)=>{
+      return item.name.toLowerCase().includes(searchCollection.toLowerCase());
+    });
+    if (searchCollection === '') {
+      setCollections([
+        {
+          name: 'Home Page',
+          product: 0,
+          avatar: ''
+        },
+        {
+          name: 'New Collection',
+          product: 3,
+          avatar: ''
+        }
+      ]);
+    } else {
+      setCollections(newCollections);
+    }
+
+  }, [searchCollection])
+
+  
 
   return (
     <div className="w-full bg-gray-100 min-h-screen items-center flex flex-col">
@@ -124,16 +169,88 @@ export default function NewDiscount() {
                     </select>
 
                     <div className="flex space-x-3 items-center mt-3">
-                      <div class="relative w-full">
-                        <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                      <div className="relative w-full">
+                        <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                            <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                             </svg>
                         </div>
-                        <input type="search" id="default-search" class="block w-full py-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search collections..." required />
+                        <input type="search" id="default-search" className="block w-full py-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search collections..." required />
                       </div>
-                      <button type="button" class="py-2 px-5 me-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-400 hover:bg-gray-100 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Browse</button>
+                      <button onClick={() => handleOpen("sm")} className="py-2 px-5 me-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-400 hover:bg-gray-100 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Browse</button>
                     </div>
+
+                    <Dialog
+                      open={
+                        size === "xs" ||
+                        size === "sm" ||
+                        size === "md" ||
+                        size === "lg" ||
+                        size === "xl" ||
+                        size === "xxl"
+                      }
+                      size={size || "md"}
+                      handler={handleOpen}
+                    >
+                      <DialogHeader className="bg-gray-100 flex justify-between">
+                        <div className="text-sm">
+                          Add collections
+                        </div>
+                        <div>
+                          <IoCloseSharp onClick={() => handleOpen(null)} className='text-lg cursor-pointer'/>
+                        </div>
+                      </DialogHeader>
+                      <DialogBody className="py-0">
+
+                        <div className="relative w-full py-3 ">
+                          <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                            <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                            </svg>
+                          </div>
+                          <input name="searchCollection" value={searchCollection} onChange={handleCollection} type="search" id="default-search" className="block w-full py-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search collections..." required />
+                        </div>
+
+                        {collections.map((item, index) => (
+                          <div key={index} className="flex justify-between items-center border-t border-b py-2 text-sm text-gray-700">
+                            
+                            <Radio
+                              name="terms"
+                              label={
+                                <div className="flex space-x-3">
+                                  <div className="border border-gray-300 rounded-md items-center my-auto p-2">
+                                    <IoImageOutline className='text-xl'/>
+                                  </div>
+                                  <div className="flex-col">
+                                    <h3 className="font-semibold">{item.name}</h3>
+                                    <p className="">{item.product} products</p>
+                                  </div>
+                                </div>
+                              }
+                            />
+                            
+                          </div>
+                        ))}
+                      </DialogBody>
+                      <DialogFooter className="flex space-x-2 py-3">
+                        <Button
+                          variant="text"
+                          color="gray"
+                          onClick={() => handleOpen(null)}
+                          className="mr-1 border shadow-md border-gray-600 py-1 px-2"
+                        >
+                          <span className="text-gray-700">Cancel</span>
+                        </Button>
+                        <Button
+                          variant="text"
+                          color="gray"
+                          onClick={(e) => addCollection(e)}
+                          className="mr-1 border bg-gray-300 shadow-md border-gray-500 py-1 px-4"
+                        >
+                          <span className="text-gray-700">Add</span>
+                        </Button>
+                      </DialogFooter>
+                    </Dialog>
 
                     
                     
@@ -159,7 +276,7 @@ export default function NewDiscount() {
                           as="a"
                           href="#"
                           color="blue-gray"
-                          className="hover:text-blueg-gray-900 font-medium transition-colors"
+                          className="hover:text-blue-gray-900 text-sm font-medium transition-colors"
                         >
                           No minimum requirements
                         </Typography>
@@ -172,7 +289,7 @@ export default function NewDiscount() {
                           as="a"
                           href="#"
                           color="blue-gray"
-                          className="hover:text-blueg-gray-900 font-medium transition-colors"
+                          className="hover:text-blue-gray-900 text-sm font-medium transition-colors"
                         >
                           Minimum purchase amount (Rs)
                         </Typography>
@@ -185,7 +302,7 @@ export default function NewDiscount() {
                           as="a"
                           href="#"
                           color="blue-gray"
-                          className="hover:text-blueg-gray-900 font-medium transition-colors"
+                          className="hover:text-blue-gray-900 text-sm font-medium transition-colors"
                         >
                           Minimum quantity of items
                         </Typography>
@@ -213,7 +330,7 @@ export default function NewDiscount() {
                           as="a"
                           href="#"
                           color="blue-gray"
-                          className="hover:text-blueg-gray-900 font-medium transition-colors"
+                          className="hover:text-blue-gray-900 text-sm font-medium transition-colors"
                         >
                           All customers
                         </Typography>
@@ -226,7 +343,7 @@ export default function NewDiscount() {
                           as="a"
                           href="#"
                           color="blue-gray"
-                          className="hover:text-blueg-gray-900 font-medium transition-colors"
+                          className="hover:text-blue-gray-900 text-sm font-medium transition-colors"
                         >
                           Specific customer segments
                         </Typography>
@@ -239,7 +356,7 @@ export default function NewDiscount() {
                           as="a"
                           href="#"
                           color="blue-gray"
-                          className="hover:text-blueg-gray-900 font-medium transition-colors"
+                          className="hover:text-blue-gray-900 text-sm font-medium transition-colors"
                         >
                           Specific customers
                         </Typography>
@@ -268,7 +385,7 @@ export default function NewDiscount() {
                           as="a"
                           href="#"
                           color="blue-gray"
-                          className="hover:text-blueg-gray-900 font-medium transition-colors"
+                          className="hover:text-blue-gray-900 text-sm font-medium transition-colors"
                         >
                           Limit number of times this discount can be used in total
                         </Typography>
@@ -281,7 +398,7 @@ export default function NewDiscount() {
                           as="a"
                           href="#"
                           color="blue-gray"
-                          className="hover:text-blueg-gray-900 font-medium transition-colors"
+                          className="hover:text-blue-gray-900 text-sm font-medium transition-colors"
                         >
                           Limit to one use per customer
                         </Typography>
@@ -310,7 +427,7 @@ export default function NewDiscount() {
                           as="a"
                           href="#"
                           color="blue-gray"
-                          className="hover:text-blueg-gray-900 font-medium transition-colors"
+                          className="hover:text-blue-gray-900 text-sm font-medium transition-colors"
                         >
                           Product discounts
                         </Typography>
@@ -323,7 +440,7 @@ export default function NewDiscount() {
                           as="a"
                           href="#"
                           color="blue-gray"
-                          className="hover:text-blueg-gray-900 font-medium transition-colors"
+                          className="hover:text-blue-gray-900 text-sm font-medium transition-colors"
                         >
                           Shipping discounts
                         </Typography>
@@ -351,13 +468,13 @@ export default function NewDiscount() {
                           Start date
                         </label>
                         
-                        <div class="relative max-w-sm">
-                          <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
-                            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                        <div className="relative max-w-sm">
+                          <div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
+                            <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                               <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
                             </svg>
                           </div>
-                          <input type="date" class="bg-white ps-10 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-[6px] px-2 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date"/>
+                          <input type="date" className="bg-white ps-10 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-[6px] px-2 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date"/>
                         </div>
                       </div>
 
@@ -366,8 +483,8 @@ export default function NewDiscount() {
                           Start time
                         </label>
 
-                        <div class="relative mb-6">
-                          <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
+                        <div className="relative mb-6">
+                          <div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
                             <IoMdTime className='text-lg' />
                           </div>
                           <select id="time" className="bg-white ps-10 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
@@ -386,13 +503,13 @@ export default function NewDiscount() {
                           Start date
                         </label>
                         
-                        <div class="relative max-w-sm">
-                          <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
-                            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                        <div className="relative max-w-sm">
+                          <div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
+                            <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                               <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
                             </svg>
                           </div>
-                          <input type="date" class="bg-white ps-10 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-[6px] px-2 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date"/>
+                          <input type="date" className="bg-white ps-10 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-[6px] px-2 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date"/>
                         </div>
                       </div>
 
@@ -401,8 +518,8 @@ export default function NewDiscount() {
                           Start time
                         </label>
 
-                        <div class="relative">
-                          <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
+                        <div className="relative">
+                          <div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
                             <IoMdTime className='text-lg' />
                           </div>
                           <select id="time" className="bg-white ps-10 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
@@ -500,8 +617,8 @@ export default function NewDiscount() {
         </div>
 
         <div className="flex justify-end space-x-2">
-          <button type="button" class="py-1 px-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-400 hover:bg-gray-100 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Discard</button>
-          <button type="button" class="py-1 px-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-400 hover:bg-gray-100 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Save discount</button>
+          <button type="button" className="py-1 px-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-400 hover:bg-gray-100 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Discard</button>
+          <button type="button" className="py-1 px-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-400 hover:bg-gray-100 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Save discount</button>
         </div>
 
         
