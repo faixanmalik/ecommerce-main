@@ -111,6 +111,14 @@ export default function NewDiscount() {
     setCollections(newCollections);
   }
 
+  let label; 
+  if(type === 'moneyOffProduct'){
+    label = 'Amount off products'
+  }
+  else if(type === 'buyXgetY'){
+    label = 'Buy X get Y'
+  }
+
 
   return (
     <div className="w-full bg-gray-100 min-h-screen items-center flex flex-col">
@@ -134,7 +142,7 @@ export default function NewDiscount() {
                 floated={false}
                 className="flex justify-between shrink-0 rounded-r-none"
               >
-                <h1 className="text-sm font-semibold">Amount off products</h1>
+                <h1 className="text-sm font-semibold">{label}</h1>
                 <h1 className="text-sm font-medium">Product discount</h1>
                 
               </CardHeader>
@@ -172,7 +180,7 @@ export default function NewDiscount() {
               </CardBody>
             </Card>
 
-            <Card className="w-full flex-col">
+            {type === 'moneyOffProduct' && <Card className="w-full flex-col">
               
               <CardBody className="px-4">
 
@@ -320,7 +328,165 @@ export default function NewDiscount() {
                 </div>
 
               </CardBody>
-            </Card>
+            </Card>}
+
+            {type === 'buyXgetY' && <Card className="w-full flex-col">
+
+              <CardHeader
+                shadow={false}
+                floated={false}
+                className="flex justify-between shrink-0 rounded-r-none"
+              >
+                <h1 className="text-sm font-semibold">Customer buys</h1>
+                
+              </CardHeader>
+              
+              <CardBody className="px-4">
+
+                <div className="flex-col space-y-2">
+
+                  <div className="flex space-x-2 items-center">
+                    <input type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                    <label className="text-sm" for="myCheckbox">Minimum quantity of items</label>
+                  </div>
+
+                  <div className="flex space-x-2 items-center">
+                    <input type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                    <label className="text-sm" for="myCheckbox">Minimum purchase amount</label>
+                  </div>
+
+                </div>
+
+                <div className="flex-col space-y-5 pt-3">
+
+                  <div className="">
+                    <label htmlFor="appliesTo" className="block text-sm font-medium leading-6 text-gray-900">
+                      Applies to
+                    </label>
+                    
+                    <select id="appliesTo" className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                      <option value='speceficCollections' selected>Specefic collections</option>
+                      <option value="speceficProducts">Specefic products</option>
+                    </select>
+
+                    <div className="flex space-x-3 items-center mt-3">
+                      <div className="relative w-full">
+                        <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                            <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                            </svg>
+                        </div>
+                        <input type="search" id="default-search" className="block w-full py-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search collections..." required />
+                      </div>
+                      <button onClick={() => handleOpen("sm")} className="py-2 px-5 me-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-400 hover:bg-gray-100 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Browse</button>
+                    </div>
+
+                    <div className="mt-2">
+                      {collections.map((item, index) => (
+                        <div key={index} className="flex mt-2 justify-between items-center border rounded-md py-2 px-3 text-sm text-gray-700">
+                          
+                          <div className="flex space-x-3">
+                            <div className="border border-gray-300 rounded-md items-center my-auto p-2">
+                              <IoImageOutline className='text-xl'/>
+                            </div>
+                            <div className="flex-col">
+                              <h3 className="font-semibold">{item.name}</h3>
+                              <p className="">{item.product}</p>
+                            </div>
+                          </div>
+                          <div>
+                            <IoCloseSharp onClick={(e) => deleteCollection(e,index)} className='text-lg cursor-pointer'/>
+                          </div>
+                          
+                        </div>
+                      ))}
+                    </div>
+
+                    <Dialog
+                      open={
+                        size === "xs" ||
+                        size === "sm" ||
+                        size === "md" ||
+                        size === "lg" ||
+                        size === "xl" ||
+                        size === "xxl"
+                      }
+                      size={size || "md"}
+                      handler={handleOpen}
+                    >
+                      <DialogHeader className="bg-gray-100 flex justify-between">
+                        <div className="text-sm">
+                          Add collections
+                        </div>
+                        <div>
+                          <IoCloseSharp onClick={() => handleOpen(null)} className='text-lg cursor-pointer'/>
+                        </div>
+                      </DialogHeader>
+                      <DialogBody className="py-0">
+
+                        <div className="relative w-full py-3 ">
+                          <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                            <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                            </svg>
+                          </div>
+                          <input name="searchCollection" value={searchCollection} onChange={handleCollection} type="search" id="default-search" className="block w-full py-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search collections..." required />
+                        </div>
+
+                        {allCollections.map((item, index) => (
+                          <div key={index} className="flex justify-between items-center border-t border-b py-2 text-sm text-gray-700">
+
+                            <div className="flex space-x-2 items-center">
+                              <input 
+                                checked={selectedValue === item.name}
+                                value={item.name}
+                                onChange={handleRadioChange} 
+                                type="checkbox" id="myCheckbox" 
+                                className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                              <label className="text-sm" for="myCheckbox">
+                                <div className="flex space-x-3">
+                                  <div className="border border-gray-300 rounded-md items-center my-auto p-2">
+                                    <IoImageOutline className='text-xl'/>
+                                  </div>
+                                  <div className="flex-col">
+                                    <h3 className="font-semibold">{item.name}</h3>
+                                    <p className="">{item.product} products</p>
+                                  </div>
+                                </div>
+                              </label>
+                            </div>
+                            
+                          </div>
+                        ))}
+                      </DialogBody>
+                      <DialogFooter className="flex space-x-2 py-3">
+                        <Button
+                          variant="text"
+                          color="gray"
+                          onClick={() => handleOpen(null)}
+                          className="mr-1 border shadow-md border-gray-600 py-1 px-2"
+                        >
+                          <span className="text-gray-700">Cancel</span>
+                        </Button>
+                        <Button
+                          variant="text"
+                          color="gray"
+                          onClick={(e) => addCollection(e)}
+                          className="mr-1 border bg-gray-300 shadow-md border-gray-500 py-1 px-4"
+                        >
+                          <span className="text-gray-700">Add</span>
+                        </Button>
+                      </DialogFooter>
+                    </Dialog>
+
+                    
+                    
+                  </div>
+
+                </div>
+
+              </CardBody>
+            </Card>}
 
             <Card className="w-full flex-col">
               <CardBody className="px-4">
@@ -328,47 +494,23 @@ export default function NewDiscount() {
                   
                   <h1 className="text-sm font-semibold">Minimum purchase requirements</h1>
 
-                  <div className="flex flex-col -space-y-2">
-                    <Radio
-                      name="terms"
-                      defaultChecked
-                      label={
-                        <Typography
-                          as="a"
-                          href="#"
-                          color="blue-gray"
-                          className="hover:text-blue-gray-900 text-sm font-medium transition-colors"
-                        >
-                          No minimum requirements
-                        </Typography>
-                      }
-                    />
-                    <Radio
-                      name="terms"
-                      label={
-                        <Typography
-                          as="a"
-                          href="#"
-                          color="blue-gray"
-                          className="hover:text-blue-gray-900 text-sm font-medium transition-colors"
-                        >
-                          Minimum purchase amount (Rs)
-                        </Typography>
-                      }
-                    />
-                    <Radio
-                      name="terms"
-                      label={
-                        <Typography
-                          as="a"
-                          href="#"
-                          color="blue-gray"
-                          className="hover:text-blue-gray-900 text-sm font-medium transition-colors"
-                        >
-                          Minimum quantity of items
-                        </Typography>
-                      }
-                    />
+                  <div className="flex flex-col space-y-2">
+
+                    <div className="flex space-x-2 items-center">
+                      <input defaultChecked type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                      <label className="text-sm" for="myCheckbox">No minimum requirements</label>
+                    </div>
+
+                    <div className="flex space-x-2 items-center">
+                      <input defaultChecked type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                      <label className="text-sm" for="myCheckbox">Minimum purchase amount (Rs)</label>
+                    </div>
+
+                    <div className="flex space-x-2 items-center">
+                      <input defaultChecked type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                      <label className="text-sm" for="myCheckbox">Minimum quantity of items</label>
+                    </div>
+                    
                   </div>
 
 
@@ -382,47 +524,23 @@ export default function NewDiscount() {
                   
                   <h1 className="text-sm font-semibold">Customer eligibility</h1>
 
-                  <div className="flex flex-col -space-y-2">
-                    <Radio
-                      name="terms"
-                      defaultChecked
-                      label={
-                        <Typography
-                          as="a"
-                          href="#"
-                          color="blue-gray"
-                          className="hover:text-blue-gray-900 text-sm font-medium transition-colors"
-                        >
-                          All customers
-                        </Typography>
-                      }
-                    />
-                    <Radio
-                      name="terms"
-                      label={
-                        <Typography
-                          as="a"
-                          href="#"
-                          color="blue-gray"
-                          className="hover:text-blue-gray-900 text-sm font-medium transition-colors"
-                        >
-                          Specific customer segments
-                        </Typography>
-                      }
-                    />
-                    <Radio
-                      name="terms"
-                      label={
-                        <Typography
-                          as="a"
-                          href="#"
-                          color="blue-gray"
-                          className="hover:text-blue-gray-900 text-sm font-medium transition-colors"
-                        >
-                          Specific customers
-                        </Typography>
-                      }
-                    />
+                  <div className="flex flex-col space-y-2">
+
+                    <div className="flex space-x-2 items-center">
+                      <input defaultChecked type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                      <label className="text-sm" for="myCheckbox">All customers</label>
+                    </div>
+
+                    <div className="flex space-x-2 items-center">
+                      <input type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                      <label className="text-sm" for="myCheckbox">Specific customer segments</label>
+                    </div>
+
+                    <div className="flex space-x-2 items-center">
+                      <input type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                      <label className="text-sm" for="myCheckbox">Specific customers</label>
+                    </div>
+
                   </div>
 
 
@@ -436,35 +554,18 @@ export default function NewDiscount() {
                   
                   <h1 className="text-sm font-semibold">Maximum discount uses</h1>
 
-                  <div className="flex flex-col -space-y-2">
-                    <Radio
-                      name="terms"
-                      className="p-0"
-                      defaultChecked
-                      label={
-                        <Typography
-                          as="a"
-                          href="#"
-                          color="blue-gray"
-                          className="hover:text-blue-gray-900 text-sm font-medium transition-colors"
-                        >
-                          Limit number of times this discount can be used in total
-                        </Typography>
-                      }
-                    />
-                    <Radio
-                      name="terms"
-                      label={
-                        <Typography
-                          as="a"
-                          href="#"
-                          color="blue-gray"
-                          className="hover:text-blue-gray-900 text-sm font-medium transition-colors"
-                        >
-                          Limit to one use per customer
-                        </Typography>
-                      }
-                    />
+                  <div className="flex flex-col space-y-2">
+
+                    <div className="flex space-x-2 items-center">
+                      <input type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                      <label className="text-sm" for="myCheckbox">Limit number of times this discount can be used in total</label>
+                    </div>
+
+                    <div className="flex space-x-2 items-center">
+                      <input type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                      <label className="text-sm" for="myCheckbox">Limit to one use per customer</label>
+                    </div>
+                    
                   </div>
 
                 </div>
@@ -478,35 +579,18 @@ export default function NewDiscount() {
                   <h1 className="text-sm font-semibold">Combinations</h1>
                   <h1 className="text-sm font-semibold">This product discount can be combined with:</h1>
 
-                  <div className="flex flex-col -space-y-2">
-                    <Radio
-                      name="terms"
-                      className="p-0"
-                      defaultChecked
-                      label={
-                        <Typography
-                          as="a"
-                          href="#"
-                          color="blue-gray"
-                          className="hover:text-blue-gray-900 text-sm font-medium transition-colors"
-                        >
-                          Product discounts
-                        </Typography>
-                      }
-                    />
-                    <Radio
-                      name="terms"
-                      label={
-                        <Typography
-                          as="a"
-                          href="#"
-                          color="blue-gray"
-                          className="hover:text-blue-gray-900 text-sm font-medium transition-colors"
-                        >
-                          Shipping discounts
-                        </Typography>
-                      }
-                    />
+                  <div className="flex flex-col space-y-2">
+
+                    <div className="flex space-x-2 items-center">
+                      <input defaultChecked type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                      <label className="text-sm" for="myCheckbox">Product discounts</label>
+                    </div>
+
+                    <div className="flex space-x-2 items-center">
+                      <input defaultChecked type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                      <label className="text-sm" for="myCheckbox">Shipping discounts</label>
+                    </div>
+
                   </div>
 
                 </div>
@@ -646,24 +730,13 @@ export default function NewDiscount() {
                   
                   <h1 className="text-sm font-semibold">Sales channels</h1>
 
-                  <div className="flex flex-col -space-y-2">
-                    <Radio
-                      name="terms"
-                      defaultChecked
-                      className="p-0"
-                      label={
-                        <Typography
-                          as="a"
-                          href="#"
-                          color="blue-gray"
-                          className="hover:text-blue-gray-900 font-medium transition-colors"
-                        >
-                          Point of sales
-                        </Typography>
-                      }
-                    />
-                    
-                    
+                  <div className="flex flex-col space-y-2">
+
+                    <div className="flex space-x-2 items-center">
+                      <input defaultChecked type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                      <label className="text-sm" for="myCheckbox">Point of sales</label>
+                    </div>
+
                   </div>
 
                 </div>
