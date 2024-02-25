@@ -502,12 +502,12 @@ export default function NewDiscount() {
                     </div>
 
                     <div className="flex space-x-2 items-center">
-                      <input defaultChecked type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                      <input type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
                       <label className="text-sm" for="myCheckbox">Minimum purchase amount (Rs)</label>
                     </div>
 
                     <div className="flex space-x-2 items-center">
-                      <input defaultChecked type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                      <input type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
                       <label className="text-sm" for="myCheckbox">Minimum quantity of items</label>
                     </div>
                     
@@ -587,7 +587,7 @@ export default function NewDiscount() {
                     </div>
 
                     <div className="flex space-x-2 items-center">
-                      <input defaultChecked type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                      <input type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
                       <label className="text-sm" for="myCheckbox">Shipping discounts</label>
                     </div>
 
