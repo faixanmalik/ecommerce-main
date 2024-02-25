@@ -41,6 +41,7 @@ export default function NewDiscount() {
 
 
   const [collections, setCollections] = useState([])
+  const [allCollections, setAllCollections] = useState([])
 
   const [searchCollection, setSearchCollection] = useState('')
   const handleCollection = (e)=>{
@@ -49,13 +50,18 @@ export default function NewDiscount() {
     }
   }
 
+  const [selectedValue, setSelectedValue] = useState('');
+  const handleRadioChange = (event) => {
+    setSelectedValue(event.target.value);
+  };
+
   useEffect(() => {
       
-    const newCollections = collections.filter((item)=>{
+    const newCollections = allCollections.filter((item)=>{
       return item.name.toLowerCase().includes(searchCollection.toLowerCase());
     });
     if (searchCollection === '') {
-      setCollections([
+      setAllCollections([
         {
           name: 'Home Page',
           product: 0,
@@ -68,10 +74,42 @@ export default function NewDiscount() {
         }
       ]);
     } else {
-      setCollections(newCollections);
+      setAllCollections(newCollections);
     }
 
   }, [searchCollection])
+
+
+  const addCollection = (e) => {
+    e.preventDefault();
+
+    const newCollections = [...collections];
+
+    // Filter the data
+    let data = allCollections.filter((item) => {
+      return item.name === selectedValue;
+    });
+
+    // Check if data is found
+    if (data.length > 0) {
+        // Push the first item of the filtered array
+        newCollections.push(data[0]);
+        console.log(newCollections);
+
+        // Set the updated collections state
+        setCollections(newCollections);
+    } else {
+        console.log("Data not found");
+    }
+  }
+
+  const deleteCollection = (e, indexToDelete)=>{
+    e.preventDefault();
+
+    const newCollections = [...collections];
+    newCollections.splice(indexToDelete, 1);
+    setCollections(newCollections);
+  }
 
   
 
@@ -180,6 +218,27 @@ export default function NewDiscount() {
                       <button onClick={() => handleOpen("sm")} className="py-2 px-5 me-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-400 hover:bg-gray-100 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Browse</button>
                     </div>
 
+                    <div className="mt-2">
+                      {collections.map((item, index) => (
+                        <div key={index} className="flex mt-2 justify-between items-center border rounded-md py-2 px-3 text-sm text-gray-700">
+                          
+                          <div className="flex space-x-3">
+                            <div className="border border-gray-300 rounded-md items-center my-auto p-2">
+                              <IoImageOutline className='text-xl'/>
+                            </div>
+                            <div className="flex-col">
+                              <h3 className="font-semibold">{item.name}</h3>
+                              <p className="">{item.product}</p>
+                            </div>
+                          </div>
+                          <div>
+                            <IoCloseSharp onClick={(e) => deleteCollection(e,index)} className='text-lg cursor-pointer'/>
+                          </div>
+                          
+                        </div>
+                      ))}
+                    </div>
+
                     <Dialog
                       open={
                         size === "xs" ||
@@ -211,11 +270,14 @@ export default function NewDiscount() {
                           <input name="searchCollection" value={searchCollection} onChange={handleCollection} type="search" id="default-search" className="block w-full py-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search collections..." required />
                         </div>
 
-                        {collections.map((item, index) => (
+                        {allCollections.map((item, index) => (
                           <div key={index} className="flex justify-between items-center border-t border-b py-2 text-sm text-gray-700">
                             
                             <Radio
                               name="terms"
+                              checked={selectedValue === item.name}
+                              value={item.name}
+                              onChange={handleRadioChange}
                               label={
                                 <div className="flex space-x-3">
                                   <div className="border border-gray-300 rounded-md items-center my-auto p-2">
