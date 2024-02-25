@@ -111,7 +111,6 @@ export default function NewDiscount() {
     setCollections(newCollections);
   }
 
-  
 
   return (
     <div className="w-full bg-gray-100 min-h-screen items-center flex flex-col">
@@ -599,7 +598,6 @@ export default function NewDiscount() {
 
               </CardBody>
             </Card>
-
            
 
           </div>
@@ -680,7 +678,7 @@ export default function NewDiscount() {
 
         <div className="flex justify-end space-x-2">
           <button type="button" className="py-1 px-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-400 hover:bg-gray-100 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Discard</button>
-          <button type="button" className="py-1 px-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-400 hover:bg-gray-100 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Save discount</button>
+          <button type="button" className="py-1 px-3 text-sm font-medium text-white focus:outline-none bg-gray-800 rounded-lg border border-gray-400 hover:bg-gray-100 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Save discount</button>
         </div>
 
         
