@@ -26,6 +26,7 @@ import { CiShoppingTag } from "react-icons/ci";
 import { TbShoppingBagDiscount } from "react-icons/tb";
 import { LiaShippingFastSolid } from "react-icons/lia";
 import { IoIosArrowForward } from "react-icons/io";
+import { FaRupeeSign } from "react-icons/fa6";
 
 export const dynamic = "force-dynamic"
 
@@ -341,145 +342,383 @@ export default function NewDiscount() {
                 
               </CardHeader>
               
-              <CardBody className="px-4">
+              <CardBody className="px-4 flex-col space-y-5">
 
-                <div className="flex-col space-y-2">
+                <div className="pb-4 border-b border-gray-400">
 
-                  <div className="flex space-x-2 items-center">
-                    <input type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
-                    <label className="text-sm" for="myCheckbox">Minimum quantity of items</label>
+                  <div className="flex-col space-y-2">
+
+                    <div className="flex space-x-2 items-center">
+                      <input type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                      <label className="text-sm" for="myCheckbox">Minimum quantity of items</label>
+                    </div>
+
+                    <div className="flex space-x-2 items-center">
+                      <input type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                      <label className="text-sm" for="myCheckbox">Minimum purchase amount</label>
+                    </div>
+
                   </div>
 
-                  <div className="flex space-x-2 items-center">
-                    <input type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
-                    <label className="text-sm" for="myCheckbox">Minimum purchase amount</label>
-                  </div>
+                  <div className="flex-col space-y-4 pt-3">
+                    <div className="">
 
-                </div>
-
-                <div className="flex-col space-y-5 pt-3">
-
-                  <div className="">
-                    <label htmlFor="appliesTo" className="block text-sm font-medium leading-6 text-gray-900">
-                      Applies to
-                    </label>
-                    
-                    <select id="appliesTo" className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                      <option value='speceficCollections' selected>Specefic collections</option>
-                      <option value="speceficProducts">Specefic products</option>
-                    </select>
-
-                    <div className="flex space-x-3 items-center mt-3">
-                      <div className="relative w-full">
-                        <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                            <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-                            </svg>
+                      <div className="flex space-x-3 w-full">
+                        <div className="w-1/3">
+                          <label htmlFor="anyItemsFrom" className="block text-sm font-medium leading-6 text-gray-900">
+                            Quantity
+                          </label>
+                          <input
+                            type="number"
+                            name="discountCode"
+                            id="discountCode"
+                            className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                          />
+                          
                         </div>
-                        <input type="search" id="default-search" className="block w-full py-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search collections..." required />
+                        <div className="w-2/3">
+                          <label htmlFor="anyItemsFrom" className="block text-sm font-medium leading-6 text-gray-900">
+                            Any items from
+                          </label>
+                          
+                          <select id="anyItemsFrom" className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <option value="speceficProducts" selected>Specefic products</option>
+                            <option value='speceficCollections'>Specefic collections</option>
+                          </select>
+                        </div>
+                        
                       </div>
-                      <button onClick={() => handleOpen("sm")} className="py-2 px-5 me-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-400 hover:bg-gray-100 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Browse</button>
-                    </div>
+                      
+                      
 
-                    <div className="mt-2">
-                      {collections.map((item, index) => (
-                        <div key={index} className="flex mt-2 justify-between items-center border rounded-md py-2 px-3 text-sm text-gray-700">
-                          
-                          <div className="flex space-x-3">
-                            <div className="border border-gray-300 rounded-md items-center my-auto p-2">
-                              <IoImageOutline className='text-xl'/>
-                            </div>
-                            <div className="flex-col">
-                              <h3 className="font-semibold">{item.name}</h3>
-                              <p className="">{item.product}</p>
-                            </div>
-                          </div>
-                          <div>
-                            <IoCloseSharp onClick={(e) => deleteCollection(e,index)} className='text-lg cursor-pointer'/>
-                          </div>
-                          
-                        </div>
-                      ))}
-                    </div>
-
-                    <Dialog
-                      open={
-                        size === "xs" ||
-                        size === "sm" ||
-                        size === "md" ||
-                        size === "lg" ||
-                        size === "xl" ||
-                        size === "xxl"
-                      }
-                      size={size || "md"}
-                      handler={handleOpen}
-                    >
-                      <DialogHeader className="bg-gray-100 flex justify-between">
-                        <div className="text-sm">
-                          Add collections
-                        </div>
-                        <div>
-                          <IoCloseSharp onClick={() => handleOpen(null)} className='text-lg cursor-pointer'/>
-                        </div>
-                      </DialogHeader>
-                      <DialogBody className="py-0">
-
-                        <div className="relative w-full py-3 ">
+                      <div className="flex space-x-3 items-center mt-3">
+                        <div className="relative w-full">
                           <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                            <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-                            </svg>
+                              <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                  <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                              </svg>
                           </div>
-                          <input name="searchCollection" value={searchCollection} onChange={handleCollection} type="search" id="default-search" className="block w-full py-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search collections..." required />
+                          <input type="search" id="default-search" className="block w-full py-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search products..." required />
                         </div>
+                        <button onClick={() => handleOpen("sm")} className="py-2 px-5 me-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-400 hover:bg-gray-100 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Browse</button>
+                      </div>
 
-                        {allCollections.map((item, index) => (
-                          <div key={index} className="flex justify-between items-center border-t border-b py-2 text-sm text-gray-700">
-
-                            <div className="flex space-x-2 items-center">
-                              <input 
-                                checked={selectedValue === item.name}
-                                value={item.name}
-                                onChange={handleRadioChange} 
-                                type="checkbox" id="myCheckbox" 
-                                className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
-                              <label className="text-sm" for="myCheckbox">
-                                <div className="flex space-x-3">
-                                  <div className="border border-gray-300 rounded-md items-center my-auto p-2">
-                                    <IoImageOutline className='text-xl'/>
-                                  </div>
-                                  <div className="flex-col">
-                                    <h3 className="font-semibold">{item.name}</h3>
-                                    <p className="">{item.product} products</p>
-                                  </div>
-                                </div>
-                              </label>
+                      <div className="mt-2">
+                        {collections.map((item, index) => (
+                          <div key={index} className="flex mt-2 justify-between items-center border rounded-md py-2 px-3 text-sm text-gray-700">
+                            
+                            <div className="flex space-x-3">
+                              <div className="border border-gray-300 rounded-md items-center my-auto p-2">
+                                <IoImageOutline className='text-xl'/>
+                              </div>
+                              <div className="flex-col">
+                                <h3 className="font-semibold">{item.name}</h3>
+                                <p className="">{item.product}</p>
+                              </div>
+                            </div>
+                            <div>
+                              <IoCloseSharp onClick={(e) => deleteCollection(e,index)} className='text-lg cursor-pointer'/>
                             </div>
                             
                           </div>
                         ))}
-                      </DialogBody>
-                      <DialogFooter className="flex space-x-2 py-3">
-                        <Button
-                          variant="text"
-                          color="gray"
-                          onClick={() => handleOpen(null)}
-                          className="mr-1 border shadow-md border-gray-600 py-1 px-2"
-                        >
-                          <span className="text-gray-700">Cancel</span>
-                        </Button>
-                        <Button
-                          variant="text"
-                          color="gray"
-                          onClick={(e) => addCollection(e)}
-                          className="mr-1 border bg-gray-300 shadow-md border-gray-500 py-1 px-4"
-                        >
-                          <span className="text-gray-700">Add</span>
-                        </Button>
-                      </DialogFooter>
-                    </Dialog>
+                      </div>
 
+                      <Dialog
+                        open={
+                          size === "xs" ||
+                          size === "sm" ||
+                          size === "md" ||
+                          size === "lg" ||
+                          size === "xl" ||
+                          size === "xxl"
+                        }
+                        size={size || "md"}
+                        handler={handleOpen}
+                      >
+                        <DialogHeader className="bg-gray-100 flex justify-between">
+                          <div className="text-sm">
+                            Add products
+                          </div>
+                          <div>
+                            <IoCloseSharp onClick={() => handleOpen(null)} className='text-lg cursor-pointer'/>
+                          </div>
+                        </DialogHeader>
+                        <DialogBody className="py-0">
+
+                          <div className="relative w-full py-3 ">
+                            <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                              <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                  <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                              </svg>
+                            </div>
+                            <input name="searchCollection" value={searchCollection} onChange={handleCollection} type="search" id="default-search" className="block w-full py-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search collections..." required />
+                          </div>
+
+                          {allCollections.map((item, index) => (
+                            <div key={index} className="flex justify-between items-center border-t border-b py-2 text-sm text-gray-700">
+
+                              <div className="flex space-x-2 items-center">
+                                <input 
+                                  checked={selectedValue === item.name}
+                                  value={item.name}
+                                  onChange={handleRadioChange} 
+                                  type="checkbox" id="myCheckbox" 
+                                  className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                                <label className="text-sm" for="myCheckbox">
+                                  <div className="flex space-x-3">
+                                    <div className="border border-gray-300 rounded-md items-center my-auto p-2">
+                                      <IoImageOutline className='text-xl'/>
+                                    </div>
+                                    <div className="flex-col">
+                                      <h3 className="font-semibold">{item.name}</h3>
+                                      <p className="">{item.product} products</p>
+                                    </div>
+                                  </div>
+                                </label>
+                              </div>
+                              
+                            </div>
+                          ))}
+                        </DialogBody>
+                        <DialogFooter className="flex space-x-2 py-3">
+                          <Button
+                            variant="text"
+                            color="gray"
+                            onClick={() => handleOpen(null)}
+                            className="mr-1 border shadow-md border-gray-600 py-1 px-2"
+                          >
+                            <span className="text-gray-700">Cancel</span>
+                          </Button>
+                          <Button
+                            variant="text"
+                            color="gray"
+                            onClick={(e) => addCollection(e)}
+                            className="mr-1 border bg-gray-300 shadow-md border-gray-500 py-1 px-4"
+                          >
+                            <span className="text-gray-700">Add</span>
+                          </Button>
+                        </DialogFooter>
+                      </Dialog>
+
+                    </div>
+                  </div>
+
+                </div>
+
+                <div>
+
+                  <h1 className="text-sm font-semibold">Customer gets</h1>
+
+                  <h1 className="text-sm pt-1 tracking-tight font-medium">Customers must add the quantity of items specified below to their cart.</h1>
+
+                  <div className="flex-col space-y-2 pt-5">
+
+                    <div className="flex space-x-2 items-center">
+                      <input type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                      <label className="text-sm" for="myCheckbox">Minimum quantity of items</label>
+                    </div>
+
+                    <div className="flex space-x-2 items-center">
+                      <input type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                      <label className="text-sm" for="myCheckbox">Minimum purchase amount</label>
+                    </div>
+
+                  </div>
+
+                  <div className="flex-col space-y-4 pt-3">
+                    <div className="">
+
+                      <div className="flex space-x-3 w-full">
+                        <div className="w-1/3">
+                          <label htmlFor="anyItemsFrom" className="block text-sm font-medium leading-6 text-gray-900">
+                            Quantity
+                          </label>
+                          <input
+                            type="number"
+                            name="discountCode"
+                            id="discountCode"
+                            className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                          />
+                          
+                        </div>
+                        <div className="w-2/3">
+                          <label htmlFor="anyItemsFrom" className="block text-sm font-medium leading-6 text-gray-900">
+                            Any items from
+                          </label>
+                          
+                          <select id="anyItemsFrom" className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <option value="speceficProducts" selected>Specefic products</option>
+                            <option value='speceficCollections'>Specefic collections</option>
+                          </select>
+                        </div>
+                        
+                      </div>
+                      
+                      
+
+                      <div className="flex space-x-3 items-center mt-3">
+                        <div className="relative w-full">
+                          <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                              <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                  <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                              </svg>
+                          </div>
+                          <input type="search" id="default-search" className="block w-full py-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search products..." required />
+                        </div>
+                        <button onClick={() => handleOpen("sm")} className="py-2 px-5 me-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-400 hover:bg-gray-100 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Browse</button>
+                      </div>
+
+                      <div className="mt-2">
+                        {collections.map((item, index) => (
+                          <div key={index} className="flex mt-2 justify-between items-center border rounded-md py-2 px-3 text-sm text-gray-700">
+                            
+                            <div className="flex space-x-3">
+                              <div className="border border-gray-300 rounded-md items-center my-auto p-2">
+                                <IoImageOutline className='text-xl'/>
+                              </div>
+                              <div className="flex-col">
+                                <h3 className="font-semibold">{item.name}</h3>
+                                <p className="">{item.product}</p>
+                              </div>
+                            </div>
+                            <div>
+                              <IoCloseSharp onClick={(e) => deleteCollection(e,index)} className='text-lg cursor-pointer'/>
+                            </div>
+                            
+                          </div>
+                        ))}
+                      </div>
+
+                      <Dialog
+                        open={
+                          size === "xs" ||
+                          size === "sm" ||
+                          size === "md" ||
+                          size === "lg" ||
+                          size === "xl" ||
+                          size === "xxl"
+                        }
+                        size={size || "md"}
+                        handler={handleOpen}
+                      >
+                        <DialogHeader className="bg-gray-100 flex justify-between">
+                          <div className="text-sm">
+                            Add products
+                          </div>
+                          <div>
+                            <IoCloseSharp onClick={() => handleOpen(null)} className='text-lg cursor-pointer'/>
+                          </div>
+                        </DialogHeader>
+                        <DialogBody className="py-0">
+
+                          <div className="relative w-full py-3 ">
+                            <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                              <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                  <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                              </svg>
+                            </div>
+                            <input name="searchCollection" value={searchCollection} onChange={handleCollection} type="search" id="default-search" className="block w-full py-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search collections..." required />
+                          </div>
+
+                          {allCollections.map((item, index) => (
+                            <div key={index} className="flex justify-between items-center border-t border-b py-2 text-sm text-gray-700">
+
+                              <div className="flex space-x-2 items-center">
+                                <input 
+                                  checked={selectedValue === item.name}
+                                  value={item.name}
+                                  onChange={handleRadioChange} 
+                                  type="checkbox" id="myCheckbox" 
+                                  className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                                <label className="text-sm" for="myCheckbox">
+                                  <div className="flex space-x-3">
+                                    <div className="border border-gray-300 rounded-md items-center my-auto p-2">
+                                      <IoImageOutline className='text-xl'/>
+                                    </div>
+                                    <div className="flex-col">
+                                      <h3 className="font-semibold">{item.name}</h3>
+                                      <p className="">{item.product} products</p>
+                                    </div>
+                                  </div>
+                                </label>
+                              </div>
+                              
+                            </div>
+                          ))}
+                        </DialogBody>
+                        <DialogFooter className="flex space-x-2 py-3">
+                          <Button
+                            variant="text"
+                            color="gray"
+                            onClick={() => handleOpen(null)}
+                            className="mr-1 border shadow-md border-gray-600 py-1 px-2"
+                          >
+                            <span className="text-gray-700">Cancel</span>
+                          </Button>
+                          <Button
+                            variant="text"
+                            color="gray"
+                            onClick={(e) => addCollection(e)}
+                            className="mr-1 border bg-gray-300 shadow-md border-gray-500 py-1 px-4"
+                          >
+                            <span className="text-gray-700">Add</span>
+                          </Button>
+                        </DialogFooter>
+                      </Dialog>
+
+                    </div>
+                  </div>
+
+                </div>
+
+                <div className="flex-col space-y-2">
+
+                  <h1 className="text-sm font-semibold">At a discounted value</h1>
+
+                  <div className="flex space-x-2 items-center">
+                    <input type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                    <label className="text-sm font-medium" for="myCheckbox">Amount off each</label>
+                  </div>
+                  <div className="flex-col ml-6">
+
+                    <div className="relative max-w-sm">
+                      <div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
+                        <FaRupeeSign className='textlg'/>:
+                      </div>
+                      <input
+                        type="number"
+                        name="amountOffEach"
+                        id="amountOffEach"
+                        placeholder="0.00"
+                        className="block ps-10 w-1/3 rounded-md border-0 py-1.5 px-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-700 focus:ring-1 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      />
+                    </div>
                     
+                    <h1 className="text-sm tracking-tight my-1 ml-1">For multiple quantities, the discount amount will be taken off each Y item.</h1>
+                  </div>
+
+                  <div className="flex space-x-2 items-center mt-2">
+                    <input type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                    <label className="text-sm" for="myCheckbox">Free</label>
+                  </div>
+
+                </div>
+
+                <div className="flex-col space-y-2 mt-5 border-t border-gray-400">
+
+                  <h1 className="text-sm font-semibold mt-5">Set a maximum number of uses per order</h1>
+
+                  
+                  <div className="flex-col ml-6">
+
+                    <input
+                      type="number"
+                      name="amountOffEach"
+                      id="amountOffEach"
+                      placeholder="0.00"
+                      className="block w-1/3 rounded-md border-0 py-1.5 px-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-700 focus:ring-1 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    />
                     
                   </div>
 
@@ -488,7 +727,7 @@ export default function NewDiscount() {
               </CardBody>
             </Card>}
 
-            <Card className="w-full flex-col">
+            {type === 'moneyOffProduct' && <Card className="w-full flex-col">
               <CardBody className="px-4">
                 <div className="flex-col space-y-3">
                   
@@ -498,17 +737,17 @@ export default function NewDiscount() {
 
                     <div className="flex space-x-2 items-center">
                       <input defaultChecked type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
-                      <label className="text-sm" for="myCheckbox">No minimum requirements</label>
+                      <label className="text-sm tracking-tight" for="myCheckbox">No minimum requirements</label>
                     </div>
 
                     <div className="flex space-x-2 items-center">
                       <input type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
-                      <label className="text-sm" for="myCheckbox">Minimum purchase amount (Rs)</label>
+                      <label className="text-sm tracking-tight" for="myCheckbox">Minimum purchase amount (Rs)</label>
                     </div>
 
                     <div className="flex space-x-2 items-center">
                       <input type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
-                      <label className="text-sm" for="myCheckbox">Minimum quantity of items</label>
+                      <label className="text-sm tracking-tight" for="myCheckbox">Minimum quantity of items</label>
                     </div>
                     
                   </div>
@@ -516,7 +755,7 @@ export default function NewDiscount() {
 
                 </div>
               </CardBody>
-            </Card>
+            </Card>}
 
             <Card className="w-full flex-col">
               <CardBody className="px-4">
@@ -528,17 +767,17 @@ export default function NewDiscount() {
 
                     <div className="flex space-x-2 items-center">
                       <input defaultChecked type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
-                      <label className="text-sm" for="myCheckbox">All customers</label>
+                      <label className="text-sm tracking-tight" for="myCheckbox">All customers</label>
                     </div>
 
                     <div className="flex space-x-2 items-center">
                       <input type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
-                      <label className="text-sm" for="myCheckbox">Specific customer segments</label>
+                      <label className="text-sm tracking-tight" for="myCheckbox">Specific customer segments</label>
                     </div>
 
                     <div className="flex space-x-2 items-center">
                       <input type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
-                      <label className="text-sm" for="myCheckbox">Specific customers</label>
+                      <label className="text-sm tracking-tight" for="myCheckbox">Specific customers</label>
                     </div>
 
                   </div>
@@ -558,12 +797,12 @@ export default function NewDiscount() {
 
                     <div className="flex space-x-2 items-center">
                       <input type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
-                      <label className="text-sm" for="myCheckbox">Limit number of times this discount can be used in total</label>
+                      <label className="text-sm tracking-tight" for="myCheckbox">Limit number of times this discount can be used in total</label>
                     </div>
 
                     <div className="flex space-x-2 items-center">
                       <input type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
-                      <label className="text-sm" for="myCheckbox">Limit to one use per customer</label>
+                      <label className="text-sm tracking-tight" for="myCheckbox">Limit to one use per customer</label>
                     </div>
                     
                   </div>
@@ -574,21 +813,26 @@ export default function NewDiscount() {
 
             <Card className="w-full flex-col">
               <CardBody className="px-4">
-                <div className="flex-col space-y-3">
+                <div className="flex-col space-y-1">
                   
                   <h1 className="text-sm font-semibold">Combinations</h1>
-                  <h1 className="text-sm font-semibold">This product discount can be combined with:</h1>
+                  <h1 className="text-sm font-medium tracking-tight">This product discount can be combined with:</h1>
 
-                  <div className="flex flex-col space-y-2">
+                  <div className="flex pt-3 flex-col space-y-2">
 
                     <div className="flex space-x-2 items-center">
                       <input defaultChecked type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
-                      <label className="text-sm" for="myCheckbox">Product discounts</label>
+                      <label className="text-sm tracking-tight" for="myCheckbox">Product discounts</label>
                     </div>
+
+                    {type === 'buyXgetY' && <div className="flex space-x-2 items-center">
+                      <input type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                      <label className="text-sm tracking-tight" for="myCheckbox">Order discounts</label>
+                    </div>}
 
                     <div className="flex space-x-2 items-center">
                       <input type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
-                      <label className="text-sm" for="myCheckbox">Shipping discounts</label>
+                      <label className="text-sm tracking-tight" for="myCheckbox">Shipping discounts</label>
                     </div>
 
                   </div>
@@ -644,8 +888,8 @@ export default function NewDiscount() {
                     <div className="flex w-full space-x-3">
 
                       <div className="w-1/2">
-                        <label htmlFor="startDate" className="block text-sm font-medium leading-6 text-gray-900">
-                          Start date
+                        <label htmlFor="endDate" className="block text-sm font-medium leading-6 text-gray-900">
+                          End date
                         </label>
                         
                         <div className="relative max-w-sm">
@@ -659,8 +903,8 @@ export default function NewDiscount() {
                       </div>
 
                       <div className="w-1/2">
-                        <label htmlFor="startTime" className="block text-sm font-medium leading-6 text-gray-900">
-                          Start time
+                        <label htmlFor="endTime" className="block text-sm font-medium leading-6 text-gray-900">
+                          End time
                         </label>
 
                         <div className="relative">
