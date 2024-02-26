@@ -122,6 +122,9 @@ export default function NewDiscount() {
   else if(type === 'moneyOffOrder'){
     label = 'Amount off order'
   }
+  else if(type === 'shipping'){
+    label = 'Free shipping '
+  }
 
 
   return (
@@ -134,7 +137,7 @@ export default function NewDiscount() {
           >
             <IoIosArrowRoundBack size={20} className="text-[#1a1a1a]" />
           </Link>
-          <Heading>Create product discount</Heading>
+          <Heading>Create { type==='moneyOffOrder' ? 'order' : type ==='shipping' ? 'shipping' : 'product' } discount</Heading>
         </div>
 
         <div className="flex min-h-screen space-x-5">
@@ -146,8 +149,8 @@ export default function NewDiscount() {
                 floated={false}
                 className="flex justify-between shrink-0 rounded-r-none"
               >
-                <h1 className="text-sm font-semibold">{label}</h1>
-                <h1 className="text-sm font-medium">Product discount</h1>
+                <h1 className="text-sm text-gray-900 font-semibold">{label}</h1>
+                <h1 className="text-sm font-medium">{ type==='moneyOffOrder' ? 'Order' : type ==='shipping' ? 'Shipping' : 'Product' } discount</h1>
                 
               </CardHeader>
               <CardBody className="px-4">
@@ -369,7 +372,7 @@ export default function NewDiscount() {
                 floated={false}
                 className="flex justify-between shrink-0 rounded-r-none"
               >
-                <h1 className="text-sm font-semibold">Customer buys</h1>
+                <h1 className="text-sm text-gray-900 font-semibold">Customer buys</h1>
                 
               </CardHeader>
               
@@ -762,7 +765,7 @@ export default function NewDiscount() {
               <CardBody className="px-4">
                 <div className="flex-col space-y-3">
                   
-                  <h1 className="text-sm font-semibold">Minimum purchase requirements</h1>
+                  <h1 className="text-sm text-gray-900 font-semibold">Minimum purchase requirements</h1>
 
                   <div className="flex flex-col space-y-2">
 
@@ -792,7 +795,7 @@ export default function NewDiscount() {
               <CardBody className="px-4">
                 <div className="flex-col space-y-3">
                   
-                  <h1 className="text-sm font-semibold">Customer eligibility</h1>
+                  <h1 className="text-sm text-gray-900 font-semibold">Customer eligibility</h1>
 
                   <div className="flex flex-col space-y-2">
 
@@ -822,7 +825,7 @@ export default function NewDiscount() {
               <CardBody className="px-4">
                 <div className="flex-col space-y-3">
                   
-                  <h1 className="text-sm font-semibold">Maximum discount uses</h1>
+                  <h1 className="text-sm text-gray-900 font-semibold">Maximum discount uses</h1>
 
                   <div className="flex flex-col space-y-2">
 
@@ -846,7 +849,7 @@ export default function NewDiscount() {
               <CardBody className="px-4">
                 <div className="flex-col space-y-1">
                   
-                  <h1 className="text-sm font-semibold">Combinations</h1>
+                  <h1 className="text-sm text-gray-900 font-semibold">Combinations</h1>
                   <h1 className="text-sm font-medium tracking-tight">This product discount can be combined with:</h1>
 
                   <div className="flex pt-3 flex-col space-y-2">
@@ -878,7 +881,7 @@ export default function NewDiscount() {
 
                 <div className="flex-col space-y-5">
 
-                  <h1 className="text-sm font-semibold">Active Dates</h1>
+                  <h1 className="text-sm text-gray-900 font-semibold">Active Dates</h1>
 
                   <div>
                     <div className="flex w-full space-x-3">
