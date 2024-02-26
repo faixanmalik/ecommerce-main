@@ -27,6 +27,7 @@ import { TbShoppingBagDiscount } from "react-icons/tb";
 import { LiaShippingFastSolid } from "react-icons/lia";
 import { IoIosArrowForward } from "react-icons/io";
 import { FaRupeeSign } from "react-icons/fa6";
+import { useCountries } from "use-react-countries";
 
 export const dynamic = "force-dynamic"
 
@@ -34,20 +35,33 @@ export default function NewDiscount() {
 
   const searchParams = useSearchParams();
   const type = searchParams.get('type');
-  console.log(type);
 
+  const { countries } = useCountries();
   const [open, setOpen] = React.useState(false);
   const [size, setSize] = React.useState(null);
   const handleOpen = (value) => setSize(value);
+  const handleOpenCountry = (value) => setSize(value);
 
 
   const [collections, setCollections] = useState([])
   const [allCollections, setAllCollections] = useState([])
+  
+  const [addedCountries, setAddedCountries] = useState([])
+  const [filteredCountries, setFilteredCountries] = useState(countries)
 
   const [searchCollection, setSearchCollection] = useState('')
+  const [searchCountries, setSearchCountries] = useState('')
+
   const handleCollection = (e)=>{
     if(e.target.name === 'searchCollection'){
       setSearchCollection(e.target.value)
+    }
+  }
+
+  const handleCountry = (e)=>{
+
+    if(e.target.name === 'searchCountries'){
+      setSearchCountries(e.target.value)
     }
   }
 
@@ -81,6 +95,16 @@ export default function NewDiscount() {
   }, [searchCollection])
 
 
+  useEffect(() => {
+    
+    const newCollections = countries.filter((item)=>{
+      return item.name.toLowerCase().includes(searchCountries.toLowerCase());
+    });
+    setFilteredCountries(newCollections)
+
+  }, [searchCountries])
+
+
   const addCollection = (e) => {
     e.preventDefault();
 
@@ -101,6 +125,24 @@ export default function NewDiscount() {
         setCollections(newCollections);
     } else {
         console.log("Data not found");
+    }
+  }
+
+  const addCountry = (e) => {
+    e.preventDefault();
+
+    const newCountries = [...addedCountries];
+
+    let data = countries.filter((item) => {
+      return item.name === selectedValue;
+    });
+
+    if (data.length > 0) {
+      newCountries.push(data[0]);
+      setAddedCountries(newCountries);
+    } 
+    else {
+      console.log("Data not found");
     }
   }
 
@@ -791,6 +833,220 @@ export default function NewDiscount() {
               </CardBody>
             </Card>}
 
+            {type === 'shipping' && <Card className="w-full flex-col">
+
+              <CardHeader
+                shadow={false}
+                floated={false}
+                className="flex justify-between shrink-0 rounded-r-none"
+              >
+                <h1 className="text-sm text-gray-900 font-semibold">Countries</h1>
+                
+              </CardHeader>
+
+              <CardBody className="px-4 flex-col space-y-5">
+
+                <div className="pb-4 border-b border-gray-400">
+
+                  <div className="flex-col space-y-2">
+
+                    <div className="flex space-x-2 items-center">
+                      <input type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                      <label className="text-sm" for="myCheckbox">All countries</label>
+                    </div>
+
+                    <div className="flex space-x-2 items-center">
+                      <input type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                      <label className="text-sm" for="myCheckbox">Selected countries</label>
+                    </div>
+
+                  </div>
+
+                  <div className="flex-col space-y-4 pt-1">
+                    <div className="">
+
+                      <div className="flex space-x-3 items-center mt-3">
+                        <div className="relative w-full">
+                          <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                              <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                  <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                              </svg>
+                          </div>
+                          <input type="search" id="default-search" className="block w-full py-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search countries..." required />
+                        </div>
+                        <button onClick={() => handleOpenCountry("sm")} className="py-2 px-5 me-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-400 hover:bg-gray-100 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Browse</button>
+                      </div>
+
+                      <div className="mt-2">
+                        {addedCountries.map(({ name, flags, index }) => (
+                          <div key={index} className="flex mt-2 justify-between items-center border rounded-md py-2 px-3 text-sm text-gray-700">
+                            
+                            <div className="flex space-x-3">
+                              <div className="border border-gray-300 rounded-md items-center my-auto p-1">
+                                <img
+                                  src={flags.svg}
+                                  alt={name}
+                                  className="h-5 w-5"
+                                />
+                              </div>
+                              <div className="flex-col">
+                                <h3 className="font-semibold">{name}</h3>
+                              </div>
+                            </div>
+                            <div>
+                              <IoCloseSharp onClick={(e) => deleteCollection(e,index)} className='text-lg cursor-pointer'/>
+                            </div>
+                            
+                          </div>
+                        ))}
+                      </div>
+
+                      <Dialog
+                        open={
+                          size === "xs" ||
+                          size === "sm" ||
+                          size === "md" ||
+                          size === "lg" ||
+                          size === "xl" ||
+                          size === "xxl"
+                        }
+                        size={size || "md"}
+                        handler={handleOpenCountry}
+                      >
+                        <DialogHeader className="bg-gray-100 flex justify-between">
+                          <div className="text-sm">
+                            Add countries
+                          </div>
+                          <div>
+                            <IoCloseSharp onClick={() => handleOpenCountry(null)} className='text-lg cursor-pointer'/>
+                          </div>
+                        </DialogHeader>
+                        <DialogBody className="py-0">
+
+                          <div className="relative w-full py-3 ">
+                            <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                              <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                  <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                              </svg>
+                            </div>
+                            <input name="searchCountries" value={searchCountries} onChange={handleCountry} type="search" id="default-search" className="block w-full py-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search countries..." required />
+                          </div>
+
+                          {filteredCountries.map(({ name, flags, index }) => (
+                            <div key={index} className="flex justify-between items-center border-t border-b py-2 text-sm text-gray-700">
+
+                              <div className="flex space-x-2 items-center">
+                                <input 
+                                  checked={selectedValue === name}
+                                  value={name}
+                                  onChange={handleRadioChange}
+                                  type="checkbox" id="myCheckbox" 
+                                  className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                                <label className="text-sm" for="myCheckbox">
+                                  <div className="flex space-x-3">
+                                    <div className="border border-gray-300 rounded-md items-center my-auto p-1">
+                                      <img
+                                        src={flags.svg}
+                                        alt={name}
+                                        className="h-5 w-5"
+                                      />
+                                    </div>
+                                    <div className="flex-col">
+                                      <h3 className="font-semibold">{name}</h3>
+                                    </div>
+                                  </div>
+                                </label>
+                              </div>
+                              
+                            </div>
+                          ))}
+                        </DialogBody>
+                        <DialogFooter className="flex space-x-2 py-3">
+                          <Button
+                            variant="text"
+                            color="gray"
+                            onClick={() => handleOpenCountry(null)}
+                            className="mr-1 border shadow-md border-gray-600 py-1 px-2"
+                          >
+                            <span className="text-gray-700">Cancel</span>
+                          </Button>
+                          <Button
+                            variant="text"
+                            color="gray"
+                            onClick={(e) => addCountry(e)}
+                            className="mr-1 border bg-gray-300 shadow-md border-gray-500 py-1 px-4"
+                          >
+                            <span className="text-gray-700">Add</span>
+                          </Button>
+                        </DialogFooter>
+                      </Dialog>
+
+                    </div>
+                  </div>
+
+                </div>
+
+                <div className="flex-col space-y-2">
+
+                  <h1 className="text-sm font-semibold">Shipping rates</h1>
+
+                  <div className="flex space-x-2 items-center">
+                    <input type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                    <label className="text-sm font-medium" for="myCheckbox">Exclude shipping rates over a certain amount</label>
+                  </div>
+                  <div className="flex-col ml-6">
+
+                    <div className="relative max-w-sm">
+                      <div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
+                        <FaRupeeSign className='textlg'/>:
+                      </div>
+                      <input
+                        type="number"
+                        name="amountOffEach"
+                        id="amountOffEach"
+                        placeholder="0.00"
+                        className="block ps-10 w-1/3 rounded-md border-0 py-1.5 px-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-700 focus:ring-1 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      />
+                    </div>
+                    
+                  </div>
+
+                </div>
+              </CardBody>
+            </Card>}
+
+
+            {type === 'shipping' && <Card className="w-full flex-col">
+              <CardBody className="px-4">
+                <div className="flex-col space-y-3">
+                  
+                  <h1 className="text-sm text-gray-900 font-semibold">Minimum purchase requirements</h1>
+
+                  <div className="flex flex-col space-y-2">
+
+                    <div className="flex space-x-2 items-center">
+                      <input defaultChecked type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                      <label className="text-sm tracking-tight" for="myCheckbox">No minimum requirements</label>
+                    </div>
+
+                    <div className="flex space-x-2 items-center">
+                      <input type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                      <label className="text-sm tracking-tight" for="myCheckbox">Minimum purchase amount (Rs)</label>
+                    </div>
+
+                    <div className="flex space-x-2 items-center">
+                      <input type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                      <label className="text-sm tracking-tight" for="myCheckbox">Minimum quantity of items</label>
+                    </div>
+
+                  </div>
+
+
+                </div>
+              </CardBody>
+            </Card>}
+
+
             <Card className="w-full flex-col">
               <CardBody className="px-4">
                 <div className="flex-col space-y-3">
@@ -995,9 +1251,7 @@ export default function NewDiscount() {
                     <h1 className="text-sm font-medium">Discount is not active yet</h1>
                   </div>
 
-                  
                 </div>
-
 
               </CardBody>
             </Card>
@@ -1011,7 +1265,7 @@ export default function NewDiscount() {
                   <div className="flex flex-col space-y-2">
 
                     <div className="flex space-x-2 items-center">
-                      <input defaultChecked type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                      <input type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
                       <label className="text-sm" for="myCheckbox">Point of sales</label>
                     </div>
 
