@@ -119,6 +119,9 @@ export default function NewDiscount() {
   else if(type === 'buyXgetY'){
     label = 'Buy X get Y'
   }
+  else if(type === 'moneyOffOrder'){
+    label = 'Amount off order'
+  }
 
 
   return (
@@ -323,6 +326,34 @@ export default function NewDiscount() {
                     </Dialog>
 
                     
+                    
+                  </div>
+
+                </div>
+
+              </CardBody>
+            </Card>}
+
+            {type === 'moneyOffOrder' && <Card className="w-full flex-col">
+              
+              <CardBody className="px-4">
+
+                <div className="flex-col space-y-5">
+
+                  <div className="">
+                    <label htmlFor="discountValue" className="block text-sm font-medium leading-6 text-gray-900">
+                      Discount value
+                    </label>
+                    
+                    <div className="flex space-x-4">
+                      <select id="countries" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <option value='percentage' selected>Percentage</option>
+                        <option value="FixedAmount">Fixed Amount</option>
+                      </select>
+                      <div className="w-72">
+                        <Input icon={<AiOutlinePercentage />} />
+                      </div>
+                    </div>
                     
                   </div>
 
@@ -825,7 +856,7 @@ export default function NewDiscount() {
                       <label className="text-sm tracking-tight" for="myCheckbox">Product discounts</label>
                     </div>
 
-                    {type === 'buyXgetY' && <div className="flex space-x-2 items-center">
+                    {type === 'buyXgetY' || type === 'moneyOffOrder' && <div className="flex space-x-2 items-center">
                       <input type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
                       <label className="text-sm tracking-tight" for="myCheckbox">Order discounts</label>
                     </div>}
@@ -944,7 +975,7 @@ export default function NewDiscount() {
                   <div className="flex-col space-y-2">
                     <h1 className="text-sm font-semibold">Type and method</h1>
                     <ul className="list-disc text-sm px-6">
-                      <li>Amount off products</li>
+                      <li>{label}</li>
                       <li>Code</li>
                     </ul>
                   </div>
