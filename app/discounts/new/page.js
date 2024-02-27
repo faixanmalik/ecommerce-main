@@ -202,10 +202,10 @@ export default function NewDiscount() {
                   <label htmlFor="discountCode" className="block text-sm font-medium leading-6 text-gray-900">
                     Method
                   </label>
-                  <ButtonGroup size="sm" className="mt-1">
-                    <Button className="bg-gray-300 text-xs md:text-sm px-3 font-medium text-black">Discount code</Button>
-                    <Button className="bg-white text-xs md:text-sm px-3 font-medium text-black">Automatic discount</Button>
-                  </ButtonGroup>
+                  <div className="mt-1">
+                    <button className="bg-gray-300 rounded-l-md border border-black py-2 text-xs px-3 font-medium lg:font-semibold text-black">Discount code</button>
+                    <button className="bg-white rounded-r-md border border-black py-2 text-xs px-3 font-medium lg:font-semibold text-black">Automatic discount</button>
+                  </div>
 
                   <div className="mt-4">
                     <div className="flex justify-between">
