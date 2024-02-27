@@ -182,8 +182,8 @@ export default function NewDiscount() {
           <Heading>Create { type==='moneyOffOrder' ? 'order' : type ==='shipping' ? 'shipping' : 'product' } discount</Heading>
         </div>
 
-        <div className="flex min-h-screen space-x-5">
-          <div className="flex-col w-2/3 space-y-5">
+        <div className="flex flex-col lg:flex-row min-h-screen space-y-5 lg:space-y-0 lg:space-x-5">
+          <div className="flex-col w-full lg:w-2/3 space-y-5">
 
             <Card className="w-full flex-col">
               <CardHeader
@@ -203,8 +203,8 @@ export default function NewDiscount() {
                     Method
                   </label>
                   <ButtonGroup size="sm" className="mt-1">
-                    <Button className="bg-gray-300 font-medium text-black">Discount code</Button>
-                    <Button className="bg-white font-medium text-black">Automatic discount</Button>
+                    <Button className="bg-gray-300 text-xs md:text-sm px-3 font-medium text-black">Discount code</Button>
+                    <Button className="bg-white text-xs md:text-sm px-3 font-medium text-black">Automatic discount</Button>
                   </ButtonGroup>
 
                   <div className="mt-4">
@@ -1219,7 +1219,7 @@ export default function NewDiscount() {
            
 
           </div>
-          <div className="w-1/3 flex-col space-y-5">
+          <div className="w-full lg:w-1/3 flex-col space-y-5">
 
             <Card className="w-full flex-col">
               
@@ -1288,7 +1288,6 @@ export default function NewDiscount() {
 
         
       </div>
-
     </div>
   );
 }

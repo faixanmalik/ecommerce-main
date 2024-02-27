@@ -19,7 +19,7 @@ const ShopifyHeader = () => {
   return (
     <div className="fixed w-full z-50 bg-[#1a1a1a] text-white h-14 flex items-center justify-between px-4">
       {/* Logo */}
-      <div className="hidden md:flex w-60 md:w-[25vw] lg:w-60 items-center gap-1">
+      <div className="hidden md:flex w-full md:w-[25vw] lg:w-60 items-center gap-1">
         <Image
           src="/shopify-logo.svg"
           width={20}
