@@ -6,7 +6,7 @@ import { Collection } from "@/types/collection";
 
 export const dynamic = "force-dynamic"
 
-export default async function CollectionsPage() {
+export default function CollectionsPage() {
 
   const [collections, setCollections] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
