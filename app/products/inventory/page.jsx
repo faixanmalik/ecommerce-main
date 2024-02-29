@@ -1,3 +1,4 @@
+"use client"
 import { useEffect, useState } from 'react';
 
 import Datatable from "@/components/products/inventory/Datatable";
@@ -11,7 +12,7 @@ import { productsToVariantsWithContext } from "@/lib/products/utils";
 
 export const dynamic = "force-dynamic";
 
-export default async function InventoryPage() {
+export default function InventoryPage() {
 
   const [variants, setVariants] = useState([]);
   const [locations, setLocations] = useState([]);
@@ -21,26 +22,22 @@ export default async function InventoryPage() {
 
   useEffect(() => {
     const fetchData = async () => {
-
-      const requests = [
-        fetch(("/api/products"), { cache: "no-cache" }),
-        fetch(("/api/settings/locations"), { cache: "no-cache" }),
-        fetch(("/api/vendors"), { cache: "no-cache" }),
-        fetch(("/api/products/types"), { cache: "no-cache" }),
-        fetch(("/api/products/tags"), { cache: "no-cache" }),
-        // TODO:
-        // fetch(apiUrl("/api/sales_channels"), { cache: "no-cache" }),
-      ];
-
-
       try {
-        const [
-          productsRes,
-          locationsRes,
-          vendorsRes,
-          typesRes,
-          tagsRes,
-        ] = await Promise.all(requests);
+        const productsRes = await fetch(apiUrl("/api/products"), {
+          cache: "no-cache"
+        });
+        const locationsRes = await fetch(apiUrl("/api/settings/locations"), {
+          cache: "no-cache"
+        });
+        const vendorsRes = await fetch(apiUrl("/api/vendors"), {
+          cache: "no-cache"
+        });
+        const typesRes = await fetch(apiUrl("/api/products/types"), {
+          cache: "no-cache"
+        });
+        const tagsRes = await fetch(apiUrl("/api/products/tags"), {
+          cache: "no-cache"
+        });
 
         if (!productsRes.ok) throw new Error("Failed to fetch products");
         if (!locationsRes.ok) throw new Error("Failed to fetch locations");
@@ -53,13 +50,13 @@ export default async function InventoryPage() {
           locationsData,
           vendorsData,
           typesData,
-          tagsData,
+          tagsData
         ] = await Promise.all([
           productsRes.json(),
           locationsRes.json(),
           vendorsRes.json(),
           typesRes.json(),
-          tagsRes.json(),
+          tagsRes.json()
         ]);
 
         setVariants(productsToVariantsWithContext(productsData));
@@ -67,12 +64,13 @@ export default async function InventoryPage() {
         setVendors(vendorsData);
         setTypes(typesData);
         setTags(tagsData);
+        setIsLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
+        // Handle error state if necessary
       }
-
     };
-  
+
     fetchData();
   }, []);
 
