@@ -12,8 +12,6 @@ export const dynamic = "force-dynamic"
 export default function CollectionsPage() {
 
   const [collections, setCollections] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
   
 
   useEffect(() => {
