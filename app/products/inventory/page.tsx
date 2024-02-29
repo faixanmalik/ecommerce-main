@@ -11,11 +11,11 @@ export const dynamic = "force-dynamic";
 
 export default async function InventoryPage() {
   const requests = [
-    fetch(apiUrl("/api/products"), { cache: "no-cache" }),
-    fetch(apiUrl("/api/settings/locations"), { cache: "no-cache" }),
-    fetch(apiUrl("/api/vendors"), { cache: "no-cache" }),
-    fetch(apiUrl("/api/products/types"), { cache: "no-cache" }),
-    fetch(apiUrl("/api/products/tags"), { cache: "no-cache" }),
+    fetch(("/api/products"), { cache: "no-cache" }),
+    fetch(("/api/settings/locations"), { cache: "no-cache" }),
+    fetch(("/api/vendors"), { cache: "no-cache" }),
+    fetch(("/api/products/types"), { cache: "no-cache" }),
+    fetch(("/api/products/tags"), { cache: "no-cache" }),
     // TODO:
     // fetch(apiUrl("/api/sales_channels"), { cache: "no-cache" }),
   ];
