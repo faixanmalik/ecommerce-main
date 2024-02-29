@@ -64,7 +64,6 @@ export default function InventoryPage() {
         setVendors(vendorsData);
         setTypes(typesData);
         setTags(tagsData);
-        setIsLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
         // Handle error state if necessary
