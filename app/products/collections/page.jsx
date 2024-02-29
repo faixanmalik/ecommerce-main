@@ -7,13 +7,33 @@ import { Collection } from "@/types/collection";
 export const dynamic = "force-dynamic"
 
 export default async function CollectionsPage() {
-  const res = await fetch(apiUrl("/api/products/collections"), {
-    cache: "no-cache",
-  });
-  if (!res.ok) {
-    throw new Error("Failed to fetch");
-  }
-  const collections: Collection[] = await res.json();
+
+  const [collections, setCollections] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+  
+
+  useEffect(() => {
+    const fetchData = () => {
+      fetch("/api/products/collections")
+        .then(res => {
+          if (!res.ok) {
+            throw new Error("Failed to fetch");
+          }
+          return res.json();
+        })
+        .then(data => {
+          setCollections(data);
+          setIsLoading(false)
+        })
+        .catch(error => {
+          console.error("Error fetching collections:", error);
+          // Handle error state if necessary
+        });
+    };
+  
+    fetchData();
+  }, []);
 
   return (
     <div className="bg-gray-100 min-h-screen md:px-8 py-8">
