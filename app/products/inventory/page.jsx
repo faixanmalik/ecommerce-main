@@ -23,19 +23,19 @@ export default function InventoryPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const productsRes = await fetch(apiUrl("/api/products"), {
+        const productsRes = await fetch(("/api/products"), {
           cache: "no-cache"
         });
-        const locationsRes = await fetch(apiUrl("/api/settings/locations"), {
+        const locationsRes = await fetch(("/api/settings/locations"), {
           cache: "no-cache"
         });
-        const vendorsRes = await fetch(apiUrl("/api/vendors"), {
+        const vendorsRes = await fetch(("/api/vendors"), {
           cache: "no-cache"
         });
-        const typesRes = await fetch(apiUrl("/api/products/types"), {
+        const typesRes = await fetch(("/api/products/types"), {
           cache: "no-cache"
         });
-        const tagsRes = await fetch(apiUrl("/api/products/tags"), {
+        const tagsRes = await fetch(("/api/products/tags"), {
           cache: "no-cache"
         });
 
