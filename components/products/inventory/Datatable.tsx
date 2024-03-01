@@ -153,7 +153,6 @@ export default function InventoryDatable({
     isSelected,
     setSelected,
   }: RowProps<VariantWithContext>) {
-    console.log(v)
     return (
       <tr
         key={v._id}
@@ -181,7 +180,7 @@ export default function InventoryDatable({
                 : `/products/${v.productId}/variants/${v._id}`
             )
           }
-          className="flex gap-1 items-center xl:w-[200px] py-4 font-medium text-gray-900 cursor-pointer"
+          className="flex gap-1 items-center xl:w-[150px] py-4 font-medium text-gray-900 cursor-pointer"
         >
           {v.image && (
             <div className="aspect-square h-14 mr-2 bg-gray-200 rounded-md overflow-hidden">
