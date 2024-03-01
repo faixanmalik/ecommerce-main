@@ -1,4 +1,6 @@
-import React from "react"
+"use client"
+import { React, useEffect, useState } from 'react';
+
 import Card from "@/components/Card";
 import Image from "next/image";
 import Title from "@/components/Title";
@@ -14,20 +16,79 @@ import { Location } from "@/types/location";
 
 export const dynamic = "force-dynamic"
 
-export default async function TransfersPage() {
+export default function TransfersPage() {
 
-  const requests = [
-    fetch(apiUrl("/api/settings/locations"), { cache: "no-cache" }),
-    fetch(apiUrl("/api/products/transfers"), { cache: "no-cache" }),
-    fetch(apiUrl("/api/suppliers"), { cache: "no-cache" }),
-  ]
+  const [locations, setLocations] = useState([])
+  const [suppliers, setSuppliers] = useState([])
+  const [transfers, setTransfers] = useState([])
 
-  const [locationsRes, transfersRes, suppliersRes] = await Promise.all(requests)
-  if (!locationsRes.ok) throw new Error("Failed to fetch locations")
-  if (!transfersRes.ok) throw new Error("Failed to fetch transfers")
-  if (!suppliersRes.ok) throw new Error("Failed to fetch suppliers")
 
-  const [locations, transfers, suppliers]: [Location[], Transfer[], Supplier[]] = await Promise.all([locationsRes.json(), transfersRes.json(), suppliersRes.json()])
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        fetch("//api/products/transfers")
+        .then(res => {
+          if (!res.ok) {
+            throw new Error("Failed to fetch");
+          }
+          return res.json();
+        })
+        .then(data => {
+          if(data.length > 0){
+            setTransfers((data));
+          }
+        })
+        .catch(error => {
+          console.error("Error fetching collections:", error);
+          // Handle error state if necessary
+        });
+
+        fetch("/api/settings/locations")
+        .then(res => {
+          if (!res.ok) {
+            throw new Error("Failed to fetch");
+          }
+          return res.json();
+        })
+        .then(data => {
+          if(data.length > 0){
+            setLocations((data));
+          }
+        })
+        .catch(error => {
+          console.error("Error fetching collections:", error);
+          // Handle error state if necessary
+        });
+
+        fetch("/api/suppliers")
+        .then(res => {
+          if (!res.ok) {
+            throw new Error("Failed to fetch");
+          }
+          return res.json();
+        })
+        .then(data => {
+          if(data.length > 0){
+            setSuppliers((data));
+          }
+        })
+        .catch(error => {
+          console.error("Error fetching collections:", error);
+          // Handle error state if necessary
+        });
+
+       
+
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        // Handle error state if necessary
+      }
+      
+    };
+
+    fetchData();
+  }, []);
+
   //TODO:
   const tags = transfers.flatMap(po => po.tags);
 
