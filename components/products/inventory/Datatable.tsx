@@ -261,7 +261,7 @@ export default function InventoryDatable({
             }
             button={
               <p className="font-bold text-[#1a1a1a] text-xl flex gap-2 cursor-pointer items-center">
-                {selectedLocation.name} <IoIosArrowDown />{" "}
+                {selectedLocation?.name} <IoIosArrowDown />{" "}
               </p>
             }
           />

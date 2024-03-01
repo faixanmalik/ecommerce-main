@@ -32,7 +32,9 @@ export default function InventoryPage() {
           return res.json();
         })
         .then(data => {
-          setVariants(productsToVariantsWithContext(data));
+          if(data.length > 0){
+            setVariants(productsToVariantsWithContext(data));
+          }
         })
         .catch(error => {
           console.error("Error fetching collections:", error);
@@ -47,7 +49,9 @@ export default function InventoryPage() {
           return res.json();
         })
         .then(data => {
-          setLocations(data);
+          if(data.length > 0){
+            setLocations(data);
+          }
         })
         .catch(error => {
           console.error("Error fetching collections:", error);
@@ -62,7 +66,9 @@ export default function InventoryPage() {
           return res.json();
         })
         .then(data => {
-          setVendors(data);
+          if(data.length > 0){
+            setVendors(data);
+          }
         })
         .catch(error => {
           console.error("Error fetching collections:", error);
@@ -78,7 +84,9 @@ export default function InventoryPage() {
           return res.json();
         })
         .then(data => {
-          setTags(data);
+          if(data.length > 0){
+            setTags(data);
+          }
         })
         .catch(error => {
           console.error("Error fetching collections:", error);
@@ -93,23 +101,28 @@ export default function InventoryPage() {
           return res.json();
         })
         .then(data => {
-          setTypes(data);
+          if(data.length > 0){
+            setTypes(data);
+          }
         })
         .catch(error => {
           console.error("Error fetching collections:", error);
           // Handle error state if necessary
         });
 
-
+        
 
       } catch (error) {
         console.error("Error fetching data:", error);
         // Handle error state if necessary
       }
+      
     };
 
     fetchData();
   }, []);
+
+  
 
   
   //TODO:
