@@ -1,4 +1,6 @@
-import React from "react";
+"use client"
+import { React, useEffect, useState } from 'react';
+
 import Card from "@/components/Card";
 import Heading from "@/components/Heading";
 import Image from "next/image";
@@ -14,21 +16,80 @@ import { Supplier } from "@/types/supplier";
 
 export const dynamic = "force-dynamic";
 
-export default async function PurchaseOrdersPage() {
-  const requests = [
-    fetch(apiUrl("/api/products/purchase_orders"), { cache: "no-cache" }),
-    fetch(apiUrl("/api/settings/locations"), { cache: "no-cache" }),
-    fetch(apiUrl("/api/suppliers"), { cache: "no-cache" }),
-    // TODO:
-    // fetch(apiUrl("/api/products/purchase_orders/tags"), { cache: "no-cache" }),
-  ]
+export default function PurchaseOrdersPage() {
 
-  const [purchaseOrderRes, locationsRes, suppliersRes] = await Promise.all(requests);
-  if (!purchaseOrderRes.ok) throw new Error('Failed to load purchase orders');
-  if (!locationsRes.ok) throw new Error('Failed to load locations');
-  if (!suppliersRes.ok) throw new Error('Failed to load suppliers');
+  const [purchaseOrders, setPurchaseOrders] = useState([])
+  const [locations, setLocations] = useState([])
+  const [suppliers, setSuppliers] = useState([])
 
-  const [purchaseOrders, locations, suppliers]: [PurchaseOrder[], Location[], Supplier[]] = await Promise.all([purchaseOrderRes.json(), locationsRes.json(), suppliersRes.json(),])
+  
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        fetch("/api/products/purchase_orders")
+        .then(res => {
+          if (!res.ok) {
+            throw new Error("Failed to fetch");
+          }
+          return res.json();
+        })
+        .then(data => {
+          if(data.length > 0){
+            setPurchaseOrders((data));
+          }
+        })
+        .catch(error => {
+          console.error("Error fetching collections:", error);
+          // Handle error state if necessary
+        });
+
+        fetch("/api/settings/locations")
+        .then(res => {
+          if (!res.ok) {
+            throw new Error("Failed to fetch");
+          }
+          return res.json();
+        })
+        .then(data => {
+          if(data.length > 0){
+            setLocations((data));
+          }
+        })
+        .catch(error => {
+          console.error("Error fetching collections:", error);
+          // Handle error state if necessary
+        });
+
+        fetch("/api/suppliers")
+        .then(res => {
+          if (!res.ok) {
+            throw new Error("Failed to fetch");
+          }
+          return res.json();
+        })
+        .then(data => {
+          if(data.length > 0){
+            setSuppliers((data));
+          }
+        })
+        .catch(error => {
+          console.error("Error fetching collections:", error);
+          // Handle error state if necessary
+        });
+
+       
+
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        // Handle error state if necessary
+      }
+      
+    };
+
+    fetchData();
+  }, []);
+
 
   //TODO:
   const tags = purchaseOrders.flatMap(po => po.tags);
