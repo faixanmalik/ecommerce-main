@@ -26,7 +26,7 @@ export default function TransfersPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        fetch("//api/products/transfers")
+        fetch("/api/products/transfers")
         .then(res => {
           if (!res.ok) {
             throw new Error("Failed to fetch");

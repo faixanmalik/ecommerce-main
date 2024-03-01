@@ -1,3 +1,6 @@
+"use client"
+import { React, useEffect, useState } from 'react';
+
 import Heading from "@/components/Heading";
 import Card from "@/components/Card";
 import Image from "next/image";
@@ -13,14 +16,42 @@ import Link from "next/link";
 
 export const dynamic = "force-dynamic";
 
-export default async function CreateGiftCardPage() {
-  const res = await fetch(apiUrl("/api/products/gift_cards"), {
-    cache: "no-cache",
-  });
-  if (!res.ok) {
-    throw new Error("Failed to fetch gift cards");
-  }
-  const giftCards: GiftCard[] = await res.json();
+export default function CreateGiftCardPage() {
+
+  const [giftCards, setGiftCards] = useState([])
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        fetch("/api/products/gift_cards")
+        .then(res => {
+          if (!res.ok) {
+            throw new Error("Failed to fetch");
+          }
+          return res.json();
+        })
+        .then(data => {
+          if(data.length > 0){
+            setGiftCards((data));
+          }
+        })
+        .catch(error => {
+          console.error("Error fetching collections:", error);
+          // Handle error state if necessary
+        });
+
+
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        // Handle error state if necessary
+      }
+      
+    };
+
+    fetchData();
+  }, []);
+
 
   return (
     <div className="bg-gray-100 min-h-screen md:px-8 py-8">
