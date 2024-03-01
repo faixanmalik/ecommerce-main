@@ -23,47 +23,85 @@ export default function InventoryPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const productsRes = await fetch(("/api/products"), {
-          cache: "no-cache"
-        });
-        const locationsRes = await fetch(("/api/settings/locations"), {
-          cache: "no-cache"
-        });
-        const vendorsRes = await fetch(("/api/vendors"), {
-          cache: "no-cache"
-        });
-        const typesRes = await fetch(("/api/products/types"), {
-          cache: "no-cache"
-        });
-        const tagsRes = await fetch(("/api/products/tags"), {
-          cache: "no-cache"
+
+        fetch("/api/products")
+        .then(res => {
+          if (!res.ok) {
+            throw new Error("Failed to fetch");
+          }
+          return res.json();
+        })
+        .then(data => {
+          setVariants(productsToVariantsWithContext(data));
+        })
+        .catch(error => {
+          console.error("Error fetching collections:", error);
+          // Handle error state if necessary
         });
 
-        if (!productsRes.ok) throw new Error("Failed to fetch products");
-        if (!locationsRes.ok) throw new Error("Failed to fetch locations");
-        if (!vendorsRes.ok) throw new Error("Failed to fetch vendors");
-        if (!typesRes.ok) throw new Error("Failed to fetch types");
-        if (!tagsRes.ok) throw new Error("Failed to fetch tags");
+        fetch("/api/settings/locations")
+        .then(res => {
+          if (!res.ok) {
+            throw new Error("Failed to fetch");
+          }
+          return res.json();
+        })
+        .then(data => {
+          setLocations(data);
+        })
+        .catch(error => {
+          console.error("Error fetching collections:", error);
+          // Handle error state if necessary
+        });
 
-        const [
-          productsData,
-          locationsData,
-          vendorsData,
-          typesData,
-          tagsData
-        ] = await Promise.all([
-          productsRes.json(),
-          locationsRes.json(),
-          vendorsRes.json(),
-          typesRes.json(),
-          tagsRes.json()
-        ]);
+        fetch("/api/vendors")
+        .then(res => {
+          if (!res.ok) {
+            throw new Error("Failed to fetch");
+          }
+          return res.json();
+        })
+        .then(data => {
+          setVendors(data);
+        })
+        .catch(error => {
+          console.error("Error fetching collections:", error);
+          // Handle error state if necessary
+        });
 
-        setVariants(productsToVariantsWithContext(productsData));
-        setLocations(locationsData);
-        setVendors(vendorsData);
-        setTypes(typesData);
-        setTags(tagsData);
+
+        fetch("/api/products/tags")
+        .then(res => {
+          if (!res.ok) {
+            throw new Error("Failed to fetch");
+          }
+          return res.json();
+        })
+        .then(data => {
+          setTags(data);
+        })
+        .catch(error => {
+          console.error("Error fetching collections:", error);
+          // Handle error state if necessary
+        });
+
+        fetch("/api/products/types")
+        .then(res => {
+          if (!res.ok) {
+            throw new Error("Failed to fetch");
+          }
+          return res.json();
+        })
+        .then(data => {
+          setTypes(data);
+        })
+        .catch(error => {
+          console.error("Error fetching collections:", error);
+          // Handle error state if necessary
+        });
+
+
+
       } catch (error) {
         console.error("Error fetching data:", error);
         // Handle error state if necessary
