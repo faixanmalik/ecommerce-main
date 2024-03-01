@@ -8,7 +8,6 @@ import { apiUrl } from "@/lib/utils";
 import { Market } from "@/types/market";
 import { SalesChannel } from "@/types/salesChannel";
 import Link from "next/link";
-import React from "react";
 
 export const dynamic = "force-dynamic";
 
