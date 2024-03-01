@@ -143,8 +143,8 @@ export default function InventoryPage() {
 
 
   return (
-    <div className="bg-gray-100 min-h-screen md:px-8 py-8">
-      <div className="bg-gray-100 min-h-screen md:px-8 py-8">
+    <div className="bg-gray-100 min-h-screen md:px-3 py-5">
+      <div className="bg-gray-100 min-h-screen md:px-3 py-5">
         <Datatable
           initialVariants={variants}
           allLocations={locations}
