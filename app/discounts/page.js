@@ -97,6 +97,23 @@ const DiscountsPage = () => {
     },
   ]
 
+  const [isMediumScreen, setIsMediumScreen] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMediumScreen(window.innerWidth >= 768); // assuming 'md' breakpoint is 768px
+    };
+
+    // Initial check on component mount
+    handleResize();
+
+    // Event listener for window resize
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   return (
     <div className="p-5">
       <div className="flex justify-between items-center">
@@ -126,22 +143,22 @@ const DiscountsPage = () => {
 
       <MaterialCard className="">
 
-        <div className="flex justify-between items-center py-2 px-5">
+        <div className="flex justify-between items-center py-2 px-2 md:px-5">
 
-          <div className=" flex space-x-2">
+          <div className="flex md:space-x-2">
             {tableButtons.map((item, index)=>{
-              return <button onClick={()=>setButtonIndex(index)} className={`font-semibold text-sm px-2 py-1 ${buttonIndex === index ? 'bg-gray-200 rounded-md' : ''}`}>{item.name}</button>
+              return <button onClick={()=>setButtonIndex(index)} className={`font-semibold text-xs md:text-sm px-2 py-1 ${buttonIndex === index ? 'bg-gray-200 rounded-md' : ''}`}>{item.name}</button>
             })}
-            <button className=""><FaPlus className='text-sm'/></button>
+            <button className=""><FaPlus className='text-xs md:text-sm'/></button>
           </div>
 
-          <div className="flex space-x-2 items-center">
+          <div className="flex space-x-1 md:space-x-2 items-center">
             <div className="flex space-x-1 items-center bg-gray-50 px-1 border border-gray-300 rounded-lg shadow-xl">
-              <IoSearchOutline className='text-xl font-semibold' />
-              <CgSortAz className='text-3xl' />
+              <IoSearchOutline className='text-lg md:text-xl font-semibold' />
+              <CgSortAz className='text-2xl md:text-3xl' />
             </div>
             <div className="flex space-x-1 items-center bg-gray-50 px-1 py-1 border border-gray-300 rounded-lg shadow-xl">
-              <TbArrowsSort className='text-xl font-semibold' />
+              <TbArrowsSort className='text-lg md:text-xl font-semibold' />
             </div>
           </div>
 
@@ -149,7 +166,7 @@ const DiscountsPage = () => {
         </div>
         <table className="w-full shadow-lg min-w-max table-auto text-left">
           <thead>
-            <tr>
+            {isMediumScreen ? (<tr className="">
               {TABLE_HEAD.map((head) => (
                 <th
                   key={head}
@@ -164,80 +181,92 @@ const DiscountsPage = () => {
                   </Typography>
                 </th>
               ))}
-            </tr>
+            </tr>) : ''}
           </thead>
           <tbody >
-            {discounts.map((item, index) => {
-              const isLast = index === discounts.length - 1;
-              const classes = isLast ? "p-3" : "p-3 border-b border-blue-gray-50";
-  
-              return (
-                <tr key={name} className="">
-                  <td className={classes}>
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="flex-col font-normal text-xs"
-                    >
-                      <div className="font-bold text-sm">{item.discountCode}</div>
-                      <div className="font-semibold">{item.discountValue}% off {item.collections[0].name} - <span>{item.limitPerCustomer === true ? 'One use per customer' : ''}</span></div>
-                    </Typography>
-                  </td>
-                  <td className={classes}>
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className={`font-semibold py-1 rounded-lg text-center ${item.status === 'Active' ? 'bg-[#92cb32]' : 'bg-red-400'} text-xs`}
-                    >
-                      {item.status}
-                    </Typography>
-                  </td>
-                  <td className={classes}>
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-semibold text-sm"
-                    >
-                      {item.code}
-                    </Typography>
-                  </td>
-                  <td className={classes}>
-                    <Typography
-                      as="a"
-                      href="#"
-                      variant="small"
-                      color="blue-gray"
-                      className="font-medium text-xs"
-                    >
-                      <div className="font-medium">Amount off products</div>
-                      <div className="font-medium">{item.productDiscount === true ? 'Product Discount' : item.shippingDiscount === true ? 'Shipping Discount' : ''}</div>
-                    </Typography>
-                  </td>
-                  <td className={classes}>
-                    <Typography
-                      as="a"
-                      href="#"
-                      variant="small"
-                      color="blue-gray"
-                      className="font-medium text-xs"
-                    >
-                      {item.productDiscount === true ? 'Product Discount' : item.shippingDiscount === true ? 'Shipping Discount' : ''}
-                    </Typography>
-                  </td>
-                  <td className={classes}>
-                    <Typography
-                      as="a"
-                      href="#"
-                      variant="small"
-                      color="blue-gray"
-                      className="font-medium text-xs"
-                    >
-                      {item.used}
-                    </Typography>
-                  </td>
-                </tr>
-              );
-            })}
+          {discounts.map((item, index) => {
+            const isLast = index === discounts.length - 1;
+            const classes = isLast ? "p-3" : "p-3 border-b border-blue-gray-50";
+
+            return isMediumScreen ? (
+              <tr key={index} className="col">
+                <td className={classes}>
+                  <Typography
+                    variant="small"
+                    color="blue-gray"
+                    className="flex-col font-normal text-xs"
+                  >
+                    <div className="font-bold text-sm">{item.discountCode}</div>
+                    <div className="font-semibold">{item.discountValue}% off {item.collections[0].name} - <span>{item.limitPerCustomer === true ? 'One use per customer' : ''}</span></div>
+                  </Typography>
+                </td>
+                <td className={classes}>
+                  <Typography
+                    variant="small"
+                    color="blue-gray"
+                    className={`font-semibold py-1 rounded-lg text-center ${item.status === 'Active' ? 'bg-[#92cb32]' : 'bg-red-400'} text-xs`}
+                  >
+                    {item.status}
+                  </Typography>
+                </td>
+                <td className={classes}>
+                  <Typography
+                    variant="small"
+                    color="blue-gray"
+                    className="font-semibold text-sm"
+                  >
+                    {item.code}
+                  </Typography>
+                </td>
+                <td className={classes}>
+                  <Typography
+                    as="a"
+                    href="#"
+                    variant="small"
+                    color="blue-gray"
+                    className="font-medium text-xs"
+                  >
+                    <div className="font-medium">Amount off products</div>
+                    <div className="font-medium">{item.productDiscount === true ? 'Product Discount' : item.shippingDiscount === true ? 'Shipping Discount' : ''}</div>
+                  </Typography>
+                </td>
+                <td className={classes}>
+                  <Typography
+                    as="a"
+                    href="#"
+                    variant="small"
+                    color="blue-gray"
+                    className="font-medium text-xs"
+                  >
+                    {item.productDiscount === true ? 'Product Discount' : item.shippingDiscount === true ? 'Shipping Discount' : ''}
+                  </Typography>
+                </td>
+                <td className={classes}>
+                  <Typography
+                    as="a"
+                    href="#"
+                    variant="small"
+                    color="blue-gray"
+                    className="font-medium text-xs"
+                  >
+                    {item.used}
+                  </Typography>
+                </td>
+              </tr>
+            ) : (
+             <div key={index} className="px-5 py-5 w-full flex justify-between items-center">
+                <div className="">
+                  <div className="font-bold text-sm">{item.discountCode} - ({item.used} used)</div>
+                  <div className="font-semibold text-xs">{item.discountValue}% off {item.collections[0].name} - <span>{item.limitPerCustomer === true ? 'One use per customer' : ''}</span></div>
+                </div>
+                <div>
+                  <div className={`font-semibold px-2 py-1 rounded-lg text-center ${item.status === 'Active' ? 'bg-[#92cb32]' : 'bg-red-400'} text-xs`}>
+                    {item.status}
+                  </div>
+                </div>
+             </div>
+            );
+          })}
           </tbody>
         </table>
         
