@@ -167,9 +167,9 @@ const DiscountsPage = () => {
         <table className="w-full shadow-lg min-w-max table-auto text-left">
           <thead>
             {isMediumScreen ? (<tr className="">
-              {TABLE_HEAD.map((head) => (
+              {TABLE_HEAD.map((head, index) => (
                 <th
-                  key={head}
+                  key={index}
                   className="bg-[#f1f1f1] border-b border-t border-blue-gray-100 p-2 py-3 "
                 >
                   <Typography
