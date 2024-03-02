@@ -149,7 +149,7 @@ const DiscountsPage = () => {
             {tableButtons.map((item, index)=>{
               return <button key={index} onClick={()=>setButtonIndex(index)} className={`font-semibold text-xs md:text-sm px-2 py-1 ${buttonIndex === index ? 'bg-gray-200 rounded-md' : ''}`}>{item.name}</button>
             })}
-            <button className=""><FaPlus className='text-xs md:text-sm'/></button>
+            <FaPlus className='text-xs md:text-sm'/>
           </div>
 
           <div className="flex space-x-1 md:space-x-2 items-center">
