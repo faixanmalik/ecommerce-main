@@ -297,7 +297,7 @@ const DiscountsPage = () => {
         </DialogHeader>
         <DialogBody className="py-0">
           {discountData.map((item, index) => (
-            <Link href={item.link} key={index} className="flex justify-between items-center border-b-2 my-4 text-sm text-gray-700">
+            <Link href={item.link} onClick={()=> handleOpen(null)} key={index} className="flex justify-between items-center border-b-2 my-4 text-sm text-gray-700">
               <div className="">
                 <h3 className="font-semibold">{item.name}</h3>
                 <p className="py-1">{item.desc}</p>

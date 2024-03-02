@@ -22,12 +22,14 @@ import { AiOutlinePercentage } from "react-icons/ai";
 import { IoCloseSharp, IoImageOutline } from "react-icons/io5";
 import { FaRupeeSign } from "react-icons/fa6";
 import { useCountries } from "use-react-countries";
+import { useRouter } from "next/router";
 
 export const dynamic = "force-dynamic"
 
 export default function NewDiscount() {
 
   const searchParams = useSearchParams();
+  const router = useRouter();
   const type = searchParams.get('type');
 
   const { countries } = useCountries();
@@ -285,6 +287,7 @@ export default function NewDiscount() {
 
       if (res.ok) {
         const response = await res.json();
+        router.push('/discounts')
         console.log(response); // Log response from API
       } else {
         console.error('Failed to send data to API');
@@ -499,7 +502,7 @@ export default function NewDiscount() {
                         <Button
                           variant="text"
                           color="gray"
-                          onClick={(e) => addCollection(e)}
+                          onClick={(e) => {addCollection(e) , handleOpen(null) }}
                           className="mr-1 border bg-gray-300 shadow-md border-gray-500 py-1 px-4"
                         >
                           <span className="text-gray-700">Add</span>
