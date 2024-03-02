@@ -9,9 +9,7 @@ import {
   Card,
   CardHeader,
   CardBody,
-  Typography,
   Button,
-  ButtonGroup,
   Input,
   Radio,
   Dialog,
@@ -22,10 +20,6 @@ import {
 import { AiOutlinePercentage } from "react-icons/ai";
 
 import { IoCloseSharp, IoImageOutline } from "react-icons/io5";
-import { CiShoppingTag } from "react-icons/ci";
-import { TbShoppingBagDiscount } from "react-icons/tb";
-import { LiaShippingFastSolid } from "react-icons/lia";
-import { IoIosArrowForward } from "react-icons/io";
 import { FaRupeeSign } from "react-icons/fa6";
 import { useCountries } from "use-react-countries";
 
@@ -119,7 +113,6 @@ export default function NewDiscount() {
     if (data.length > 0) {
         // Push the first item of the filtered array
         newCollections.push(data[0]);
-        console.log(newCollections);
 
         // Set the updated collections state
         setCollections(newCollections);
@@ -167,6 +160,141 @@ export default function NewDiscount() {
   else if(type === 'shipping'){
     label = 'Free shipping '
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+  const [discountCode, setDiscountCode] = useState('');
+  const [discountValue, setDiscountValue] = useState('');
+  const [discountType, setDiscountType] = useState('Percentage')
+  const [appliesTo, setAppliesTo] = useState('Specefic Collections');
+
+
+  const [noMinimumRequirements, setNoMinimumRequirements] = useState(false);
+  const [minimumPurchaseAmount, setMinimumPurchaseAmount] = useState(false);
+  const [minimumQualityOfAmount, setMinimumQualityOfAmount] = useState(false);
+  const [allCustomers, setAllCustomers] = useState(false);
+  const [specificCustomerSegments, setSpecificCustomerSegments] = useState(false);
+  const [specificCustomers, setSpecificCustomers] = useState(false);
+  const [limitTimes, setLimitTimes] = useState(false);
+  const [limitPerCustomer, setLimitPerCustomer] = useState(false);
+  const [otherDiscount, setOtherDiscount] = useState(false);
+  const [shippingDiscount, setShippingDiscount] = useState(false);
+  const [productDiscount, setProductDiscount] = useState(false)
+
+
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+  const [startTime, setStartTime] = useState('');
+  const [endTime, setEndTime] = useState('');
+
+  const handleChange = (event) => {
+    const { name, value, type, checked } = event.target;
+
+    switch (name) {
+      case 'discountCode':
+        setDiscountCode(value);
+        break;
+      case 'discountValue':
+        setDiscountValue(value);
+        break;
+      case 'discountType':
+        setDiscountType(value);
+        break;
+      case 'appliesTo':
+        setAppliesTo(value);
+        break;
+      case 'collections':
+        setCollections(collections);
+        break;
+      case 'noMinimumRequirements':
+        setNoMinimumRequirements(checked);
+        break;
+      case 'minimumPurchaseAmount':
+        setMinimumPurchaseAmount(value);
+        break;
+      case 'minimumQualityOfAmount':
+        setMinimumQualityOfAmount(value);
+        break;
+      case 'allCustomers':
+        setAllCustomers(checked);
+        break;
+      case 'specificCustomerSegments':
+        setSpecificCustomerSegments(checked);
+        break;
+      case 'specificCustomers':
+        setSpecificCustomers(checked);
+        break;
+        case 'limitTimes':
+        setLimitTimes(checked);
+        break;
+      case 'limitPerCustomer':
+        setLimitPerCustomer(checked);
+        break;
+      case 'otherDiscount':
+        setOtherDiscount(checked);
+        break;
+      case 'productDiscount':
+        setProductDiscount(checked);
+        break;
+      case 'shippingDiscount':
+        setShippingDiscount(checked);
+        break;
+
+      case 'startDate':
+        setStartDate(value);
+        break;
+      case 'endDate':
+        setEndDate(value);
+        break;
+      case 'startTime':
+        setStartTime(value);
+        break;
+      case 'endTime':
+        setEndTime(value);
+        break;
+      default:
+        break;
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const data = { status: 'Active', code:'code', used: 0, discountCode, discountValue, discountType, appliesTo, collections, noMinimumRequirements, minimumPurchaseAmount, minimumQualityOfAmount, allCustomers, specificCustomerSegments, specificCustomers, limitTimes, limitPerCustomer, otherDiscount, shippingDiscount, startDate, endDate, startTime, endTime, type };
+
+    try {
+      
+      const res = await fetch(`/api/discount`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+      console.log(res)
+
+      if (res.ok) {
+        const response = await res.json();
+        console.log(response); // Log response from API
+      } else {
+        console.error('Failed to send data to API');
+      }
+    } catch (error) {
+        console.error('Error sending data to API:', error);
+    }
+  };
+  
+  
 
 
   return (
@@ -219,6 +347,8 @@ export default function NewDiscount() {
                     <input
                       type="number"
                       name="discountCode"
+                      value={discountCode}
+                      onChange={handleChange}
                       id="discountCode"
                       className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     />
@@ -230,23 +360,30 @@ export default function NewDiscount() {
             </Card>
 
             {type === 'moneyOffProduct' && <Card className="w-full flex-col">
-              
               <CardBody className="px-4">
 
                 <div className="flex-col space-y-5">
 
                   <div className="">
-                    <label htmlFor="discountValue" className="block text-sm font-medium leading-6 text-gray-900">
+                    <label className="block text-sm font-medium leading-6 text-gray-900">
                       Discount value
                     </label>
                     
                     <div className="flex space-x-4">
-                      <select id="countries" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                        <option value='percentage' selected>Percentage</option>
-                        <option value="FixedAmount">Fixed Amount</option>
+                      <select id="discountType" onChange={handleChange} name="discountType" value={discountType} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <option defaultValue='Percentage'>Percentage</option>
+                        <option value="Fixed Amount">Fixed Amount</option>
                       </select>
-                      <div className="w-72">
-                        <Input icon={<AiOutlinePercentage />} />
+                      <div className="w-72 flex items-center">
+                        <input
+                          type="number"
+                          name="discountValue"
+                          value={discountValue}
+                          onChange={handleChange}
+                          id="discountValue"
+                          className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        />
+                        <AiOutlinePercentage className="text-black text-lg"/>
                       </div>
                     </div>
                     
@@ -257,9 +394,9 @@ export default function NewDiscount() {
                       Applies to
                     </label>
                     
-                    <select id="appliesTo" className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                      <option value='speceficCollections' selected>Specefic collections</option>
-                      <option value="speceficProducts">Specefic products</option>
+                    <select name="appliesTo" onChange={handleChange} value={appliesTo} id="appliesTo" className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                      <option defaultValue='Specefic Collections'>Specefic collections</option>
+                      <option value="Specefic Products">Specefic products</option>
                     </select>
 
                     <div className="flex space-x-3 items-center mt-3">
@@ -370,8 +507,6 @@ export default function NewDiscount() {
                       </DialogFooter>
                     </Dialog>
 
-                    
-                    
                   </div>
 
                 </div>
@@ -386,17 +521,17 @@ export default function NewDiscount() {
                 <div className="flex-col space-y-5">
 
                   <div className="">
-                    <label htmlFor="discountValue" className="block text-sm font-medium leading-6 text-gray-900">
+                    <label className="block text-sm font-medium leading-6 text-gray-900">
                       Discount value
                     </label>
                     
                     <div className="flex space-x-4">
-                      <select id="countries" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                        <option value='percentage' selected>Percentage</option>
+                      <select id="discountType" onChange={handleChange} name="discountType" value={discountType} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <option value='Percentage' selected>Percentage</option>
                         <option value="FixedAmount">Fixed Amount</option>
                       </select>
                       <div className="w-72">
-                        <Input icon={<AiOutlinePercentage />} />
+                        <input onChange={discountValue} name="discountValue" value={discountValue} icon={<AiOutlinePercentage />} />
                       </div>
                     </div>
                     
@@ -425,13 +560,13 @@ export default function NewDiscount() {
                   <div className="flex-col space-y-2">
 
                     <div className="flex space-x-2 items-center">
-                      <input type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
-                      <label className="text-sm" for="myCheckbox">Minimum quantity of items</label>
+                      <input type="checkbox" id="myCheckbox" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                      <label className="text-sm" htmlFor="myCheckbox">Minimum quantity of items</label>
                     </div>
 
                     <div className="flex space-x-2 items-center">
-                      <input type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
-                      <label className="text-sm" for="myCheckbox">Minimum purchase amount</label>
+                      <input type="checkbox" id="myCheckbox" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                      <label className="text-sm" htmlFor="myCheckbox">Minimum purchase amount</label>
                     </div>
 
                   </div>
@@ -541,7 +676,7 @@ export default function NewDiscount() {
                                   onChange={handleRadioChange} 
                                   type="checkbox" id="myCheckbox" 
                                   className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
-                                <label className="text-sm" for="myCheckbox">
+                                <label className="text-sm" htmlFor="myCheckbox">
                                   <div className="flex space-x-3">
                                     <div className="border border-gray-300 rounded-md items-center my-auto p-2">
                                       <IoImageOutline className='text-xl'/>
@@ -591,13 +726,13 @@ export default function NewDiscount() {
                   <div className="flex-col space-y-2 pt-5">
 
                     <div className="flex space-x-2 items-center">
-                      <input type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
-                      <label className="text-sm" for="myCheckbox">Minimum quantity of items</label>
+                      <input type="checkbox" id="myCheckbox" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                      <label className="text-sm" htmlFor="myCheckbox">Minimum quantity of items</label>
                     </div>
 
                     <div className="flex space-x-2 items-center">
-                      <input type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
-                      <label className="text-sm" for="myCheckbox">Minimum purchase amount</label>
+                      <input type="checkbox" id="myCheckbox" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                      <label className="text-sm" htmlFor="myCheckbox">Minimum purchase amount</label>
                     </div>
 
                   </div>
@@ -707,7 +842,7 @@ export default function NewDiscount() {
                                   onChange={handleRadioChange} 
                                   type="checkbox" id="myCheckbox" 
                                   className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
-                                <label className="text-sm" for="myCheckbox">
+                                <label className="text-sm" htmlFor="myCheckbox">
                                   <div className="flex space-x-3">
                                     <div className="border border-gray-300 rounded-md items-center my-auto p-2">
                                       <IoImageOutline className='text-xl'/>
@@ -753,8 +888,8 @@ export default function NewDiscount() {
                   <h1 className="text-sm font-semibold">At a discounted value</h1>
 
                   <div className="flex space-x-2 items-center">
-                    <input type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
-                    <label className="text-sm font-medium" for="myCheckbox">Amount off each</label>
+                    <input type="checkbox" id="myCheckbox" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                    <label className="text-sm font-medium" htmlFor="myCheckbox">Amount off each</label>
                   </div>
                   <div className="flex-col ml-6">
 
@@ -775,8 +910,8 @@ export default function NewDiscount() {
                   </div>
 
                   <div className="flex space-x-2 items-center mt-2">
-                    <input type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
-                    <label className="text-sm" for="myCheckbox">Free</label>
+                    <input type="checkbox" id="myCheckbox" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                    <label className="text-sm" htmlFor="myCheckbox">Free</label>
                   </div>
 
                 </div>
@@ -812,18 +947,18 @@ export default function NewDiscount() {
                   <div className="flex flex-col space-y-2">
 
                     <div className="flex space-x-2 items-center">
-                      <input defaultChecked type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
-                      <label className="text-sm tracking-tight" for="myCheckbox">No minimum requirements</label>
+                      <input onChange={handleChange} name="noMinimumRequirements" checked={noMinimumRequirements} defaultChecked type="checkbox" id="myCheckbox" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                      <label className="text-sm tracking-tight" htmlFor="myCheckbox">No minimum requirements</label>
                     </div>
 
                     <div className="flex space-x-2 items-center">
-                      <input type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
-                      <label className="text-sm tracking-tight" for="myCheckbox">Minimum purchase amount (Rs)</label>
+                      <input onChange={handleChange} name="minimumPurchaseAmount" checked={minimumPurchaseAmount} type="checkbox" id="myCheckbox" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                      <label className="text-sm tracking-tight" htmlFor="myCheckbox">Minimum purchase amount (Rs)</label>
                     </div>
 
                     <div className="flex space-x-2 items-center">
-                      <input type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
-                      <label className="text-sm tracking-tight" for="myCheckbox">Minimum quantity of items</label>
+                      <input onChange={handleChange} name="minimumQualityOfAmount" checked={minimumQualityOfAmount} type="checkbox" id="myCheckbox" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                      <label className="text-sm tracking-tight" htmlFor="myCheckbox">Minimum quantity of items</label>
                     </div>
                     
                   </div>
@@ -851,13 +986,13 @@ export default function NewDiscount() {
                   <div className="flex-col space-y-2">
 
                     <div className="flex space-x-2 items-center">
-                      <input type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
-                      <label className="text-sm" for="myCheckbox">All countries</label>
+                      <input type="checkbox" id="myCheckbox" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                      <label className="text-sm" htmlFor="myCheckbox">All countries</label>
                     </div>
 
                     <div className="flex space-x-2 items-center">
-                      <input type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
-                      <label className="text-sm" for="myCheckbox">Selected countries</label>
+                      <input type="checkbox" id="myCheckbox" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                      <label className="text-sm" htmlFor="myCheckbox">Selected countries</label>
                     </div>
 
                   </div>
@@ -942,7 +1077,7 @@ export default function NewDiscount() {
                                   onChange={handleRadioChange}
                                   type="checkbox" id="myCheckbox" 
                                   className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
-                                <label className="text-sm" for="myCheckbox">
+                                <label className="text-sm" htmlFor="myCheckbox">
                                   <div className="flex space-x-3">
                                     <div className="border border-gray-300 rounded-md items-center my-auto p-1">
                                       <img
@@ -991,8 +1126,8 @@ export default function NewDiscount() {
                   <h1 className="text-sm font-semibold">Shipping rates</h1>
 
                   <div className="flex space-x-2 items-center">
-                    <input type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
-                    <label className="text-sm font-medium" for="myCheckbox">Exclude shipping rates over a certain amount</label>
+                    <input type="checkbox" id="myCheckbox" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                    <label className="text-sm font-medium" htmlFor="myCheckbox">Exclude shipping rates over a certain amount</label>
                   </div>
                   <div className="flex-col ml-6">
 
@@ -1025,18 +1160,18 @@ export default function NewDiscount() {
                   <div className="flex flex-col space-y-2">
 
                     <div className="flex space-x-2 items-center">
-                      <input defaultChecked type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
-                      <label className="text-sm tracking-tight" for="myCheckbox">No minimum requirements</label>
+                      <input defaultChecked type="checkbox" id="myCheckbox" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                      <label className="text-sm tracking-tight" htmlFor="myCheckbox">No minimum requirements</label>
                     </div>
 
                     <div className="flex space-x-2 items-center">
-                      <input type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
-                      <label className="text-sm tracking-tight" for="myCheckbox">Minimum purchase amount (Rs)</label>
+                      <input type="checkbox" id="myCheckbox" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                      <label className="text-sm tracking-tight" htmlFor="myCheckbox">Minimum purchase amount (Rs)</label>
                     </div>
 
                     <div className="flex space-x-2 items-center">
-                      <input type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
-                      <label className="text-sm tracking-tight" for="myCheckbox">Minimum quantity of items</label>
+                      <input type="checkbox" id="myCheckbox" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                      <label className="text-sm tracking-tight" htmlFor="myCheckbox">Minimum quantity of items</label>
                     </div>
 
                   </div>
@@ -1056,18 +1191,18 @@ export default function NewDiscount() {
                   <div className="flex flex-col space-y-2">
 
                     <div className="flex space-x-2 items-center">
-                      <input defaultChecked type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
-                      <label className="text-sm tracking-tight" for="myCheckbox">All customers</label>
+                      <input name="allCustomers" onChange={handleChange} checked={allCustomers} defaultChecked type="checkbox" id="myCheckbox" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                      <label className="text-sm tracking-tight" htmlFor="myCheckbox">All customers</label>
                     </div>
 
                     <div className="flex space-x-2 items-center">
-                      <input type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
-                      <label className="text-sm tracking-tight" for="myCheckbox">Specific customer segments</label>
+                      <input name="specificCustomerSegments" onChange={handleChange} checked={specificCustomerSegments} type="checkbox" id="myCheckbox" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                      <label className="text-sm tracking-tight" htmlFor="myCheckbox">Specific customer segments</label>
                     </div>
 
                     <div className="flex space-x-2 items-center">
-                      <input type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
-                      <label className="text-sm tracking-tight" for="myCheckbox">Specific customers</label>
+                      <input name="specificCustomers" onChange={handleChange} checked={specificCustomers} type="checkbox" id="myCheckbox" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                      <label className="text-sm tracking-tight" htmlFor="myCheckbox">Specific customers</label>
                     </div>
 
                   </div>
@@ -1086,13 +1221,13 @@ export default function NewDiscount() {
                   <div className="flex flex-col space-y-2">
 
                     <div className="flex space-x-2 items-center">
-                      <input type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
-                      <label className="text-sm tracking-tight" for="myCheckbox">Limit number of times this discount can be used in total</label>
+                      <input value={limitTimes} name="limitTimes" onChange={handleChange} type="checkbox" id="myCheckbox" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                      <label className="text-sm tracking-tight" htmlFor="myCheckbox">Limit number of times this discount can be used in total</label>
                     </div>
 
                     <div className="flex space-x-2 items-center">
-                      <input type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
-                      <label className="text-sm tracking-tight" for="myCheckbox">Limit to one use per customer</label>
+                      <input value={limitPerCustomer} name="limitPerCustomer" onChange={handleChange} type="checkbox" id="myCheckbox" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                      <label className="text-sm tracking-tight" htmlFor="myCheckbox">Limit to one use per customer</label>
                     </div>
                     
                   </div>
@@ -1111,18 +1246,18 @@ export default function NewDiscount() {
                   <div className="flex pt-3 flex-col space-y-2">
 
                     <div className="flex space-x-2 items-center">
-                      <input defaultChecked type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
-                      <label className="text-sm tracking-tight" for="myCheckbox">Product discounts</label>
+                      <input name="productDiscount" value={productDiscount} onChange={handleChange} defaultChecked type="checkbox" id="myCheckbox" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                      <label className="text-sm tracking-tight" htmlFor="myCheckbox">Product discounts</label>
                     </div>
 
                     {type === 'buyXgetY' || type === 'moneyOffOrder' && <div className="flex space-x-2 items-center">
-                      <input type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
-                      <label className="text-sm tracking-tight" for="myCheckbox">Order discounts</label>
+                      <input name="otherDiscount" value={otherDiscount} onChange={handleChange} type="checkbox" id="myCheckbox" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                      <label className="text-sm tracking-tight" htmlFor="myCheckbox">Order discounts</label>
                     </div>}
 
                     <div className="flex space-x-2 items-center">
-                      <input type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
-                      <label className="text-sm tracking-tight" for="myCheckbox">Shipping discounts</label>
+                      <input name="shippingDiscount" value={shippingDiscount} onChange={handleChange} type="checkbox" id="myCheckbox" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                      <label className="text-sm tracking-tight" htmlFor="myCheckbox">Shipping discounts</label>
                     </div>
 
                   </div>
@@ -1153,7 +1288,7 @@ export default function NewDiscount() {
                               <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
                             </svg>
                           </div>
-                          <input type="date" className="bg-white ps-10 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-[6px] px-2 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date"/>
+                          <input value={startDate} name='startDate' onChange={handleChange} type="date" className="bg-white ps-10 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-[6px] px-2 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date"/>
                         </div>
                       </div>
 
@@ -1166,7 +1301,7 @@ export default function NewDiscount() {
                           <div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
                             <IoMdTime className='text-lg' />
                           </div>
-                          <select id="time" className="bg-white ps-10 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                          <select value={startTime} name='startTime' onChange={handleChange} id="time" className="bg-white ps-10 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             <option value='8:10' selected>8:10 PM</option>
                           </select>
                         </div>
@@ -1188,7 +1323,7 @@ export default function NewDiscount() {
                               <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
                             </svg>
                           </div>
-                          <input type="date" className="bg-white ps-10 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-[6px] px-2 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date"/>
+                          <input value={endDate} name='endDate' onChange={handleChange} type="date" className="bg-white ps-10 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-[6px] px-2 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date"/>
                         </div>
                       </div>
 
@@ -1201,7 +1336,7 @@ export default function NewDiscount() {
                           <div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
                             <IoMdTime className='text-lg' />
                           </div>
-                          <select id="time" className="bg-white ps-10 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                          <select value={endTime} name='endTime' onChange={handleChange} id="time" className="bg-white ps-10 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             <option value='8:10' selected>8:10 PM</option>
                           </select>
                         </div>
@@ -1265,8 +1400,8 @@ export default function NewDiscount() {
                   <div className="flex flex-col space-y-2">
 
                     <div className="flex space-x-2 items-center">
-                      <input type="checkbox" id="myCheckbox" class="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
-                      <label className="text-sm" for="myCheckbox">Point of sales</label>
+                      <input type="checkbox" id="myCheckbox" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                      <label className="text-sm" htmlFor="myCheckbox">Point of sales</label>
                     </div>
 
                   </div>
@@ -1283,7 +1418,7 @@ export default function NewDiscount() {
 
         <div className="flex justify-end space-x-2">
           <button type="button" className="py-1 px-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-400 hover:bg-gray-100 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Discard</button>
-          <button type="button" className="py-1 px-3 text-sm font-medium text-white focus:outline-none bg-gray-800 rounded-lg border border-gray-400 hover:bg-gray-100 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Save discount</button>
+          <button onClick={(e)=>handleSubmit(e)} type="button" className="py-1 px-3 text-sm font-medium text-white focus:outline-none bg-gray-800 rounded-lg border border-gray-400 hover:bg-gray-900 focus:z-10 focus:ring-4 focus:ring-gray-100">Save discount</button>
         </div>
 
         
