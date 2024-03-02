@@ -296,9 +296,9 @@ const DiscountsPage = () => {
           </Button>
         </DialogFooter>
       </Dialog>
-      {/* {discounts.length === 0 && <div className="mt-3 text-sm text-gray-800 flex justify-center items-center">
+      <div className="mt-3 text-sm text-gray-800 flex justify-center items-center">
         Learn more about discounts
-      </div>} */}
+      </div>
     </div>
   );
 };
