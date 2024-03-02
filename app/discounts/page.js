@@ -296,8 +296,8 @@ const DiscountsPage = () => {
           </Button>
         </DialogFooter>
       </Dialog>
-      <div className="mt-3 text-sm text-gray-800 flex justify-center items-center">
-        Learn more about discounts
+      <div className="mt-3 text-sm text-gray-800 flex justify-center items-center font-semibold">
+        Learn more about <span className="text-blue-600 font-bold underline ml-1">discounts</span>
       </div>
     </div>
   );
