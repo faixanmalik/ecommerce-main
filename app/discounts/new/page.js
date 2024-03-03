@@ -64,7 +64,6 @@ export default function NewDiscount() {
       const fetchDiscount = async () => {
         const res = await fetch(`/api/discount?${id}`);
         const discountData = await res.json();
-        console.log(discountData)
 
 
         setDiscountCode(discountData.discountCode);
@@ -130,24 +129,18 @@ export default function NewDiscount() {
     setSelectedValue(event.target.value);
   };
 
-  useEffect(() => {
+  useEffect(async() => {
       
     const newCollections = allCollections.filter((item)=>{
       return item.name.toLowerCase().includes(searchCollection.toLowerCase());
     });
+    
     if (searchCollection === '') {
-      setAllCollections([
-        {
-          name: 'Home Page',
-          product: 0,
-          avatar: ''
-        },
-        {
-          name: 'New Collection',
-          product: 3,
-          avatar: ''
-        }
-      ]);
+
+      const res = await fetch(`/api/products/collections`);
+      const collection = await res.json();
+      console.log(collection);
+      setAllCollections(collection);
     } else {
       setAllCollections(newCollections);
     }
@@ -340,7 +333,10 @@ export default function NewDiscount() {
           >
             <IoIosArrowRoundBack size={20} className="text-[#1a1a1a]" />
           </Link>
-          <Heading>Create { type==='moneyOffOrder' ? 'order' : type ==='shipping' ? 'shipping' : 'product' } discount</Heading>
+          {id ?
+            <Heading>{discountCode}</Heading>
+            : <Heading>Create { type==='moneyOffOrder' ? 'order' : type ==='shipping' ? 'shipping' : 'product' } discount</Heading>
+          }
         </div>
 
         <div className="flex flex-col lg:flex-row min-h-screen space-y-5 lg:space-y-0 lg:space-x-5">
@@ -446,16 +442,16 @@ export default function NewDiscount() {
                     </div>
 
                     <div className="mt-2">
-                      {collections.map((item, index) => (
-                        <div key={index} className="flex mt-2 justify-between items-center border rounded-md py-2 px-3 text-sm text-gray-700">
+                      {collections.map((item, index) => {
+                        return <div key={index} className="flex mt-2 justify-between items-center border rounded-md py-2 px-3 text-sm text-gray-700">
                           
                           <div className="flex space-x-3">
                             <div className="border border-gray-300 rounded-md items-center my-auto p-2">
                               <IoImageOutline className='text-xl'/>
                             </div>
                             <div className="flex-col">
-                              <h3 className="font-semibold">{item.name}</h3>
-                              <p className="">{item.product}</p>
+                              <h3 className="font-semibold">{item.title}</h3>
+                              <p className="">{item.products.length}</p>
                             </div>
                           </div>
                           <div>
@@ -463,7 +459,7 @@ export default function NewDiscount() {
                           </div>
                           
                         </div>
-                      ))}
+                      })}
                     </div>
 
                     <Dialog
@@ -497,13 +493,13 @@ export default function NewDiscount() {
                           <input name="searchCollection" value={searchCollection} onChange={handleCollection} type="search" id="default-search" className="block w-full py-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search collections..." required />
                         </div>
 
-                        {allCollections.map((item, index) => (
-                          <div key={index} className="flex justify-between items-center border-t border-b py-2 text-sm text-gray-700">
+                        {allCollections.map((item, index) => {
+                          return <div key={index} className="flex justify-between items-center border-t border-b py-2 text-sm text-gray-700">
                             
                             <Radio
                               name="terms"
-                              checked={selectedValue === item.name}
-                              value={item.name}
+                              checked={selectedValue === item.title}
+                              value={item.title}
                               onChange={handleRadioChange}
                               label={
                                 <div className="flex space-x-3">
@@ -511,15 +507,15 @@ export default function NewDiscount() {
                                     <IoImageOutline className='text-xl'/>
                                   </div>
                                   <div className="flex-col">
-                                    <h3 className="font-semibold">{item.name}</h3>
-                                    <p className="">{item.product} products</p>
+                                    <h3 className="font-semibold">{item.title}</h3>
+                                    <p className="">{item.products.length} products</p>
                                   </div>
                                 </div>
                               }
                             />
                             
                           </div>
-                        ))}
+                        })}
                       </DialogBody>
                       <DialogFooter className="flex space-x-2 py-3">
                         <Button
@@ -657,8 +653,8 @@ export default function NewDiscount() {
                                 <IoImageOutline className='text-xl'/>
                               </div>
                               <div className="flex-col">
-                                <h3 className="font-semibold">{item.name}</h3>
-                                <p className="">{item.product}</p>
+                                <h3 className="font-semibold">{item.title}</h3>
+                                <p className="">{item.products.length}</p>
                               </div>
                             </div>
                             <div>
@@ -705,8 +701,8 @@ export default function NewDiscount() {
 
                               <div className="flex space-x-2 items-center">
                                 <input 
-                                  checked={selectedValue === item.name}
-                                  value={item.name}
+                                  checked={selectedValue === item.title}
+                                  value={item.title}
                                   onChange={handleRadioChange} 
                                   type="checkbox" id="myCheckbox" 
                                   className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
@@ -716,8 +712,8 @@ export default function NewDiscount() {
                                       <IoImageOutline className='text-xl'/>
                                     </div>
                                     <div className="flex-col">
-                                      <h3 className="font-semibold">{item.name}</h3>
-                                      <p className="">{item.product} products</p>
+                                      <h3 className="font-semibold">{item.title}</h3>
+                                      <p className="">{item.products.length} products</p>
                                     </div>
                                   </div>
                                 </label>
@@ -754,9 +750,7 @@ export default function NewDiscount() {
                 <div>
 
                   <h1 className="text-sm font-semibold">Customer gets</h1>
-
                   <h1 className="text-sm pt-1 tracking-tight font-medium">Customers must add the quantity of items specified below to their cart.</h1>
-
                   <div className="flex-col space-y-2 pt-5">
 
                     <div className="flex space-x-2 items-center">
@@ -800,8 +794,6 @@ export default function NewDiscount() {
                         
                       </div>
                       
-                      
-
                       <div className="flex space-x-3 items-center mt-3">
                         <div className="relative w-full">
                           <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
@@ -823,8 +815,8 @@ export default function NewDiscount() {
                                 <IoImageOutline className='text-xl'/>
                               </div>
                               <div className="flex-col">
-                                <h3 className="font-semibold">{item.name}</h3>
-                                <p className="">{item.product}</p>
+                                <h3 className="font-semibold">{item.title}</h3>
+                                <p className="">{item.products.length}</p>
                               </div>
                             </div>
                             <div>
@@ -866,13 +858,13 @@ export default function NewDiscount() {
                             <input name="searchCollection" value={searchCollection} onChange={handleCollection} type="search" id="default-search" className="block w-full py-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search collections..." required />
                           </div>
 
-                          {allCollections.map((item, index) => (
-                            <div key={index} className="flex justify-between items-center border-t border-b py-2 text-sm text-gray-700">
+                          {allCollections.map((item, index) => {
+                            return <div key={index} className="flex justify-between items-center border-t border-b py-2 text-sm text-gray-700">
 
                               <div className="flex space-x-2 items-center">
                                 <input 
-                                  checked={selectedValue === item.name}
-                                  value={item.name}
+                                  checked={selectedValue === item.title}
+                                  value={item.title}
                                   onChange={handleRadioChange} 
                                   type="checkbox" id="myCheckbox" 
                                   className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
@@ -882,15 +874,15 @@ export default function NewDiscount() {
                                       <IoImageOutline className='text-xl'/>
                                     </div>
                                     <div className="flex-col">
-                                      <h3 className="font-semibold">{item.name}</h3>
-                                      <p className="">{item.product} products</p>
+                                      <h3 className="font-semibold">{item.title}</h3>
+                                      <p className="">{item.products.length} products</p>
                                     </div>
                                   </div>
                                 </label>
                               </div>
                               
                             </div>
-                          ))}
+                          })}
                         </DialogBody>
                         <DialogFooter className="flex space-x-2 py-3">
                           <Button
@@ -1398,7 +1390,10 @@ export default function NewDiscount() {
 
                   <div className="flex-col space-y-2">
                     <h1 className="text-sm font-semibold">Summary</h1>
-                    <h1 className="text-sm font-semibold">No discount code yet</h1>
+                    { id 
+                      ? <h1 className="text-sm font-semibold">{discountCode}</h1>
+                      : <h1 className="text-sm font-semibold">No discount code yet</h1>
+                    }
                   </div>
                   <div className="flex-col space-y-2">
                     <h1 className="text-sm font-semibold">Type and method</h1>
