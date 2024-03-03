@@ -129,23 +129,38 @@ export default function NewDiscount() {
     setSelectedValue(event.target.value);
   };
 
-  useEffect(async() => {
+  useEffect(() => {
       
-    const newCollections = allCollections.filter((item)=>{
-      return item.name.toLowerCase().includes(searchCollection.toLowerCase());
+    const newCollections = allCollections?.filter((item)=>{
+      return item.title.toLowerCase().includes(searchCollection.toLowerCase());
     });
     
-    if (searchCollection === '') {
-
-      const res = await fetch(`/api/products/collections`);
-      const collection = await res.json();
-      console.log(collection);
-      setAllCollections(collection);
-    } else {
-      setAllCollections(newCollections);
-    }
+    setAllCollections(newCollections);
 
   }, [searchCollection])
+
+
+
+  useEffect(() => {
+
+    const fetchData = async () => {
+
+      if(appliesTo === 'Specefic Collections'){
+        const res = await fetch(`/api/products/collections`);
+        const collection = await res.json();
+        setAllCollections(collection);
+      }
+      else{
+        const res = await fetch(`/api/products?fields=title,status,variants,createdAt,updatedAt,vendor,category,media`);
+        const collection = await res.json();
+        setAllCollections(collection);
+      }
+
+    };
+    fetchData();
+
+  }, [appliesTo])
+  
 
 
   useEffect(() => {
@@ -165,7 +180,7 @@ export default function NewDiscount() {
 
     // Filter the data
     let data = allCollections.filter((item) => {
-      return item.name === selectedValue;
+      return item.title === selectedValue;
     });
 
     // Check if data is found
@@ -192,7 +207,7 @@ export default function NewDiscount() {
     if (data.length > 0) {
       newCountries.push(data[0]);
       setAddedCountries(newCountries);
-    } 
+    }
     else {
       console.log("Data not found");
     }
@@ -219,9 +234,6 @@ export default function NewDiscount() {
   else if(type === 'shipping'){
     label = 'Free shipping '
   }
-
-
-  
 
   const handleChange = (event) => {
     const { name, value, type, checked } = event.target;
@@ -320,8 +332,6 @@ export default function NewDiscount() {
     }
   };
   
-  
-
 
   return (
     <div className="w-full bg-gray-100 min-h-screen items-center flex flex-col">
@@ -451,7 +461,7 @@ export default function NewDiscount() {
                             </div>
                             <div className="flex-col">
                               <h3 className="font-semibold">{item.title}</h3>
-                              <p className="">{item.products.length}</p>
+                              <p className="">{item?.products?.length}</p>
                             </div>
                           </div>
                           <div>
@@ -473,10 +483,11 @@ export default function NewDiscount() {
                       }
                       size={size || "md"}
                       handler={handleOpen}
+                      className="overflow-y-scroll h-3/4"
                     >
                       <DialogHeader className="bg-gray-100 flex justify-between">
                         <div className="text-sm">
-                          Add collections
+                          {`${appliesTo ==='Specefic Collections' ? 'Add collection' : 'Add product'}`}
                         </div>
                         <div>
                           <IoCloseSharp onClick={() => handleOpen(null)} className='text-lg cursor-pointer'/>
@@ -490,10 +501,11 @@ export default function NewDiscount() {
                                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                             </svg>
                           </div>
-                          <input name="searchCollection" value={searchCollection} onChange={handleCollection} type="search" id="default-search" className="block w-full py-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search collections..." required />
+                          <input name="searchCollection" value={searchCollection} onChange={handleCollection} type="search" id="default-search" className="block w-full py-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder={`${appliesTo ==='Specefic Collections' ? 'Search collections...' : 'Search products...'}`} required />
                         </div>
 
                         {allCollections.map((item, index) => {
+
                           return <div key={index} className="flex justify-between items-center border-t border-b py-2 text-sm text-gray-700">
                             
                             <Radio
@@ -508,7 +520,7 @@ export default function NewDiscount() {
                                   </div>
                                   <div className="flex-col">
                                     <h3 className="font-semibold">{item.title}</h3>
-                                    <p className="">{item.products.length} products</p>
+                                    <p className="">{item.products ? item?.products?.length : item?.variants?.length} products</p>
                                   </div>
                                 </div>
                               }
@@ -623,8 +635,8 @@ export default function NewDiscount() {
                           </label>
                           
                           <select id="anyItemsFrom" className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                            <option value="speceficProducts" selected>Specefic products</option>
-                            <option value='speceficCollections'>Specefic collections</option>
+                            <option defaultValue="Specefic Products">Specefic products</option>
+                            <option value='Specefic Collections'>Specefic collections</option>
                           </select>
                         </div>
                         
@@ -639,7 +651,7 @@ export default function NewDiscount() {
                                   <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                               </svg>
                           </div>
-                          <input type="search" id="default-search" className="block w-full py-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search products..." required />
+                          <input type="search" id="default-search" className="block w-full py-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder={`${appliesTo ==='Specefic Collections' ? 'Search collections...' : 'Search products...'}`} required />
                         </div>
                         <button onClick={() => handleOpen("sm")} className="py-2 px-5 me-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-400 hover:bg-gray-100 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Browse</button>
                       </div>
@@ -676,10 +688,11 @@ export default function NewDiscount() {
                         }
                         size={size || "md"}
                         handler={handleOpen}
+                        className="overflow-y-scroll h-3/4"
                       >
                         <DialogHeader className="bg-gray-100 flex justify-between">
                           <div className="text-sm">
-                            Add products
+                            {`${appliesTo ==='Specefic Collections' ? 'Add collection' : 'Add product'}`}
                           </div>
                           <div>
                             <IoCloseSharp onClick={() => handleOpen(null)} className='text-lg cursor-pointer'/>
@@ -787,8 +800,8 @@ export default function NewDiscount() {
                           </label>
                           
                           <select id="anyItemsFrom" className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                            <option value="speceficProducts" selected>Specefic products</option>
-                            <option value='speceficCollections'>Specefic collections</option>
+                            <option defaultValue="Specefic Products">Specefic products</option>
+                            <option value='Specefic Collections'>Specefic collections</option>
                           </select>
                         </div>
                         

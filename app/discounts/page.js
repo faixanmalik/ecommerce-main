@@ -149,7 +149,7 @@ const DiscountsPage = () => {
       </Card>}
 
 
-      <MaterialCard className="">
+      {discounts.length != 0 &&  <MaterialCard className="">
 
         <div className="flex justify-between items-center py-2 px-2 md:px-5">
 
@@ -169,7 +169,6 @@ const DiscountsPage = () => {
               <TbArrowsSort className='text-lg md:text-xl font-semibold' />
             </div>
           </div>
-
 
         </div>
         <table className="w-full shadow-lg min-w-max table-auto text-left">
@@ -206,7 +205,7 @@ const DiscountsPage = () => {
                     className="flex-col font-normal text-xs"
                   >
                     <div className="font-bold text-sm">{item.discountCode}</div>
-                    <div className="font-semibold">{item.discountValue}% off {item.collections[0].name} - <span>{item.limitPerCustomer === true ? 'One use per customer' : ''}</span></div>
+                    <div className="font-semibold">{item.discountValue}% off {item.collections[0].title} - <span>{item.limitPerCustomer === true ? 'One use per customer' : ''}</span></div>
                   </Typography>
                 </td>
                 <td className={classes}>
@@ -266,7 +265,7 @@ const DiscountsPage = () => {
              <div key={index} className="px-5 py-5 w-full flex justify-between items-center">
                 <div className="">
                   <div className="font-bold text-sm">{item.discountCode} - ({item.used} used)</div>
-                  <div className="font-semibold text-xs">{item.discountValue}% off {item.collections[0].name} - <span>{item.limitPerCustomer === true ? 'One use per customer' : ''}</span></div>
+                  <div className="font-semibold text-xs">{item.discountValue}% off {item.collections[0].title} - <span>{item.limitPerCustomer === true ? 'One use per customer' : ''}</span></div>
                 </div>
                 <div>
                   <div className={`font-semibold px-2 py-1 rounded-lg text-center ${item.status === 'Active' ? 'bg-[#92cb32]' : 'bg-red-400'} text-xs`}>
@@ -279,7 +278,7 @@ const DiscountsPage = () => {
           </tbody>
         </table>
         
-      </MaterialCard>
+      </MaterialCard>}
 
       
 
