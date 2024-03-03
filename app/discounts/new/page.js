@@ -1,4 +1,5 @@
 "use client"
+
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Heading from "@/components/Heading";
@@ -22,15 +23,78 @@ import { AiOutlinePercentage } from "react-icons/ai";
 import { IoCloseSharp, IoImageOutline } from "react-icons/io5";
 import { FaRupeeSign } from "react-icons/fa6";
 import { useCountries } from "use-react-countries";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 export const dynamic = "force-dynamic"
 
 export default function NewDiscount() {
 
-  const searchParams = useSearchParams();
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const id = searchParams.get('id');
   const type = searchParams.get('type');
+
+
+
+  const [discountCode, setDiscountCode] = useState('');
+  const [discountValue, setDiscountValue] = useState('');
+  const [discountType, setDiscountType] = useState('Percentage')
+  const [appliesTo, setAppliesTo] = useState('Specefic Collections');
+
+  const [noMinimumRequirements, setNoMinimumRequirements] = useState(false);
+  const [minimumPurchaseAmount, setMinimumPurchaseAmount] = useState(false);
+  const [minimumQualityOfAmount, setMinimumQualityOfAmount] = useState(false);
+  const [allCustomers, setAllCustomers] = useState(false);
+  const [specificCustomerSegments, setSpecificCustomerSegments] = useState(false);
+  const [specificCustomers, setSpecificCustomers] = useState(false);
+  const [limitTimes, setLimitTimes] = useState(false);
+  const [limitPerCustomer, setLimitPerCustomer] = useState(false);
+  const [otherDiscount, setOtherDiscount] = useState(false);
+  const [shippingDiscount, setShippingDiscount] = useState(false);
+  const [productDiscount, setProductDiscount] = useState(false)
+
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+  const [startTime, setStartTime] = useState('');
+  const [endTime, setEndTime] = useState('');
+
+  useEffect(() => {
+
+    if(id){
+      const fetchDiscount = async () => {
+        const res = await fetch(`/api/discount?${id}`);
+        const discountData = await res.json();
+        console.log(discountData)
+
+
+        setDiscountCode(discountData.discountCode);
+        setCollections(discountData.collections);
+        setDiscountValue(discountData.discountValue);
+        setDiscountType(discountData.discountType);
+        setAppliesTo(discountData.appliesTo);
+
+        setNoMinimumRequirements(discountData.noMinimumRequirements);
+        setMinimumPurchaseAmount(discountData.minimumPurchaseAmount);
+        setMinimumQualityOfAmount(discountData.minimumQualityOfAmount);
+        setAllCustomers(discountData.allCustomers);
+        setSpecificCustomerSegments(discountData.specificCustomerSegments);
+        setSpecificCustomers(discountData.specificCustomers);
+        setLimitTimes(discountData.limitTimes);
+        setLimitPerCustomer(discountData.limitPerCustomer);
+        setOtherDiscount(discountData.otherDiscount);
+        setShippingDiscount(discountData.shippingDiscount);
+        setProductDiscount(discountData.productDiscount);
+
+        setStartDate(discountData.startDate);
+        setEndDate(discountData.endDate);
+        setStartTime(discountData.startTime);
+        setEndTime(discountData.endTime);
+      };
+      fetchDiscount();
+    }
+    
+  }, [id])
+  
 
   const { countries } = useCountries();
   const [open, setOpen] = React.useState(false);
@@ -164,40 +228,7 @@ export default function NewDiscount() {
   }
 
 
-
-
-
-
-
-
-
-
-
-
-
-  const [discountCode, setDiscountCode] = useState('');
-  const [discountValue, setDiscountValue] = useState('');
-  const [discountType, setDiscountType] = useState('Percentage')
-  const [appliesTo, setAppliesTo] = useState('Specefic Collections');
-
-
-  const [noMinimumRequirements, setNoMinimumRequirements] = useState(false);
-  const [minimumPurchaseAmount, setMinimumPurchaseAmount] = useState(false);
-  const [minimumQualityOfAmount, setMinimumQualityOfAmount] = useState(false);
-  const [allCustomers, setAllCustomers] = useState(false);
-  const [specificCustomerSegments, setSpecificCustomerSegments] = useState(false);
-  const [specificCustomers, setSpecificCustomers] = useState(false);
-  const [limitTimes, setLimitTimes] = useState(false);
-  const [limitPerCustomer, setLimitPerCustomer] = useState(false);
-  const [otherDiscount, setOtherDiscount] = useState(false);
-  const [shippingDiscount, setShippingDiscount] = useState(false);
-  const [productDiscount, setProductDiscount] = useState(false)
-
-
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
-  const [startTime, setStartTime] = useState('');
-  const [endTime, setEndTime] = useState('');
+  
 
   const handleChange = (event) => {
     const { name, value, type, checked } = event.target;
@@ -283,7 +314,6 @@ export default function NewDiscount() {
         },
         body: JSON.stringify(data),
       });
-      console.log(res)
 
       if (res.ok) {
         const response = await res.json();
@@ -293,7 +323,7 @@ export default function NewDiscount() {
         console.error('Failed to send data to API');
       }
     } catch (error) {
-        console.error('Error sending data to API:', error);
+      console.error('Error sending data to API:', error);
     }
   };
   
@@ -329,14 +359,15 @@ export default function NewDiscount() {
               <CardBody className="px-4">
 
                 <div className="flex-col">
-
-                  <label htmlFor="discountCode" className="block text-sm font-medium leading-6 text-gray-900">
-                    Method
-                  </label>
-                  <div className="mt-1">
-                    <button className="bg-gray-300 rounded-l-md border border-black py-2 text-xs px-3 font-medium lg:font-semibold text-black">Discount code</button>
-                    <button className="bg-white rounded-r-md border border-black py-2 text-xs px-3 font-medium lg:font-semibold text-black">Automatic discount</button>
-                  </div>
+                  {!id && <div>
+                    <label htmlFor="discountCode" className="block text-sm font-medium leading-6 text-gray-900">
+                      Method
+                    </label>
+                    <div className="mt-1">
+                      <button className="bg-gray-300 rounded-l-md border border-black py-2 text-xs px-3 font-medium lg:font-semibold text-black">Discount code</button>
+                      <button className="bg-white rounded-r-md border border-black py-2 text-xs px-3 font-medium lg:font-semibold text-black">Automatic discount</button>
+                    </div>
+                  </div>}
 
                   <div className="mt-4">
                     <div className="flex justify-between">
@@ -1163,17 +1194,17 @@ export default function NewDiscount() {
                   <div className="flex flex-col space-y-2">
 
                     <div className="flex space-x-2 items-center">
-                      <input defaultChecked type="checkbox" id="myCheckbox" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                      <input name="noMinimumRequirements" onChange={handleChange} checked={noMinimumRequirements} type="checkbox" id="noMinimumRequirements" defaultChecked className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
                       <label className="text-sm tracking-tight" htmlFor="myCheckbox">No minimum requirements</label>
                     </div>
 
                     <div className="flex space-x-2 items-center">
-                      <input type="checkbox" id="myCheckbox" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                      <input name="minimumPurchaseAmount" onChange={handleChange} checked={minimumPurchaseAmount} type="checkbox" id="minimumPurchaseAmount" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
                       <label className="text-sm tracking-tight" htmlFor="myCheckbox">Minimum purchase amount (Rs)</label>
                     </div>
 
                     <div className="flex space-x-2 items-center">
-                      <input type="checkbox" id="myCheckbox" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                      <input name="minimumQualityOfAmount" onChange={handleChange} checked={minimumQualityOfAmount} type="checkbox" id="minimumQualityOfAmount" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
                       <label className="text-sm tracking-tight" htmlFor="myCheckbox">Minimum quantity of items</label>
                     </div>
 
@@ -1224,12 +1255,12 @@ export default function NewDiscount() {
                   <div className="flex flex-col space-y-2">
 
                     <div className="flex space-x-2 items-center">
-                      <input value={limitTimes} name="limitTimes" onChange={handleChange} type="checkbox" id="myCheckbox" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                      <input checked={limitTimes} name="limitTimes" onChange={handleChange} type="checkbox" id="myCheckbox" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
                       <label className="text-sm tracking-tight" htmlFor="myCheckbox">Limit number of times this discount can be used in total</label>
                     </div>
 
                     <div className="flex space-x-2 items-center">
-                      <input value={limitPerCustomer} name="limitPerCustomer" onChange={handleChange} type="checkbox" id="myCheckbox" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                      <input checked={limitPerCustomer} name="limitPerCustomer" onChange={handleChange} type="checkbox" id="myCheckbox" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
                       <label className="text-sm tracking-tight" htmlFor="myCheckbox">Limit to one use per customer</label>
                     </div>
                     
@@ -1249,17 +1280,17 @@ export default function NewDiscount() {
                   <div className="flex pt-3 flex-col space-y-2">
 
                     <div className="flex space-x-2 items-center">
-                      <input name="productDiscount" value={productDiscount} onChange={handleChange} defaultChecked type="checkbox" id="myCheckbox" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                      <input name="productDiscount" checked={productDiscount} onChange={handleChange} defaultChecked type="checkbox" id="myCheckbox" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
                       <label className="text-sm tracking-tight" htmlFor="myCheckbox">Product discounts</label>
                     </div>
 
                     {type === 'buyXgetY' || type === 'moneyOffOrder' && <div className="flex space-x-2 items-center">
-                      <input name="otherDiscount" value={otherDiscount} onChange={handleChange} type="checkbox" id="myCheckbox" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                      <input name="otherDiscount" checked={otherDiscount} onChange={handleChange} type="checkbox" id="myCheckbox" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
                       <label className="text-sm tracking-tight" htmlFor="myCheckbox">Order discounts</label>
                     </div>}
 
                     <div className="flex space-x-2 items-center">
-                      <input name="shippingDiscount" value={shippingDiscount} onChange={handleChange} type="checkbox" id="myCheckbox" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                      <input name="shippingDiscount" checked={shippingDiscount} onChange={handleChange} type="checkbox" id="myCheckbox" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
                       <label className="text-sm tracking-tight" htmlFor="myCheckbox">Shipping discounts</label>
                     </div>
 

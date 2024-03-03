@@ -28,9 +28,11 @@ import { IoIosArrowForward } from "react-icons/io";
 import { FaPlus } from "react-icons/fa";
 import { CgSortAz } from "react-icons/cg";
 import { BiSortAlt2 } from "react-icons/bi";
+import { useRouter } from "next/navigation";
 
 const DiscountsPage = () => {
 
+  const router = useRouter();
   const [open, setOpen] = React.useState(false);
   const [size, setSize] = React.useState(null);
   const handleOpen = (value) => setSize(value);
@@ -114,6 +116,12 @@ const DiscountsPage = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+
+  const openDiscount = (id, type) => {
+    console.log('function',  id, type)
+    router.push(`discounts/new?id=${id}&type=${type}`)
+  }
+
   return (
     <div className="p-5">
       <div className="flex justify-between items-center">
@@ -183,13 +191,14 @@ const DiscountsPage = () => {
               ))}
             </tr>) : ''}
           </thead>
-          <tbody >
+          <tbody>
           {discounts.map((item, index) => {
+
             const isLast = index === discounts.length - 1;
             const classes = isLast ? "p-3" : "p-3 border-b border-blue-gray-50";
 
             return isMediumScreen ? (
-              <tr key={index} className="col">
+              <tr onClick={()=> openDiscount(item._id, item.type)} key={index} className="col cursor-pointer">
                 <td className={classes}>
                   <Typography
                     variant="small"
