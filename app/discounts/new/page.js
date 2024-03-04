@@ -53,7 +53,8 @@ export default function NewDiscount() {
   const [specificCustomers, setSpecificCustomers] = useState([]);
 
   const [limitTimes, setLimitTimes] = useState(false);
-  const [limitPerCustomer, setLimitPerCustomer] = useState(false);
+  const [limitTimeschq, setLimitTimeschq] = useState(false);
+  const [limitPerCustomer, setLimitPerCustomer] = useState('');
   const [otherDiscount, setOtherDiscount] = useState(false);
   const [shippingDiscount, setShippingDiscount] = useState(false);
   const [productDiscount, setProductDiscount] = useState(false)
@@ -89,6 +90,7 @@ export default function NewDiscount() {
         setSpecificCustomers(discountData.specificCustomers);
 
         setLimitTimes(discountData.limitTimes);
+        setLimitTimeschq(discountData.limitTimeschq);
         setLimitPerCustomer(discountData.limitPerCustomer);
         setOtherDiscount(discountData.otherDiscount);
         setShippingDiscount(discountData.shippingDiscount);
@@ -366,8 +368,11 @@ export default function NewDiscount() {
       case 'limitTimes':
         setLimitTimes(checked);
         break;
+      case 'limitTimeschq':
+        setLimitTimeschq(checked);
+        break;
       case 'limitPerCustomer':
-        setLimitPerCustomer(checked);
+        setLimitPerCustomer(value);
         break;
       case 'otherDiscount':
         setOtherDiscount(checked);
@@ -1032,8 +1037,6 @@ export default function NewDiscount() {
                         <label className="text-sm tracking-tight" htmlFor="myCheckbox">Specific customers</label>
                       </div>
                       {specificCustomerschq === true && <div className="flex-col space-y-1">
-                        
-
                         <div className="flex space-x-3 items-center mt-3">
                           <div className="relative w-full">
                             <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
@@ -1085,14 +1088,25 @@ export default function NewDiscount() {
                   <div className="flex flex-col space-y-2">
 
                     <div className="flex space-x-2 items-center">
-                      <input checked={limitTimes} name="limitTimes" onChange={handleChange} type="checkbox" id="myCheckbox" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                      <input checked={limitTimeschq} name="limitTimeschq" onChange={handleChange} type="checkbox" id="myCheckbox" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
                       <label className="text-sm tracking-tight" htmlFor="myCheckbox">Limit number of times this discount can be used in total</label>
                     </div>
+                    {limitTimeschq === true && <div className="flex-col space-y-1 ml-3 md:ml-7">
+                      <input
+                        type="number"
+                        name="limitTimes"
+                        value={limitTimes}
+                        onChange={handleChange}
+                        id="limitTimes"
+                        className="block w-1/3 rounded-md border-0 py-1.5 px-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      />
+                    </div>}
 
                     <div className="flex space-x-2 items-center">
                       <input checked={limitPerCustomer} name="limitPerCustomer" onChange={handleChange} type="checkbox" id="myCheckbox" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
                       <label className="text-sm tracking-tight" htmlFor="myCheckbox">Limit to one use per customer</label>
                     </div>
+                    
                     
                   </div>
 
