@@ -336,7 +336,7 @@ export default function NewDiscount() {
   return (
     <div className="w-full bg-gray-100 min-h-screen items-center flex flex-col">
       <div className="flex-col max-w-5xl w-full flex gap-6 md:px-8 py-8">
-        
+
         <div className="flex gap-3 items-center">
           <Link
             href="/products"
@@ -707,7 +707,7 @@ export default function NewDiscount() {
                                   <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                               </svg>
                             </div>
-                            <input name="searchCollection" value={searchCollection} onChange={handleCollection} type="search" id="default-search" className="block w-full py-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search collections..." required />
+                            <input name="searchCollection" value={searchCollection} onChange={handleCollection} type="search" id="default-search" className="block w-full py-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder={`${appliesTo ==='Specefic Collections' ? 'Search collections...' : 'Search products...'}`} required />
                           </div>
 
                           {allCollections.map((item, index) => (
@@ -768,7 +768,7 @@ export default function NewDiscount() {
                   <div className="flex-col space-y-2 pt-5">
 
                     <div className="flex space-x-2 items-center">
-                      <input type="checkbox" id="myCheckbox" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                      <input checked type="checkbox" id="myCheckbox" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
                       <label className="text-sm" htmlFor="myCheckbox">Minimum quantity of items</label>
                     </div>
 

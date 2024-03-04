@@ -123,10 +123,10 @@ const DiscountsPage = () => {
   }
 
   return (
-    <div className="p-5">
-      <div className="flex justify-between items-center">
+    <div className="py-5">
+      <div className="flex px-1 md:px-5 mb-5 justify-between items-center">
         <Heading>Discounts</Heading>
-        <div className="flex justify-center items-center gap-2 mb-5">
+        <div className="flex justify-center items-center gap-2">
           <OutlinedButton>Export</OutlinedButton>
           <FilledButton className="py-[5px]" onClick={() => handleOpen("sm")}>Create Discount</FilledButton>
         </div>
@@ -149,13 +149,13 @@ const DiscountsPage = () => {
       </Card>}
 
 
-      {discounts.length != 0 &&  <MaterialCard className="">
+      {discounts.length != 0 &&  <MaterialCard className="px-1 w-full">
 
-        <div className="flex justify-between items-center py-2 px-2 md:px-5">
+        <div className="flex justify-between items-center py-2 px-0 md:px-5">
 
-          <div className="flex items-center md:space-x-2">
+          <div className="flex items-center space-x-1 md:space-x-4">
             {tableButtons.map((item, index)=>{
-              return <button key={index} onClick={()=>setButtonIndex(index)} className={`font-semibold text-xs md:text-sm px-2 py-1 ${buttonIndex === index ? 'bg-gray-200 rounded-md' : ''}`}>{item.name}</button>
+              return <button key={index} onClick={()=>setButtonIndex(index)} className={`font-semibold text-xs md:text-sm px-1 py-1 ${buttonIndex === index ? 'bg-gray-200 rounded-md' : ''}`}>{item.name}</button>
             })}
             <FaPlus className='text-xs md:text-sm'/>
           </div>
@@ -262,16 +262,16 @@ const DiscountsPage = () => {
                 </td>
               </tr>
             ) : (
-             <div key={index} className="px-5 py-5 w-full flex justify-between items-center">
+             <div key={index} className="px-1 md:px-5 py-4 md:py-5 w-full flex justify-between items-center">
                 <div className="">
                   <div className="font-bold text-sm">{item.discountCode} - ({item.used} used)</div>
                   <div className="font-semibold text-xs">{item.discountValue}% off {item.collections[0].title} - <span>{item.limitPerCustomer === true ? 'One use per customer' : ''}</span></div>
                 </div>
-                <div>
+                {/* <div>
                   <div className={`font-semibold px-2 py-1 rounded-lg text-center ${item.status === 'Active' ? 'bg-[#92cb32]' : 'bg-red-400'} text-xs`}>
                     {item.status}
                   </div>
-                </div>
+                </div> */}
              </div>
             );
           })}
