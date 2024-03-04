@@ -151,7 +151,7 @@ const DiscountsPage = () => {
 
       {discounts.length != 0 &&  <MaterialCard className="px-1 w-full">
 
-        <div className="flex justify-between items-center py-2 px-0 md:px-5">
+        <div className="flex justify-between items-center py-2 px-0 md:px-2">
 
           <div className="flex items-center space-x-1 md:space-x-4">
             {tableButtons.map((item, index)=>{
