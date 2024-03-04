@@ -106,12 +106,6 @@ export default function NewDiscount() {
   
 
   const { countries } = useCountries();
-  const [open, setOpen] = React.useState(false);
-  const [size, setSize] = React.useState(null);
-
-  const handleOpen = (value) => setSize(value);
-  const handleOpenCustomer = (value) => setSize(value);
-
   const handleOpenCountry = (value) => setSize(value);
 
 
@@ -708,84 +702,6 @@ export default function NewDiscount() {
                         ))}
                       </div>
 
-                      {/* <Dialog
-                        open={
-                          size === "xs" ||
-                          size === "sm" ||
-                          size === "md" ||
-                          size === "lg" ||
-                          size === "xl" ||
-                          size === "xxl"
-                        }
-                        size={size || "md"}
-                        handler={handleOpen}
-                        className="overflow-y-scroll h-3/4"
-                      >
-                        <DialogHeader className="bg-gray-100 flex justify-between">
-                          <div className="text-sm">
-                            {`${appliesTo ==='Specific Collections' ? 'Add collection' : 'Add product'}`}
-                          </div>
-                          <div>
-                            <IoCloseSharp onClick={() => handleOpen(null)} className='text-lg cursor-pointer'/>
-                          </div>
-                        </DialogHeader>
-                        <DialogBody className="py-0">
-
-                          <div className="relative w-full py-3 ">
-                            <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                              <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                                  <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-                              </svg>
-                            </div>
-                            <input name="searchCollection" value={searchCollection} onChange={handleSearch} type="search" id="default-search" className="block w-full py-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder={`${appliesTo ==='Specific Collections' ? 'Search collections...' : 'Search products...'}`} required />
-                          </div>
-
-                          {dbCollections.map((item, index) => (
-                            <div key={index} className="flex justify-between items-center border-t border-b py-2 text-sm text-gray-700">
-
-                              <div className="flex space-x-2 items-center">
-                                <input 
-                                  checked={selectedValue === item.title}
-                                  value={item.title}
-                                  onChange={handleRadioChange} 
-                                  type="checkbox" id="myCheckbox" 
-                                  className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
-                                <label className="text-sm" htmlFor="myCheckbox">
-                                  <div className="flex space-x-3">
-                                    <div className="border border-gray-300 rounded-md items-center my-auto p-2">
-                                      <IoImageOutline className='text-xl'/>
-                                    </div>
-                                    <div className="flex-col">
-                                      <h3 className="font-semibold">{item.title}</h3>
-                                      <p className="">{item.products.length} products</p>
-                                    </div>
-                                  </div>
-                                </label>
-                              </div>
-                              
-                            </div>
-                          ))}
-                        </DialogBody>
-                        <DialogFooter className="flex space-x-2 py-3">
-                          <Button
-                            variant="text"
-                            color="gray"
-                            onClick={() => handleOpen(null)}
-                            className="mr-1 border shadow-md border-gray-600 py-1 px-2"
-                          >
-                            <span className="text-gray-700">Cancel</span>
-                          </Button>
-                          <Button
-                            variant="text"
-                            color="gray"
-                            onClick={(e) => addCollection(e)}
-                            className="mr-1 border bg-gray-300 shadow-md border-gray-500 py-1 px-4"
-                          >
-                            <span className="text-gray-700">Add</span>
-                          </Button>
-                        </DialogFooter>
-                      </Dialog> */}
-
                     </div>
                   </div>
 
@@ -847,7 +763,7 @@ export default function NewDiscount() {
                           </div>
                           <input type="search" id="default-search" className="block w-full py-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search products..." required />
                         </div>
-                        <button onClick={() => handleOpen("sm")} className="py-2 px-5 me-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-400 hover:bg-gray-100 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Browse</button>
+                        <button onClick={() => setOpenCollectionModal(true)} className="py-2 px-5 me-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-400 hover:bg-gray-100 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Browse</button>
                       </div>
 
                       <div className="mt-2">
@@ -870,84 +786,6 @@ export default function NewDiscount() {
                           </div>
                         ))}
                       </div>
-
-                      {/* <Dialog
-                        open={
-                          size === "xs" ||
-                          size === "sm" ||
-                          size === "md" ||
-                          size === "lg" ||
-                          size === "xl" ||
-                          size === "xxl"
-                        }
-                        size={size || "md"}
-                        handler={handleOpen}
-                      >
-                        <DialogHeader className="bg-gray-100 flex justify-between">
-                          <div className="text-sm">
-                            Add products
-                          </div>
-                          <div>
-                            <IoCloseSharp onClick={() => handleOpen(null)} className='text-lg cursor-pointer'/>
-                          </div>
-                        </DialogHeader>
-                        <DialogBody className="py-0">
-
-                          <div className="relative w-full py-3 ">
-                            <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                              <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                                  <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-                              </svg>
-                            </div>
-                            <input name="searchCollection" value={searchCollection} onChange={handleCollection} type="search" id="default-search" className="block w-full py-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search collections..." required />
-                          </div>
-
-                          {dbCollections.map((item, index) => {
-                            return <div key={index} className="flex justify-between items-center border-t border-b py-2 text-sm text-gray-700">
-
-                              <div className="flex space-x-2 items-center">
-                                <input 
-                                  checked={selectedValue === item.title}
-                                  value={item.title}
-                                  onChange={handleRadioChange}
-                                  type="checkbox" id="myCheckbox" 
-                                  className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
-                                <label className="text-sm" htmlFor="myCheckbox">
-                                  <div className="flex space-x-3">
-                                    <div className="border border-gray-300 rounded-md items-center my-auto p-2">
-                                      <IoImageOutline className='text-xl'/>
-                                    </div>
-                                    <div className="flex-col">
-                                      <h3 className="font-semibold">{item.title}</h3>
-                                      <p className="">{item.products.length} products</p>
-                                    </div>
-                                  </div>
-                                </label>
-                              </div>
-                              
-                            </div>
-                          })}
-                        </DialogBody>
-                        <DialogFooter className="flex space-x-2 py-3">
-                          <Button
-                            variant="text"
-                            color="gray"
-                            onClick={() => handleOpen(null)}
-                            className="mr-1 border shadow-md border-gray-600 py-1 px-2"
-                          >
-                            <span className="text-gray-700">Cancel</span>
-                          </Button>
-                          <Button
-                            variant="text"
-                            color="gray"
-                            onClick={(e) => addCollection(e)}
-                            className="mr-1 border bg-gray-300 shadow-md border-gray-500 py-1 px-4"
-                          >
-                            <span className="text-gray-700">Add</span>
-                          </Button>
-                        </DialogFooter>
-                      </Dialog> */}
-
                     </div>
                   </div>
 
@@ -1133,86 +971,6 @@ export default function NewDiscount() {
                         ))}
                       </div>
 
-                      {/* <Dialog
-                        open={
-                          size === "xs" ||
-                          size === "sm" ||
-                          size === "md" ||
-                          size === "lg" ||
-                          size === "xl" ||
-                          size === "xxl"
-                        }
-                        size={size || "md"}
-                        handler={handleOpenCountry}
-                      >
-                        <DialogHeader className="bg-gray-100 flex justify-between">
-                          <div className="text-sm">
-                            Add countries
-                          </div>
-                          <div>
-                            <IoCloseSharp onClick={() => handleOpenCountry(null)} className='text-lg cursor-pointer'/>
-                          </div>
-                        </DialogHeader>
-                        <DialogBody className="py-0">
-
-                          <div className="relative w-full py-3 ">
-                            <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                              <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                                  <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-                              </svg>
-                            </div>
-                            <input name="searchCountries" value={searchCountries} onChange={handleSearch} type="search" id="default-search" className="block w-full py-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search countries..." required />
-                          </div>
-
-                          {filteredCountries.map(({ name, flags, index }) => (
-                            <div key={index} className="flex justify-between items-center border-t border-b py-2 text-sm text-gray-700">
-
-                              <div className="flex space-x-2 items-center">
-                                <input 
-                                  checked={selectedValue === name}
-                                  value={name}
-                                  onChange={handleRadioChange}
-                                  type="checkbox" id="myCheckbox" 
-                                  className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
-                                <label className="text-sm" htmlFor="myCheckbox">
-                                  <div className="flex space-x-3">
-                                    <div className="border border-gray-300 rounded-md items-center my-auto p-1">
-                                      <img
-                                        src={flags.svg}
-                                        alt={name}
-                                        className="h-5 w-5"
-                                      />
-                                    </div>
-                                    <div className="flex-col">
-                                      <h3 className="font-semibold">{name}</h3>
-                                    </div>
-                                  </div>
-                                </label>
-                              </div>
-                              
-                            </div>
-                          ))}
-                        </DialogBody>
-                        <DialogFooter className="flex space-x-2 py-3">
-                          <Button
-                            variant="text"
-                            color="gray"
-                            onClick={() => handleOpenCountry(null)}
-                            className="mr-1 border shadow-md border-gray-600 py-1 px-2"
-                          >
-                            <span className="text-gray-700">Cancel</span>
-                          </Button>
-                          <Button
-                            variant="text"
-                            color="gray"
-                            onClick={(e) => addCountry(e)}
-                            className="mr-1 border bg-gray-300 shadow-md border-gray-500 py-1 px-4"
-                          >
-                            <span className="text-gray-700">Add</span>
-                          </Button>
-                        </DialogFooter>
-                      </Dialog> */}
-
                     </div>
                   </div>
 
@@ -1307,81 +1065,6 @@ export default function NewDiscount() {
                             </div>
                           })}
                         </div>
-
-                        {/* <Dialog
-                          open={
-                            size === "xs" ||
-                            size === "sm" ||
-                            size === "md" ||
-                            size === "lg" ||
-                            size === "xl" ||
-                            size === "xxl"
-                          }
-                          size={size || "md"}
-                          handler={handleOpenCustomer}
-                          className="overflow-y-scroll h-3/4"
-                        >
-                          <DialogHeader className="bg-gray-100 flex justify-between">
-                            <div className="text-sm">Add Customers</div>
-                            <IoCloseSharp onClick={() => handleOpenCustomer(null)} className='text-lg cursor-pointer'/>
-                            
-                          </DialogHeader>
-                          <DialogBody className="py-0">
-
-                            <div className="relative w-full py-3 ">
-                              <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                                <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                                  <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-                                </svg>
-                              </div>
-                              <input name="searchCustomer" value={searchCustomer} onChange={handleCustomer} type="search" id="default-search" className="block w-full py-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder='Search Customer' required />
-                            </div>
-
-                            {dbCustomers.map((item, index) => {
-
-                              return <div key={index} className="flex space-x-2 items-center border-t border-b py-2 text-sm text-gray-700">
-                                
-                                <Radio
-                                  name="terms"
-                                  checked={selectedValue === item.email}
-                                  value={item.email}
-                                  onChange={handleRadioChange}
-                                  label={
-                                    <div className="flex space-x-3">
-                                      <div className="border border-gray-300 rounded-md items-center my-auto p-2">
-                                        <IoImageOutline className='text-xl'/>
-                                      </div>
-                                      <div className="flex-col">
-                                        <h3 className="font-semibold">{item.firstName + '' + item.lastName}</h3>
-                                        <p className="">{item.email}</p>
-                                      </div>
-                                    </div>
-                                  }
-                                />
-                                
-                              </div>
-                            })}
-                          </DialogBody>
-                          <DialogFooter className="flex space-x-2 py-3">
-                            <Button
-                              variant="text"
-                              color="gray"
-                              onClick={() => handleOpen(null)}
-                              className="mr-1 border shadow-md border-gray-600 py-1 px-2"
-                            >
-                              <span className="text-gray-700">Cancel</span>
-                            </Button>
-                            <Button
-                              variant="text"
-                              color="gray"
-                              onClick={(e) => { addCustomer(e) , handleOpen(null) }}
-                              className="mr-1 border bg-gray-300 shadow-md border-gray-500 py-1 px-4"
-                            >
-                              <span className="text-gray-700">Add</span>
-                            </Button>
-                          </DialogFooter>
-                        </Dialog> */}
-
 
                       </div>}
                     </div>
