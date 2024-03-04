@@ -336,7 +336,8 @@ export default function NewDiscount() {
   return (
     <div className="w-full bg-gray-100 min-h-screen items-center flex flex-col">
       <div className="flex-col max-w-5xl w-full flex gap-6 md:px-8 py-8">
-        <div className="flex gap-3 items-center ">
+        
+        <div className="flex gap-3 items-center">
           <Link
             href="/products"
             className="p-1 rounded-md hover:bg-black/10 transition-all"
@@ -1189,7 +1190,6 @@ export default function NewDiscount() {
               </CardBody>
             </Card>}
 
-
             {type === 'shipping' && <Card className="w-full flex-col">
               <CardBody className="px-4">
                 <div className="flex-col space-y-3">
@@ -1219,7 +1219,6 @@ export default function NewDiscount() {
                 </div>
               </CardBody>
             </Card>}
-
 
             <Card className="w-full flex-col">
               <CardBody className="px-4">
@@ -1390,7 +1389,6 @@ export default function NewDiscount() {
 
               </CardBody>
             </Card>
-           
 
           </div>
           <div className="w-full lg:w-1/3 flex-col space-y-5">

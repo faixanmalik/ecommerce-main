@@ -153,7 +153,7 @@ const DiscountsPage = () => {
 
         <div className="flex justify-between items-center py-2 px-2 md:px-5">
 
-          <div className="flex md:space-x-2">
+          <div className="flex items-center md:space-x-2">
             {tableButtons.map((item, index)=>{
               return <button key={index} onClick={()=>setButtonIndex(index)} className={`font-semibold text-xs md:text-sm px-2 py-1 ${buttonIndex === index ? 'bg-gray-200 rounded-md' : ''}`}>{item.name}</button>
             })}
@@ -292,7 +292,8 @@ const DiscountsPage = () => {
           size === "xl" ||
           size === "xxl"
         }
-        size={size || "md"}
+        size={ isMediumScreen === false ? 'xxl' : "sm"}
+        className=""
         handler={handleOpen}
       >
         <DialogHeader className="bg-gray-100 flex justify-between">
@@ -303,20 +304,22 @@ const DiscountsPage = () => {
             <IoCloseSharp onClick={() => handleOpen(null)} className='text-lg cursor-pointer'/>
           </div>
         </DialogHeader>
-        <DialogBody className="py-0">
+        <DialogBody className="">
           {discountData.map((item, index) => (
-            <Link href={item.link} onClick={()=> handleOpen(null)} key={index} className="flex justify-between items-center border-b-2 my-4 text-sm text-gray-700">
-              <div className="">
-                <h3 className="font-semibold">{item.name}</h3>
-                <p className="py-1">{item.desc}</p>
-              </div>
-              <div className="flex">
-                <div className="flex space-x-1 bg-gray-300 rounded-lg px-3 text-gray-800">
-                  <item.icon className='text-lg'/>
-                  <p>{item.label}</p>
+            <Link href={item.link} onClick={()=> handleOpen(null)} key={index} className="items-center my-4 text-sm text-gray-700">
+              <div className={` ${isMediumScreen === false ?'flex-col' : 'flex'} justify-between items-center py-3 w-full border-b-2`}>
+                <div className="">
+                  <h3 className="font-semibold">{item.name}</h3>
+                  <p className="py-1">{item.desc}</p>
                 </div>
-                <div>
-                  <IoIosArrowForward className='text-lg ml-2 text-gray-600'/>
+                <div className="flex items-center">
+                  <div className="flex py-2 space-x-1 bg-gray-300 rounded-lg px-3 text-gray-800">
+                    <item.icon className='text-lg'/>
+                    <p>{item.label}</p>
+                  </div>
+                  <div>
+                    <IoIosArrowForward className='text-lg ml-2 text-gray-600'/>
+                  </div>
                 </div>
               </div>
             </Link>
