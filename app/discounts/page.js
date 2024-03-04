@@ -123,8 +123,8 @@ const DiscountsPage = () => {
   }
 
   return (
-    <div className="py-5">
-      <div className="flex px-1 md:px-5 mb-5 justify-between items-center">
+    <div className="py-5 md:px-5">
+      <div className="flex px-1 mb-5 justify-between items-center">
         <Heading>Discounts</Heading>
         <div className="flex justify-center items-center gap-2">
           <OutlinedButton>Export</OutlinedButton>
@@ -149,7 +149,7 @@ const DiscountsPage = () => {
       </Card>}
 
 
-      {discounts.length != 0 &&  <MaterialCard className="px-1 w-full">
+      {discounts.length != 0 &&  <MaterialCard className="w-full">
 
         <div className="flex justify-between items-center py-2 px-0 md:px-2">
 
@@ -177,7 +177,7 @@ const DiscountsPage = () => {
               {TABLE_HEAD.map((head, index) => (
                 <th
                   key={index}
-                  className="bg-[#f1f1f1] border-b border-t border-blue-gray-100 p-2 py-3 "
+                  className="bg-[#f7f7f7] border-b border-t border-blue-gray-100 p-2 py-3"
                 >
                   <Typography
                     variant="small"
@@ -212,7 +212,7 @@ const DiscountsPage = () => {
                   <Typography
                     variant="small"
                     color="blue-gray"
-                    className={`font-semibold py-1 rounded-lg text-center ${item.status === 'Active' ? 'bg-[#92cb32]' : 'bg-red-400'} text-xs`}
+                    className={`font-semibold py-1 rounded-lg text-center ${item.status === 'Active' ? 'bg-[#b4fed2]' : 'bg-red-400'} text-xs`}
                   >
                     {item.status}
                   </Typography>
