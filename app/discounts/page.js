@@ -313,7 +313,7 @@ const DiscountsPage = () => {
                   <p className="py-1">{item.desc}</p>
                 </div>
                 <div className="flex items-center">
-                  <div className="flex py-2 space-x-1 bg-gray-300 rounded-lg px-3 text-gray-800">
+                  <div className="flex py-1 space-x-1 bg-gray-300 rounded-lg px-3 text-gray-800">
                     <item.icon className='text-lg'/>
                     <p>{item.label}</p>
                   </div>
