@@ -1,6 +1,7 @@
 "use client"
 
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useRef, useState } from "react";
+import { Dialog, Transition } from '@headlessui/react'
 import Link from "next/link";
 import Heading from "@/components/Heading";
 import { IoIosArrowRoundBack, IoMdTime } from "react-icons/io";
@@ -13,10 +14,6 @@ import {
   Button,
   Input,
   Radio,
-  Dialog,
-  DialogHeader,
-  DialogBody,
-  DialogFooter,
 } from "@material-tailwind/react";
 import { AiOutlinePercentage } from "react-icons/ai";
 
@@ -39,14 +36,22 @@ export default function NewDiscount() {
   const [discountCode, setDiscountCode] = useState('');
   const [discountValue, setDiscountValue] = useState('');
   const [discountType, setDiscountType] = useState('Percentage')
-  const [appliesTo, setAppliesTo] = useState('Specefic Collections');
+  const [appliesTo, setAppliesTo] = useState('Specific Collections');
 
   const [noMinimumRequirements, setNoMinimumRequirements] = useState(false);
-  const [minimumPurchaseAmount, setMinimumPurchaseAmount] = useState(false);
-  const [minimumQualityOfAmount, setMinimumQualityOfAmount] = useState(false);
+
+  const [minimumPurchasechqbox, setMinimumPurchasechqbox] = useState(false);
+  const [minimumPurchaseAmount, setMinimumPurchaseAmount] = useState('');
+
+  const [minimumQuantitychqbox, setMinimumQuantitychqbox] = useState(false);
+  const [minimumQuantityOfAmount, setMinimumQuantityOfAmount] = useState('');
+
   const [allCustomers, setAllCustomers] = useState(false);
   const [specificCustomerSegments, setSpecificCustomerSegments] = useState(false);
-  const [specificCustomers, setSpecificCustomers] = useState(false);
+
+  const [specificCustomerschq, setSpecificCustomerschq] = useState(false);
+  const [specificCustomers, setSpecificCustomers] = useState([]);
+
   const [limitTimes, setLimitTimes] = useState(false);
   const [limitPerCustomer, setLimitPerCustomer] = useState(false);
   const [otherDiscount, setOtherDiscount] = useState(false);
@@ -73,11 +78,16 @@ export default function NewDiscount() {
         setAppliesTo(discountData.appliesTo);
 
         setNoMinimumRequirements(discountData.noMinimumRequirements);
+        setMinimumPurchasechqbox(discountData.minimumPurchasechqbox);
         setMinimumPurchaseAmount(discountData.minimumPurchaseAmount);
-        setMinimumQualityOfAmount(discountData.minimumQualityOfAmount);
+        setMinimumQuantityOfAmount(discountData.minimumQuantityOfAmount);
+        setMinimumQuantitychqbox(discountData.minimumQuantitychqbox);
         setAllCustomers(discountData.allCustomers);
         setSpecificCustomerSegments(discountData.specificCustomerSegments);
+
+        setSpecificCustomerschq(discountData.specificCustomerschq);
         setSpecificCustomers(discountData.specificCustomers);
+
         setLimitTimes(discountData.limitTimes);
         setLimitPerCustomer(discountData.limitPerCustomer);
         setOtherDiscount(discountData.otherDiscount);
@@ -98,46 +108,78 @@ export default function NewDiscount() {
   const { countries } = useCountries();
   const [open, setOpen] = React.useState(false);
   const [size, setSize] = React.useState(null);
+
   const handleOpen = (value) => setSize(value);
+  const handleOpenCustomer = (value) => setSize(value);
+
   const handleOpenCountry = (value) => setSize(value);
 
 
+  const [searchCollection, setSearchCollection] = useState('')
   const [collections, setCollections] = useState([])
-  const [allCollections, setAllCollections] = useState([])
+  const [dbCollections, setDbCollections] = useState([])
+
+  const [searchProduct, setSearchProduct] = useState('')
+  const [products, setProducts] = useState([])
+  const [dbProducts, setDbProducts] = useState([])
   
+  
+  const [searchCustomer, setSearchCustomer] = useState('')
+  const [customers, setCustomers] = useState([])
+  const [dbCustomers, setDbCustomers] = useState([])
+
+
+
+
+
+
+
+  
+  const [searchCountries, setSearchCountries] = useState('')
   const [addedCountries, setAddedCountries] = useState([])
   const [filteredCountries, setFilteredCountries] = useState(countries)
+  
 
-  const [searchCollection, setSearchCollection] = useState('')
-  const [searchCountries, setSearchCountries] = useState('')
-
-  const handleCollection = (e)=>{
+  const handleSearch = (e)=>{
     if(e.target.name === 'searchCollection'){
       setSearchCollection(e.target.value)
     }
-  }
-
-  const handleCountry = (e)=>{
-
-    if(e.target.name === 'searchCountries'){
+    else if(e.target.name === 'searchProduct'){
+      setSearchProduct(e.target.value)
+    }
+    else if(e.target.name === 'searchCustomer'){
+      setSearchCustomer(e.target.value)
+    }
+    else if(e.target.name === 'searchCountries'){
       setSearchCountries(e.target.value)
     }
   }
+  
 
   const [selectedValue, setSelectedValue] = useState('');
   const handleRadioChange = (event) => {
     setSelectedValue(event.target.value);
   };
+  
 
   useEffect(() => {
       
-    const newCollections = allCollections?.filter((item)=>{
+    const newCollections = dbCollections?.filter((item)=>{
       return item.title.toLowerCase().includes(searchCollection.toLowerCase());
     });
-    
-    setAllCollections(newCollections);
+    setDbCollections(newCollections);
 
-  }, [searchCollection])
+    const newProducts = dbProducts?.filter((item)=>{
+      return item.title.toLowerCase().includes(searchProduct.toLowerCase());
+    });
+    setDbProducts(newProducts);
+
+    const newCustomers = dbCustomers?.filter((item)=>{
+      return item.email.toLowerCase().includes(searchCustomer.toLowerCase());
+    });
+    setDbCustomers(newCustomers);
+
+  }, [searchCollection, searchProduct, searchCustomer])
 
 
 
@@ -145,21 +187,25 @@ export default function NewDiscount() {
 
     const fetchData = async () => {
 
-      if(appliesTo === 'Specefic Collections'){
-        const res = await fetch(`/api/products/collections`);
-        const collection = await res.json();
-        setAllCollections(collection);
-      }
-      else{
-        const res = await fetch(`/api/products?fields=title,status,variants,createdAt,updatedAt,vendor,category,media`);
-        const collection = await res.json();
-        setAllCollections(collection);
-      }
+      
+      const collectionRes = await fetch(`/api/products/collections`);
+      const dbcollections = await collectionRes.json();
+      setDbCollections(dbcollections);
+      
+      
+      const productsRes = await fetch(`/api/products?fields=title,status,variants,createdAt,updatedAt,vendor,category,media`);
+      const dbProducts = await productsRes.json();
+      setDbProducts(dbProducts);
+      
+
+      const customerRes = await fetch(`/api/customers`);
+      const dbCustomers = await customerRes.json();
+      setDbCustomers(dbCustomers);
 
     };
     fetchData();
 
-  }, [appliesTo])
+  }, [])
   
 
 
@@ -179,19 +225,61 @@ export default function NewDiscount() {
     const newCollections = [...collections];
 
     // Filter the data
-    let data = allCollections.filter((item) => {
+    let data = dbCollections.filter((item) => {
       return item.title === selectedValue;
     });
 
     // Check if data is found
     if (data.length > 0) {
-        // Push the first item of the filtered array
-        newCollections.push(data[0]);
+      // Push the first item of the filtered array
+      newCollections.push(data[0]);
 
-        // Set the updated collections state
-        setCollections(newCollections);
+      // Set the updated collections state
+      setCollections(newCollections);
+      setOpenCollectionModal(false);
     } else {
-        console.log("Data not found");
+      console.log("Data not found");
+    }
+  }
+
+  const addProduct = (e) => {
+    e.preventDefault();
+
+    const newProducts = [...products];
+
+    // Filter the data
+    let data = dbProducts.filter((item) => {
+      return item.title === selectedValue;
+    });
+
+    // Check if data is found
+    if (data.length > 0) {
+      // Push the first item of the filtered array
+      newProducts.push(data[0]);
+
+      // Set the updated collections state
+      setProducts(newProducts);
+      setOpenProductModal(false);
+    } else {
+      console.log("Data not found");
+    }
+  }
+
+  const addCustomer = (e) => {
+    e.preventDefault();
+
+    const newCustomers = [...customers];
+
+    let data = dbCustomers.filter((item) => {
+      return item.email === selectedValue;
+    });
+
+    if (data.length > 0) {
+      newCustomers.push(data[0]);
+      setCustomers(newCustomers);
+      setOpenCustomerModal(false);
+    } else {
+      console.log("Data not found");
     }
   }
 
@@ -213,7 +301,7 @@ export default function NewDiscount() {
     }
   }
 
-  const deleteCollection = (e, indexToDelete)=>{
+  const deleteItem = (e, indexToDelete, type)=>{
     e.preventDefault();
 
     const newCollections = [...collections];
@@ -260,8 +348,14 @@ export default function NewDiscount() {
       case 'minimumPurchaseAmount':
         setMinimumPurchaseAmount(value);
         break;
-      case 'minimumQualityOfAmount':
-        setMinimumQualityOfAmount(value);
+      case 'minimumPurchasechqbox':
+        setMinimumPurchasechqbox(checked);
+        break;
+      case 'minimumQuantityOfAmount':
+        setMinimumQuantityOfAmount(checked);
+        break;
+      case 'minimumQuantitychqbox':
+        setMinimumQuantitychqbox(checked);
         break;
       case 'allCustomers':
         setAllCustomers(checked);
@@ -269,10 +363,13 @@ export default function NewDiscount() {
       case 'specificCustomerSegments':
         setSpecificCustomerSegments(checked);
         break;
-      case 'specificCustomers':
-        setSpecificCustomers(checked);
+      case 'specificCustomerschq':
+        setSpecificCustomerschq(checked);
         break;
-        case 'limitTimes':
+      case 'specificCustomers':
+        setSpecificCustomers(value);
+        break;
+      case 'limitTimes':
         setLimitTimes(checked);
         break;
       case 'limitPerCustomer':
@@ -308,7 +405,7 @@ export default function NewDiscount() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const data = { status: 'Active', code:'code', used: 0, discountCode, discountValue, discountType, appliesTo, collections, noMinimumRequirements, minimumPurchaseAmount, minimumQualityOfAmount, allCustomers, specificCustomerSegments, specificCustomers, limitTimes, limitPerCustomer, otherDiscount, shippingDiscount, startDate, endDate, startTime, endTime, type };
+    const data = { status: 'Active', code:'code', used: 0, discountCode, discountValue, discountType, appliesTo, collections, noMinimumRequirements, minimumPurchaseAmount, minimumQuantityOfAmount, allCustomers, specificCustomerSegments, specificCustomers, limitTimes, limitPerCustomer, otherDiscount, shippingDiscount, startDate, endDate, startTime, endTime, type };
 
     try {
       
@@ -323,7 +420,6 @@ export default function NewDiscount() {
       if (res.ok) {
         const response = await res.json();
         router.push('/discounts')
-        console.log(response); // Log response from API
       } else {
         console.error('Failed to send data to API');
       }
@@ -331,6 +427,13 @@ export default function NewDiscount() {
       console.error('Error sending data to API:', error);
     }
   };
+
+
+
+  const [openCollectionModal, setOpenCollectionModal ] = useState(false)
+  const [openProductModal, setOpenProductModal] = useState(false)
+  const [openCustomerModal, setOpenCustomerModal] = useState(false)
+  const cancelButtonRef = useRef(null)
   
 
   return (
@@ -436,21 +539,26 @@ export default function NewDiscount() {
                     </label>
                     
                     <select name="appliesTo" onChange={handleChange} value={appliesTo} id="appliesTo" className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                      <option defaultValue='Specefic Collections'>Specefic collections</option>
-                      <option value="Specefic Products">Specefic products</option>
+                      <option defaultValue='Specific Collections'>Specific Collections</option>
+                      <option value="Specific Products">Specific products</option>
                     </select>
 
                     <div className="flex space-x-3 items-center mt-3">
                       <div className="relative w-full">
                         <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                            <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-                            </svg>
+                          <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                          </svg>
                         </div>
-                        <input type="search" id="default-search" className="block w-full py-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search collections..." required />
+                        <input type="search" id="default-search" className="block w-full py-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder={`${appliesTo === 'Specific Collections' ? 'Search collections...' :'Search products...'}`} required />
                       </div>
-                      <button onClick={() => handleOpen("sm")} className="py-2 px-5 me-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-400 hover:bg-gray-100 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Browse</button>
-                    </div>
+
+                        {appliesTo === 'Specific Collections' ? (
+                          <button onClick={() => setOpenCollectionModal(true)} className="py-2 px-5 me-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-400 hover:bg-gray-100 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Browse</button>
+                        ) : (
+                          <button onClick={() => setOpenProductModal(true)} className="py-2 px-5 me-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-400 hover:bg-gray-100 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Browse</button>
+                        )}
+                      </div>
 
                     <div className="mt-2">
                       {collections.map((item, index) => {
@@ -466,90 +574,12 @@ export default function NewDiscount() {
                             </div>
                           </div>
                           <div>
-                            <IoCloseSharp onClick={(e) => deleteCollection(e,index)} className='text-lg cursor-pointer'/>
+                            <IoCloseSharp onClick={(e) => deleteItem(e,index,'collections')} className='text-lg cursor-pointer'/>
                           </div>
                           
                         </div>
                       })}
                     </div>
-
-                    <Dialog
-                      open={
-                        size === "xs" ||
-                        size === "sm" ||
-                        size === "md" ||
-                        size === "lg" ||
-                        size === "xl" ||
-                        size === "xxl"
-                      }
-                      size={size || "md"}
-                      handler={handleOpen}
-                      className="overflow-y-scroll h-3/4"
-                    >
-                      <DialogHeader className="bg-gray-100 flex justify-between">
-                        <div className="text-sm">
-                          {`${appliesTo ==='Specefic Collections' ? 'Add collection' : 'Add product'}`}
-                        </div>
-                        <div>
-                          <IoCloseSharp onClick={() => handleOpen(null)} className='text-lg cursor-pointer'/>
-                        </div>
-                      </DialogHeader>
-                      <DialogBody className="py-0">
-
-                        <div className="relative w-full py-3 ">
-                          <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                            <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-                            </svg>
-                          </div>
-                          <input name="searchCollection" value={searchCollection} onChange={handleCollection} type="search" id="default-search" className="block w-full py-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder={`${appliesTo ==='Specefic Collections' ? 'Search collections...' : 'Search products...'}`} required />
-                        </div>
-
-                        {allCollections.map((item, index) => {
-
-                          return <div key={index} className="flex justify-between items-center border-t border-b py-2 text-sm text-gray-700">
-                            
-                            <Radio
-                              name="terms"
-                              checked={selectedValue === item.title}
-                              value={item.title}
-                              onChange={handleRadioChange}
-                              label={
-                                <div className="flex space-x-3">
-                                  <div className="border border-gray-300 rounded-md items-center my-auto p-2">
-                                    <IoImageOutline className='text-xl'/>
-                                  </div>
-                                  <div className="flex-col">
-                                    <h3 className="font-semibold">{item.title}</h3>
-                                    <p className="">{item.products ? item?.products?.length : item?.variants?.length} products</p>
-                                  </div>
-                                </div>
-                              }
-                            />
-                            
-                          </div>
-                        })}
-                      </DialogBody>
-                      <DialogFooter className="flex space-x-2 py-3">
-                        <Button
-                          variant="text"
-                          color="gray"
-                          onClick={() => handleOpen(null)}
-                          className="mr-1 border shadow-md border-gray-600 py-1 px-2"
-                        >
-                          <span className="text-gray-700">Cancel</span>
-                        </Button>
-                        <Button
-                          variant="text"
-                          color="gray"
-                          onClick={(e) => {addCollection(e) , handleOpen(null) }}
-                          className="mr-1 border bg-gray-300 shadow-md border-gray-500 py-1 px-4"
-                        >
-                          <span className="text-gray-700">Add</span>
-                        </Button>
-                      </DialogFooter>
-                    </Dialog>
-
                   </div>
 
                 </div>
@@ -636,8 +666,8 @@ export default function NewDiscount() {
                           </label>
                           
                           <select id="anyItemsFrom" className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                            <option defaultValue="Specefic Products">Specefic products</option>
-                            <option value='Specefic Collections'>Specefic collections</option>
+                            <option defaultValue="Specific Products">Specific products</option>
+                            <option value='Specific Collections'>Specific collections</option>
                           </select>
                         </div>
                         
@@ -652,9 +682,9 @@ export default function NewDiscount() {
                               <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                             </svg>
                           </div>
-                          <input type="search" id="default-search" className="block w-full py-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder={`${appliesTo ==='Specefic Collections' ? 'Search collections...' : 'Search products...'}`} required />
+                          <input type="search" id="default-search" className="block w-full py-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder={`${appliesTo ==='Specific Collections' ? 'Search collections...' : 'Search products...'}`} required />
                         </div>
-                        <button onClick={() => handleOpen("sm")} className="py-2 px-5 me-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-400 hover:bg-gray-100 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Browse</button>
+                        <button onClick={() => setOpenCollectionModal(true)} className="py-2 px-5 me-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-400 hover:bg-gray-100 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Browse</button>
                       </div>
 
                       <div className="mt-2">
@@ -671,14 +701,14 @@ export default function NewDiscount() {
                               </div>
                             </div>
                             <div>
-                              <IoCloseSharp onClick={(e) => deleteCollection(e,index)} className='text-lg cursor-pointer'/>
+                              <IoCloseSharp onClick={(e) => deleteItem(e,index, 'collections')} className='text-lg cursor-pointer'/>
                             </div>
                             
                           </div>
                         ))}
                       </div>
 
-                      <Dialog
+                      {/* <Dialog
                         open={
                           size === "xs" ||
                           size === "sm" ||
@@ -693,7 +723,7 @@ export default function NewDiscount() {
                       >
                         <DialogHeader className="bg-gray-100 flex justify-between">
                           <div className="text-sm">
-                            {`${appliesTo ==='Specefic Collections' ? 'Add collection' : 'Add product'}`}
+                            {`${appliesTo ==='Specific Collections' ? 'Add collection' : 'Add product'}`}
                           </div>
                           <div>
                             <IoCloseSharp onClick={() => handleOpen(null)} className='text-lg cursor-pointer'/>
@@ -707,10 +737,10 @@ export default function NewDiscount() {
                                   <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                               </svg>
                             </div>
-                            <input name="searchCollection" value={searchCollection} onChange={handleCollection} type="search" id="default-search" className="block w-full py-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder={`${appliesTo ==='Specefic Collections' ? 'Search collections...' : 'Search products...'}`} required />
+                            <input name="searchCollection" value={searchCollection} onChange={handleSearch} type="search" id="default-search" className="block w-full py-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder={`${appliesTo ==='Specific Collections' ? 'Search collections...' : 'Search products...'}`} required />
                           </div>
 
-                          {allCollections.map((item, index) => (
+                          {dbCollections.map((item, index) => (
                             <div key={index} className="flex justify-between items-center border-t border-b py-2 text-sm text-gray-700">
 
                               <div className="flex space-x-2 items-center">
@@ -754,7 +784,7 @@ export default function NewDiscount() {
                             <span className="text-gray-700">Add</span>
                           </Button>
                         </DialogFooter>
-                      </Dialog>
+                      </Dialog> */}
 
                     </div>
                   </div>
@@ -801,8 +831,8 @@ export default function NewDiscount() {
                           </label>
                           
                           <select id="anyItemsFrom" className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                            <option defaultValue="Specefic Products">Specefic products</option>
-                            <option value='Specefic Collections'>Specefic collections</option>
+                            <option defaultValue="Specific Products">Specific products</option>
+                            <option value='Specific Collections'>Specific collections</option>
                           </select>
                         </div>
                         
@@ -834,14 +864,14 @@ export default function NewDiscount() {
                               </div>
                             </div>
                             <div>
-                              <IoCloseSharp onClick={(e) => deleteCollection(e,index)} className='text-lg cursor-pointer'/>
+                              <IoCloseSharp onClick={(e) => deleteItem(e,index, 'collections')} className='text-lg cursor-pointer'/>
                             </div>
                             
                           </div>
                         ))}
                       </div>
 
-                      <Dialog
+                      {/* <Dialog
                         open={
                           size === "xs" ||
                           size === "sm" ||
@@ -872,14 +902,14 @@ export default function NewDiscount() {
                             <input name="searchCollection" value={searchCollection} onChange={handleCollection} type="search" id="default-search" className="block w-full py-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search collections..." required />
                           </div>
 
-                          {allCollections.map((item, index) => {
+                          {dbCollections.map((item, index) => {
                             return <div key={index} className="flex justify-between items-center border-t border-b py-2 text-sm text-gray-700">
 
                               <div className="flex space-x-2 items-center">
                                 <input 
                                   checked={selectedValue === item.title}
                                   value={item.title}
-                                  onChange={handleRadioChange} 
+                                  onChange={handleRadioChange}
                                   type="checkbox" id="myCheckbox" 
                                   className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
                                 <label className="text-sm" htmlFor="myCheckbox">
@@ -916,7 +946,7 @@ export default function NewDiscount() {
                             <span className="text-gray-700">Add</span>
                           </Button>
                         </DialogFooter>
-                      </Dialog>
+                      </Dialog> */}
 
                     </div>
                   </div>
@@ -978,7 +1008,7 @@ export default function NewDiscount() {
               </CardBody>
             </Card>}
 
-            {type === 'moneyOffProduct' && <Card className="w-full flex-col">
+            {type === 'moneyOffProduct' || type === 'shipping' ? <Card className="w-full flex-col">
               <CardBody className="px-4">
                 <div className="flex-col space-y-3">
                   
@@ -991,22 +1021,49 @@ export default function NewDiscount() {
                       <label className="text-sm tracking-tight" htmlFor="myCheckbox">No minimum requirements</label>
                     </div>
 
-                    <div className="flex space-x-2 items-center">
-                      <input onChange={handleChange} name="minimumPurchaseAmount" checked={minimumPurchaseAmount} type="checkbox" id="myCheckbox" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
-                      <label className="text-sm tracking-tight" htmlFor="myCheckbox">Minimum purchase amount (Rs)</label>
+                    <div className="flex-col space-y-2 items-center">
+                      <div className="flex space-x-2 items-center">
+                        <input onChange={handleChange} name="minimumPurchasechqbox" checked={minimumPurchasechqbox} type="checkbox" id="myCheckbox" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                        <label className="text-sm tracking-tight" htmlFor="myCheckbox">Minimum purchase amount (Rs)</label>
+                      </div>
+                      {minimumPurchasechqbox === true && <div className="flex-col space-y-1 ml-3 md:ml-7">
+                        <input
+                          type="number"
+                          name="minimumPurchaseAmount"
+                          value={minimumPurchaseAmount}
+                          onChange={handleChange}
+                          id="minimumPurchaseAmount"
+                          placeholder="0.00"
+                          className="block w-1/3 rounded-md border-0 py-1.5 px-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        />
+                        <h1 className="text-xs tracking-tight">Applies only to selected collections.</h1>
+                      </div>}
                     </div>
 
-                    <div className="flex space-x-2 items-center">
-                      <input onChange={handleChange} name="minimumQualityOfAmount" checked={minimumQualityOfAmount} type="checkbox" id="myCheckbox" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
-                      <label className="text-sm tracking-tight" htmlFor="myCheckbox">Minimum quantity of items</label>
+
+                    <div className="flex-col space-y-2 items-center">
+                      <div className="flex space-x-2 items-center">
+                        <input onChange={handleChange} name="minimumQuantitychqbox" checked={minimumQuantitychqbox} type="checkbox" id="myCheckbox" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                        <label className="text-sm tracking-tight" htmlFor="myCheckbox">Minimum quantity of items</label>
+                      </div>
+                      {minimumQuantitychqbox === true && <div className="flex-col space-y-1 ml-3 md:ml-7">
+                        <input
+                          type="number"
+                          name="minimumQuantityOfAmount"
+                          value={minimumQuantityOfAmount}
+                          onChange={handleChange}
+                          id="minimumQuantityOfAmount"
+                          className="block w-1/3 rounded-md border-0 py-1.5 px-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        />
+                        <h1 className="text-xs tracking-tight">Applies only to selected collections.</h1>
+                      </div>}
                     </div>
-                    
+
                   </div>
-
 
                 </div>
               </CardBody>
-            </Card>}
+            </Card> : ''}
 
             {type === 'shipping' && <Card className="w-full flex-col">
 
@@ -1069,14 +1126,14 @@ export default function NewDiscount() {
                               </div>
                             </div>
                             <div>
-                              <IoCloseSharp onClick={(e) => deleteCollection(e,index)} className='text-lg cursor-pointer'/>
+                              <IoCloseSharp onClick={(e) => deleteItem(e,index, 'countries')} className='text-lg cursor-pointer'/>
                             </div>
                             
                           </div>
                         ))}
                       </div>
 
-                      <Dialog
+                      {/* <Dialog
                         open={
                           size === "xs" ||
                           size === "sm" ||
@@ -1104,7 +1161,7 @@ export default function NewDiscount() {
                                   <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                               </svg>
                             </div>
-                            <input name="searchCountries" value={searchCountries} onChange={handleCountry} type="search" id="default-search" className="block w-full py-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search countries..." required />
+                            <input name="searchCountries" value={searchCountries} onChange={handleSearch} type="search" id="default-search" className="block w-full py-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search countries..." required />
                           </div>
 
                           {filteredCountries.map(({ name, flags, index }) => (
@@ -1154,7 +1211,7 @@ export default function NewDiscount() {
                             <span className="text-gray-700">Add</span>
                           </Button>
                         </DialogFooter>
-                      </Dialog>
+                      </Dialog> */}
 
                     </div>
                   </div>
@@ -1190,36 +1247,6 @@ export default function NewDiscount() {
               </CardBody>
             </Card>}
 
-            {type === 'shipping' && <Card className="w-full flex-col">
-              <CardBody className="px-4">
-                <div className="flex-col space-y-3">
-                  
-                  <h1 className="text-sm text-gray-900 font-semibold">Minimum purchase requirements</h1>
-
-                  <div className="flex flex-col space-y-2">
-
-                    <div className="flex space-x-2 items-center">
-                      <input name="noMinimumRequirements" onChange={handleChange} checked={noMinimumRequirements} type="checkbox" id="noMinimumRequirements" defaultChecked className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
-                      <label className="text-sm tracking-tight" htmlFor="myCheckbox">No minimum requirements</label>
-                    </div>
-
-                    <div className="flex space-x-2 items-center">
-                      <input name="minimumPurchaseAmount" onChange={handleChange} checked={minimumPurchaseAmount} type="checkbox" id="minimumPurchaseAmount" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
-                      <label className="text-sm tracking-tight" htmlFor="myCheckbox">Minimum purchase amount (Rs)</label>
-                    </div>
-
-                    <div className="flex space-x-2 items-center">
-                      <input name="minimumQualityOfAmount" onChange={handleChange} checked={minimumQualityOfAmount} type="checkbox" id="minimumQualityOfAmount" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
-                      <label className="text-sm tracking-tight" htmlFor="myCheckbox">Minimum quantity of items</label>
-                    </div>
-
-                  </div>
-
-
-                </div>
-              </CardBody>
-            </Card>}
-
             <Card className="w-full flex-col">
               <CardBody className="px-4">
                 <div className="flex-col space-y-3">
@@ -1233,14 +1260,130 @@ export default function NewDiscount() {
                       <label className="text-sm tracking-tight" htmlFor="myCheckbox">All customers</label>
                     </div>
 
-                    <div className="flex space-x-2 items-center">
+                    {/* <div className="flex space-x-2 items-center">
                       <input name="specificCustomerSegments" onChange={handleChange} checked={specificCustomerSegments} type="checkbox" id="myCheckbox" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
                       <label className="text-sm tracking-tight" htmlFor="myCheckbox">Specific customer segments</label>
-                    </div>
+                    </div> */}
 
-                    <div className="flex space-x-2 items-center">
-                      <input name="specificCustomers" onChange={handleChange} checked={specificCustomers} type="checkbox" id="myCheckbox" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
-                      <label className="text-sm tracking-tight" htmlFor="myCheckbox">Specific customers</label>
+                    
+
+
+                    <div className="flex-col space-y-2 items-center">
+                      <div className="flex space-x-2 items-center">
+                        <input name="specificCustomerschq" onChange={handleChange} checked={specificCustomerschq} type="checkbox" id="myCheckbox" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                        <label className="text-sm tracking-tight" htmlFor="myCheckbox">Specific customers</label>
+                      </div>
+                      {specificCustomerschq === true && <div className="flex-col space-y-1">
+                        
+
+                        <div className="flex space-x-3 items-center mt-3">
+                          <div className="relative w-full">
+                            <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                              <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                              </svg>
+                            </div>
+                            <input type="search" id="default-search" className="block w-full py-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search customers..." required />
+                          </div>
+                          <button onClick={() => setOpenCustomerModal(true)} className="py-2 px-5 me-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-400 hover:bg-gray-100 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Browse</button>
+                        </div>
+
+                        <div className="mt-2">
+                          {customers.map((item, index) => {
+                            return <div key={index} className="flex mt-2 justify-between items-center border rounded-md py-2 px-3 text-sm text-gray-700">
+                              
+                              <div className="flex space-x-3">
+                                <div className="border border-gray-300 rounded-md items-center my-auto p-2">
+                                  <IoImageOutline className='text-xl'/>
+                                </div>
+                                <div className="flex-col">
+                                  <h3 className="font-semibold">{item.firstName + '' + item.lastName}</h3>
+                                  <p className="">{item.email}</p>
+                                </div>
+                              </div>
+                              <div>
+                                <IoCloseSharp onClick={(e) => deleteItem(e,index, 'Customers')} className='text-lg cursor-pointer'/>
+                              </div>
+                            </div>
+                          })}
+                        </div>
+
+                        {/* <Dialog
+                          open={
+                            size === "xs" ||
+                            size === "sm" ||
+                            size === "md" ||
+                            size === "lg" ||
+                            size === "xl" ||
+                            size === "xxl"
+                          }
+                          size={size || "md"}
+                          handler={handleOpenCustomer}
+                          className="overflow-y-scroll h-3/4"
+                        >
+                          <DialogHeader className="bg-gray-100 flex justify-between">
+                            <div className="text-sm">Add Customers</div>
+                            <IoCloseSharp onClick={() => handleOpenCustomer(null)} className='text-lg cursor-pointer'/>
+                            
+                          </DialogHeader>
+                          <DialogBody className="py-0">
+
+                            <div className="relative w-full py-3 ">
+                              <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                                <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                  <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                                </svg>
+                              </div>
+                              <input name="searchCustomer" value={searchCustomer} onChange={handleCustomer} type="search" id="default-search" className="block w-full py-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder='Search Customer' required />
+                            </div>
+
+                            {dbCustomers.map((item, index) => {
+
+                              return <div key={index} className="flex space-x-2 items-center border-t border-b py-2 text-sm text-gray-700">
+                                
+                                <Radio
+                                  name="terms"
+                                  checked={selectedValue === item.email}
+                                  value={item.email}
+                                  onChange={handleRadioChange}
+                                  label={
+                                    <div className="flex space-x-3">
+                                      <div className="border border-gray-300 rounded-md items-center my-auto p-2">
+                                        <IoImageOutline className='text-xl'/>
+                                      </div>
+                                      <div className="flex-col">
+                                        <h3 className="font-semibold">{item.firstName + '' + item.lastName}</h3>
+                                        <p className="">{item.email}</p>
+                                      </div>
+                                    </div>
+                                  }
+                                />
+                                
+                              </div>
+                            })}
+                          </DialogBody>
+                          <DialogFooter className="flex space-x-2 py-3">
+                            <Button
+                              variant="text"
+                              color="gray"
+                              onClick={() => handleOpen(null)}
+                              className="mr-1 border shadow-md border-gray-600 py-1 px-2"
+                            >
+                              <span className="text-gray-700">Cancel</span>
+                            </Button>
+                            <Button
+                              variant="text"
+                              color="gray"
+                              onClick={(e) => { addCustomer(e) , handleOpen(null) }}
+                              className="mr-1 border bg-gray-300 shadow-md border-gray-500 py-1 px-4"
+                            >
+                              <span className="text-gray-700">Add</span>
+                            </Button>
+                          </DialogFooter>
+                        </Dialog> */}
+
+
+                      </div>}
                     </div>
 
                   </div>
@@ -1460,6 +1603,302 @@ export default function NewDiscount() {
           <button type="button" className="py-1 px-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-400 hover:bg-gray-100 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Discard</button>
           <button onClick={(e)=>handleSubmit(e)} type="button" className="py-1 px-3 text-sm font-medium text-white focus:outline-none bg-gray-800 rounded-lg border border-gray-400 hover:bg-gray-900 focus:z-10 focus:ring-4 focus:ring-gray-100">Save discount</button>
         </div>
+
+
+        <Transition.Root show={openCollectionModal} as={Fragment}>
+          <Dialog as="div" className="relative z-20" initialFocus={cancelButtonRef} onClose={setOpenCollectionModal}>
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0"
+              enterTo="opacity-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
+            >
+              <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+            </Transition.Child>
+
+            <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
+              <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                <Transition.Child
+                  as={Fragment}
+                  enter="ease-out duration-300"
+                  enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                  enterTo="opacity-100 translate-y-0 sm:scale-100"
+                  leave="ease-in duration-200"
+                  leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+                  leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                >
+                  <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                    <div className="bg-white px-4 pb-4 pt-5 sm:px-2 sm:pb-4">
+                      <div className="sm:items-start w-full">
+                        <div className="mt-3 text-center sm:mt-0 sm:text-left">
+                          <Dialog.Title as="h3" className="bg-gray-100 px-4 py-3 flex justify-between">
+                            <div className="text-sm">
+                              Add Collection
+                            </div>
+                            <div>
+                              <IoCloseSharp onClick={() => setOpenCollectionModal(false)} className='text-lg cursor-pointer'/>
+                            </div>
+                          </Dialog.Title>
+                          
+                          <div className="relative w-full py-3 ">
+                            <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                              <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                  <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                              </svg>
+                            </div>
+                            <input name="searchCollection" value={searchCollection} onChange={handleSearch} type="search" id="default-search" className="block w-full py-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder='Search collections...' required />
+                          </div>
+
+                          {dbCollections.map((item, index) => {
+
+                            return <div key={index} className="flex justify-between items-center border-t border-b py-2 text-sm text-gray-700">
+                              
+                              <Radio
+                                name="terms"
+                                checked={selectedValue === item.title}
+                                value={item.title}
+                                onChange={handleRadioChange}
+                                label={
+                                  <div className="flex space-x-3">
+                                    <div className="border border-gray-300 rounded-md items-center my-auto p-2">
+                                      <IoImageOutline className='text-xl'/>
+                                    </div>
+                                    <div className="flex-col">
+                                      <h3 className="font-semibold">{item.title}</h3>
+                                      <p className="">{item?.products?.length} products</p>
+                                    </div>
+                                  </div>
+                                }
+                              />
+                            </div>
+                          })}
+
+                        </div>
+                      </div>
+                    </div>
+                    <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                      <button
+                        type="button"
+                        className="inline-flex w-full justify-center rounded-md bg-gray-800 px-3 py-1 text-sm font-semibold text-white shadow-sm hover:bg-black sm:ml-3 sm:w-auto"
+                        onClick={(e) => addCollection(e)}
+                      >
+                        Add
+                      </button>
+                      <button
+                        type="button"
+                        className="inline-flex w-full justify-center rounded-md bg-white px-3 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
+                        onClick={() => setOpenCollectionModal(false)}
+                        ref={cancelButtonRef}
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </Dialog.Panel>
+                </Transition.Child>
+              </div>
+            </div>
+          </Dialog>
+        </Transition.Root>
+
+        <Transition.Root show={openProductModal} as={Fragment}>
+          <Dialog as="div" className="relative z-20" initialFocus={cancelButtonRef} onClose={setOpenProductModal}>
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0"
+              enterTo="opacity-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
+            >
+              <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+            </Transition.Child>
+
+            <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
+              <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                <Transition.Child
+                  as={Fragment}
+                  enter="ease-out duration-300"
+                  enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                  enterTo="opacity-100 translate-y-0 sm:scale-100"
+                  leave="ease-in duration-200"
+                  leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+                  leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                >
+                  <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                    <div className="bg-white px-4 pb-4 pt-5 sm:px-2 sm:pb-4">
+                      <div className="sm:items-start w-full">
+                        <div className="mt-3 text-center sm:mt-0 sm:text-left">
+                          <Dialog.Title as="h3" className="bg-gray-100 px-4 py-3 flex justify-between">
+                            <div className="text-sm">
+                              Add Product
+                            </div>
+                            <div>
+                              <IoCloseSharp onClick={() => setOpenProductModal(false)} className='text-lg cursor-pointer'/>
+                            </div>
+                          </Dialog.Title>
+                          
+                          <div className="relative w-full py-3 ">
+                            <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                              <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                              </svg>
+                            </div>
+                            <input name="searchProduct" value={searchProduct} onChange={handleSearch} type="search" id="default-search" className="block w-full py-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder='Search products...' required />
+                          </div>
+
+                          {dbProducts.map((item, index) => {
+
+                            return <div key={index} className="flex justify-between items-center border-t border-b py-2 text-sm text-gray-700">
+                              
+                              <Radio
+                                name="terms"
+                                checked={selectedValue === item.title}
+                                value={item.title}
+                                onChange={handleRadioChange}
+                                label={
+                                  <div className="flex space-x-3">
+                                    <div className="border border-gray-300 rounded-md items-center my-auto p-2">
+                                      <IoImageOutline className='text-xl'/>
+                                    </div>
+                                    <div className="flex-col">
+                                      <h3 className="font-semibold">{item.title}</h3>
+                                      <p className="">{item?.variants?.length} products</p>
+                                    </div>
+                                  </div>
+                                }
+                              />
+                              
+                            </div>
+                          })}
+
+                        </div>
+                      </div>
+                    </div>
+                    <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                      <button
+                        type="button"
+                        className="inline-flex w-full justify-center rounded-md bg-gray-800 px-3 py-1 text-sm font-semibold text-white shadow-sm hover:bg-black sm:ml-3 sm:w-auto"
+                        onClick={(e) => addProduct(e)}
+                      >
+                        Add
+                      </button>
+                      <button
+                        type="button"
+                        className="inline-flex w-full justify-center rounded-md bg-white px-3 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
+                        onClick={() => setOpenProductModal(false)}
+                        ref={cancelButtonRef}
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </Dialog.Panel>
+                </Transition.Child>
+              </div>
+            </div>
+          </Dialog>
+        </Transition.Root>
+
+        <Transition.Root show={openCustomerModal} as={Fragment}>
+          <Dialog as="div" className="relative z-20" initialFocus={cancelButtonRef} onClose={setOpenCustomerModal}>
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0"
+              enterTo="opacity-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
+            >
+              <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+            </Transition.Child>
+
+            <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
+              <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                <Transition.Child
+                  as={Fragment}
+                  enter="ease-out duration-300"
+                  enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                  enterTo="opacity-100 translate-y-0 sm:scale-100"
+                  leave="ease-in duration-200"
+                  leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+                  leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                >
+                  <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                    <div className="bg-white px-4 pb-4 pt-5 sm:px-2 sm:pb-4">
+                      <div className="sm:items-start w-full">
+                        <div className="mt-3 text-center sm:mt-0 sm:text-left">
+                          <Dialog.Title as="h3" className="bg-gray-100 px-4 py-3 flex justify-between">
+                            <div className="text-sm font-bold">
+                              Add Customer
+                            </div>
+                            <div>
+                              <IoCloseSharp onClick={() => setOpenCustomerModal(false)} className='text-lg cursor-pointer'/>
+                            </div>
+                          </Dialog.Title>
+                          
+                          <div className="relative w-full py-3 ">
+                            <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                              <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                              </svg>
+                            </div>
+                            <input name="searchCustomer" value={searchCustomer} onChange={handleSearch} type="search" id="default-search" className="block w-full py-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder='Search customers...' required />
+                          </div>
+
+                          {dbCustomers.map((item, index) => {
+
+                            return <div key={index} className="flex justify-between items-center border-t border-b py-2 text-sm text-gray-700">
+                              
+                              <Radio
+                                name="terms"
+                                checked={selectedValue === item.email}
+                                value={item.email}
+                                onChange={handleRadioChange}
+                                label={
+                                  <div className="flex space-x-3">
+                                    <div className="border border-gray-300 rounded-md items-center my-auto p-2">
+                                      <IoImageOutline className='text-xl'/>
+                                    </div>
+                                    <div className="flex-col">
+                                      <h3 className="font-semibold">{item.firstName + '' + item.lastName}</h3>
+                                      <p className="">{item.email}</p>
+                                    </div>
+                                  </div>
+                                }
+                              />
+                            </div>
+                          })}
+
+                        </div>
+                      </div>
+                    </div>
+                    <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                      <button
+                        type="button"
+                        className="inline-flex w-full justify-center rounded-md bg-gray-800 px-3 py-1 text-sm font-semibold text-white shadow-sm hover:bg-black sm:ml-3 sm:w-auto"
+                        onClick={(e) => addCustomer(e)}
+                      >
+                        Add
+                      </button>
+                      <button
+                        type="button"
+                        className="inline-flex w-full justify-center rounded-md bg-white px-3 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
+                        onClick={() => setOpenCustomerModal(false)}
+                        ref={cancelButtonRef}
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </Dialog.Panel>
+                </Transition.Child>
+              </div>
+            </div>
+          </Dialog>
+        </Transition.Root>
 
         
       </div>
