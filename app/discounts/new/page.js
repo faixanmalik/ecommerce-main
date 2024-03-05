@@ -430,7 +430,7 @@ export default function NewDiscount() {
 
 
   const [openCollectionModal, setOpenCollectionModal ] = useState(false)
-  const [openProductModal, setOpenProductModal] = useState(false)
+  const [openProductModal, setOpenProductModal] = useState(true)
   const [openCustomerModal, setOpenCustomerModal] = useState(false)
   const cancelButtonRef = useRef(null)
   
@@ -1317,7 +1317,7 @@ export default function NewDiscount() {
             </Transition.Child>
 
             <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
-              <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+              <div className="flex min-h-full items-end justify-center text-center sm:items-center sm:p-0">
                 <Transition.Child
                   as={Fragment}
                   enter="ease-out duration-300"
@@ -1327,13 +1327,13 @@ export default function NewDiscount() {
                   leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                   leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                 >
-                  <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
-                    <div className="bg-white px-4 pb-4 pt-5 sm:px-2 sm:pb-4">
+                  <Dialog.Panel className="w-full h-96 relative transform rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                    <div className="bg-white sm:px-0 sm:pb-4">
                       <div className="sm:items-start w-full">
-                        <div className="mt-3 text-center sm:mt-0 sm:text-left">
+                        <div className="text-center mt-0 sm:text-left">
                           <Dialog.Title as="h3" className="bg-gray-100 px-4 py-3 flex justify-between">
-                            <div className="text-sm">
-                              Add Collection
+                            <div className="text-sm font-bold">
+                              Add Collections
                             </div>
                             <div>
                               <IoCloseSharp onClick={() => setOpenCollectionModal(false)} className='text-lg cursor-pointer'/>
@@ -1349,49 +1349,54 @@ export default function NewDiscount() {
                             <input name="searchCollection" value={searchCollection} onChange={handleSearch} type="search" id="default-search" className="block w-full py-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder='Search collections...' required />
                           </div>
 
-                          {dbCollections.map((item, index) => {
+                          <div className="h-72 overflow-y-scroll">
+                            {dbCollections.map((item, index) => {
 
-                            return <div key={index} className="flex justify-between items-center border-t border-b py-2 text-sm text-gray-700">
-                              
-                              <Radio
-                                name="terms"
-                                checked={selectedValue === item.title}
-                                value={item.title}
-                                onChange={handleRadioChange}
-                                label={
-                                  <div className="flex space-x-3">
-                                    <div className="border border-gray-300 rounded-md items-center my-auto p-2">
-                                      <IoImageOutline className='text-xl'/>
+                              return <div key={index} className="flex justify-between items-center border-t border-b py-2 text-sm text-gray-700">
+                                
+                                <Radio
+                                  name="terms"
+                                  checked={selectedValue === item.title}
+                                  value={item.title}
+                                  onChange={handleRadioChange}
+                                  label={
+                                    <div className="flex space-x-3">
+                                      <div className="border border-gray-300 rounded-md items-center my-auto p-2">
+                                        <IoImageOutline className='text-xl'/>
+                                      </div>
+                                      <div className="flex-col text-left">
+                                        <h3 className="font-semibold">{item.title}</h3>
+                                        <p className="">{item?.products?.length} products</p>
+                                      </div>
                                     </div>
-                                    <div className="flex-col">
-                                      <h3 className="font-semibold">{item.title}</h3>
-                                      <p className="">{item?.products?.length} products</p>
-                                    </div>
-                                  </div>
-                                }
-                              />
-                            </div>
-                          })}
+                                  }
+                                />
+                              </div>
+                            })}
+                          </div>
+
 
                         </div>
                       </div>
                     </div>
-                    <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                      <button
-                        type="button"
-                        className="inline-flex w-full justify-center rounded-md bg-gray-800 px-3 py-1 text-sm font-semibold text-white shadow-sm hover:bg-black sm:ml-3 sm:w-auto"
-                        onClick={(e) => addCollection(e)}
-                      >
-                        Add
-                      </button>
-                      <button
-                        type="button"
-                        className="inline-flex w-full justify-center rounded-md bg-white px-3 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
-                        onClick={() => setOpenCollectionModal(false)}
-                        ref={cancelButtonRef}
-                      >
-                        Cancel
-                      </button>
+                    <div className="bg-gray-50 w-full">
+                      <div className="flex justify-end space-x-3 px-4 py-3 sm:px-6">
+                        <button
+                          type="button"
+                          className="inline-flex justify-center rounded-md bg-white px-3 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
+                          onClick={() => setOpenCollectionModal(false)}
+                          ref={cancelButtonRef}
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          type="button"
+                          className="inline-flex justify-center rounded-md bg-gray-800 px-3 py-1 text-sm font-semibold text-white shadow-sm hover:bg-black sm:ml-3 sm:w-auto"
+                          onClick={(e) => addCollection(e)}
+                        >
+                          Add
+                        </button>
+                      </div>
                     </div>
                   </Dialog.Panel>
                 </Transition.Child>
@@ -1415,7 +1420,7 @@ export default function NewDiscount() {
             </Transition.Child>
 
             <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
-              <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+              <div className="flex min-h-full items-end justify-center text-center sm:items-center sm:p-0">
                 <Transition.Child
                   as={Fragment}
                   enter="ease-out duration-300"
@@ -1425,12 +1430,12 @@ export default function NewDiscount() {
                   leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                   leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                 >
-                  <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
-                    <div className="bg-white px-4 pb-4 pt-5 sm:px-2 sm:pb-4">
+                  <Dialog.Panel className="w-full h-96 relative transform rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                    <div className="bg-white sm:px-0 sm:pb-4">
                       <div className="sm:items-start w-full">
-                        <div className="mt-3 text-center sm:mt-0 sm:text-left">
+                        <div className="text-center mt-0 sm:text-left">
                           <Dialog.Title as="h3" className="bg-gray-100 px-4 py-3 flex justify-between">
-                            <div className="text-sm">
+                            <div className="text-sm font-bold">
                               Add Product
                             </div>
                             <div>
@@ -1447,50 +1452,55 @@ export default function NewDiscount() {
                             <input name="searchProduct" value={searchProduct} onChange={handleSearch} type="search" id="default-search" className="block w-full py-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder='Search products...' required />
                           </div>
 
-                          {dbProducts.map((item, index) => {
+                          <div className="h-72 overflow-y-scroll">
+                            {dbProducts.map((item, index) => {
 
-                            return <div key={index} className="flex justify-between items-center border-t border-b py-2 text-sm text-gray-700">
-                              
-                              <Radio
-                                name="terms"
-                                checked={selectedValue === item.title}
-                                value={item.title}
-                                onChange={handleRadioChange}
-                                label={
-                                  <div className="flex space-x-3">
-                                    <div className="border border-gray-300 rounded-md items-center my-auto p-2">
-                                      <IoImageOutline className='text-xl'/>
+                              return <div key={index} className="flex justify-between items-center border-t border-b py-2 text-sm text-gray-700">
+                                
+                                <Radio
+                                  name="terms"
+                                  checked={selectedValue === item.title}
+                                  value={item.title}
+                                  onChange={handleRadioChange}
+                                  label={
+                                    <div className="flex space-x-3">
+                                      <div className="border border-gray-300 rounded-md items-center my-auto p-2">
+                                        <IoImageOutline className='text-xl'/>
+                                      </div>
+                                      <div className="flex-col text-left">
+                                        <h3 className="font-semibold">{item.title}</h3>
+                                        <p className="">{item?.variants?.length} products</p>
+                                      </div>
                                     </div>
-                                    <div className="flex-col">
-                                      <h3 className="font-semibold">{item.title}</h3>
-                                      <p className="">{item?.variants?.length} products</p>
-                                    </div>
-                                  </div>
-                                }
-                              />
-                              
-                            </div>
-                          })}
+                                  }
+                                />
+                                
+                              </div>
+                            })}
+                          </div>
+
 
                         </div>
                       </div>
                     </div>
-                    <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                      <button
-                        type="button"
-                        className="inline-flex w-full justify-center rounded-md bg-gray-800 px-3 py-1 text-sm font-semibold text-white shadow-sm hover:bg-black sm:ml-3 sm:w-auto"
-                        onClick={(e) => addProduct(e)}
-                      >
-                        Add
-                      </button>
-                      <button
-                        type="button"
-                        className="inline-flex w-full justify-center rounded-md bg-white px-3 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
-                        onClick={() => setOpenProductModal(false)}
-                        ref={cancelButtonRef}
-                      >
-                        Cancel
-                      </button>
+                    <div className="bg-gray-50 w-full">
+                      <div className="flex justify-end space-x-3 px-4 py-3 sm:px-6">
+                        <button
+                          type="button"
+                          className="inline-flex justify-center rounded-md bg-white px-3 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
+                          onClick={() => setOpenProductModal(false)}
+                          ref={cancelButtonRef}
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          type="button"
+                          className="inline-flex justify-center rounded-md bg-gray-800 px-3 py-1 text-sm font-semibold text-white shadow-sm hover:bg-black sm:ml-3 sm:w-auto"
+                          onClick={(e) => addProduct(e)}
+                        >
+                          Add
+                        </button>
+                      </div>
                     </div>
                   </Dialog.Panel>
                 </Transition.Child>
@@ -1514,7 +1524,7 @@ export default function NewDiscount() {
             </Transition.Child>
 
             <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
-              <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+              <div className="flex min-h-full items-end justify-center text-center sm:items-center sm:p-0">
                 <Transition.Child
                   as={Fragment}
                   enter="ease-out duration-300"
@@ -1524,10 +1534,10 @@ export default function NewDiscount() {
                   leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                   leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                 >
-                  <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
-                    <div className="bg-white px-4 pb-4 pt-5 sm:px-2 sm:pb-4">
+                  <Dialog.Panel className="w-full h-96 relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                    <div className="bg-white sm:px-0 sm:pb-4">
                       <div className="sm:items-start w-full">
-                        <div className="mt-3 text-center sm:mt-0 sm:text-left">
+                        <div className="text-center mt-0 sm:text-left">
                           <Dialog.Title as="h3" className="bg-gray-100 px-4 py-3 flex justify-between">
                             <div className="text-sm font-bold">
                               Add Customer
@@ -1546,50 +1556,56 @@ export default function NewDiscount() {
                             <input name="searchCustomer" value={searchCustomer} onChange={handleSearch} type="search" id="default-search" className="block w-full py-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder='Search customers...' required />
                           </div>
 
-                          {dbCustomers.map((item, index) => {
+                          <div className="h-72 overflow-y-scroll">
+                            {dbCustomers.map((item, index) => {
 
-                            return <div key={index} className="flex justify-between items-center border-t border-b py-2 text-sm text-gray-700">
-                              
-                              <Radio
-                                name="terms"
-                                checked={selectedValue === item.email}
-                                value={item.email}
-                                onChange={handleRadioChange}
-                                label={
-                                  <div className="flex space-x-3">
-                                    <div className="border border-gray-300 rounded-md items-center my-auto p-2">
-                                      <IoImageOutline className='text-xl'/>
+                              return <div key={index} className="flex justify-between items-center border-t border-b py-2 text-sm text-gray-700">
+                                
+                                <Radio
+                                  name="terms"
+                                  checked={selectedValue === item.email}
+                                  value={item.email}
+                                  onChange={handleRadioChange}
+                                  label={
+                                    <div className="flex space-x-3">
+                                      <div className="border border-gray-300 rounded-md items-center my-auto p-2">
+                                        <IoImageOutline className='text-xl'/>
+                                      </div>
+                                      <div className="flex-col text-left">
+                                        <h3 className="font-semibold">{item.firstName + '' + item.lastName}</h3>
+                                        <p className="">{item.email}</p>
+                                      </div>
                                     </div>
-                                    <div className="flex-col">
-                                      <h3 className="font-semibold">{item.firstName + '' + item.lastName}</h3>
-                                      <p className="">{item.email}</p>
-                                    </div>
-                                  </div>
-                                }
-                              />
-                            </div>
-                          })}
+                                  }
+                                />
+                              </div>
+                            })}
+                          </div>
+
 
                         </div>
                       </div>
                     </div>
-                    <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                      <button
-                        type="button"
-                        className="inline-flex w-full justify-center rounded-md bg-gray-800 px-3 py-1 text-sm font-semibold text-white shadow-sm hover:bg-black sm:ml-3 sm:w-auto"
-                        onClick={(e) => addCustomer(e)}
-                      >
-                        Add
-                      </button>
-                      <button
-                        type="button"
-                        className="inline-flex w-full justify-center rounded-md bg-white px-3 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
-                        onClick={() => setOpenCustomerModal(false)}
-                        ref={cancelButtonRef}
-                      >
-                        Cancel
-                      </button>
+                    <div className="bg-gray-50 w-full">
+                      <div className="flex justify-end space-x-3 px-4 py-3 sm:px-6">
+                        <button
+                          type="button"
+                          className="inline-flex justify-center rounded-md bg-white px-3 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
+                          onClick={() => setOpenCustomerModal(false)}
+                          ref={cancelButtonRef}
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          type="button"
+                          className="inline-flex justify-center rounded-md bg-gray-800 px-3 py-1 text-sm font-semibold text-white shadow-sm hover:bg-black sm:ml-3 sm:w-auto"
+                          onClick={(e) => addCustomer(e)}
+                        >
+                          Add
+                        </button>
+                      </div>
                     </div>
+                    
                   </Dialog.Panel>
                 </Transition.Child>
               </div>
