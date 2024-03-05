@@ -449,7 +449,7 @@ export default function NewDiscount() {
 
 
 
-  const [openCollectionModal, setOpenCollectionModal ] = useState(false)
+  const [openCollectionModal, setOpenCollectionModal ] = useState(true)
   const [openProductModal, setOpenProductModal] = useState(false)
   const [openCustomerModal, setOpenCustomerModal] = useState(false)
   const cancelButtonRef = useRef(null)
@@ -1403,7 +1403,7 @@ export default function NewDiscount() {
             </Transition.Child>
 
             <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
-              <div className="flex min-h-full items-end justify-center text-center sm:items-center sm:p-0">
+              <div className="flex items-end justify-center text-center sm:items-center sm:p-0">
                 <Transition.Child
                   as={Fragment}
                   enter="ease-out duration-300"
@@ -1506,7 +1506,7 @@ export default function NewDiscount() {
             </Transition.Child>
 
             <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
-              <div className="flex min-h-full items-end justify-center text-center sm:items-center sm:p-0">
+              <div className="flex items-end justify-center text-center sm:items-center sm:p-0">
                 <Transition.Child
                   as={Fragment}
                   enter="ease-out duration-300"
@@ -1610,7 +1610,7 @@ export default function NewDiscount() {
             </Transition.Child>
 
             <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
-              <div className="flex min-h-full items-end justify-center text-center sm:items-center sm:p-0">
+              <div className="flex items-end justify-center text-center sm:items-center sm:p-0">
                 <Transition.Child
                   as={Fragment}
                   enter="ease-out duration-300"
