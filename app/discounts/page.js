@@ -205,7 +205,7 @@ const DiscountsPage = () => {
                     className="flex-col font-normal text-xs"
                   >
                     <div className="font-bold text-sm">{item.discountCode}</div>
-                    <div className="font-semibold">{item.discountValue}% off {item.collections[0].title} - <span>{item.limitPerCustomer === true ? 'One use per customer' : ''}</span></div>
+                    <div className="font-semibold">{item.discountValue}% off {item.collections[0]?.title} - <span>{item.limitPerCustomer === true ? 'One use per customer' : ''}</span></div>
                   </Typography>
                 </td>
                 <td className={classes}>
@@ -265,7 +265,7 @@ const DiscountsPage = () => {
              <div key={index} className="px-1 md:px-5 py-4 md:py-5 w-full flex justify-between items-center">
                 <div className="">
                   <div className="font-bold text-sm">{item.discountCode} - ({item.used} used)</div>
-                  <div className="font-semibold text-xs">{item.discountValue}% off {item.collections[0].title} - <span>{item.limitPerCustomer === true ? 'One use per customer' : ''}</span></div>
+                  <div className="font-semibold text-xs">{item.discountValue}% off {item.collections[0]?.title} - <span>{item.limitPerCustomer === true ? 'One use per customer' : ''}</span></div>
                 </div>
                 {/* <div>
                   <div className={`font-semibold px-2 py-1 rounded-lg text-center ${item.status === 'Active' ? 'bg-[#92cb32]' : 'bg-red-400'} text-xs`}>
