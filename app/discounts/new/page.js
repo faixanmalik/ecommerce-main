@@ -1452,7 +1452,7 @@ export default function NewDiscount() {
                             <input name="searchProduct" value={searchProduct} onChange={handleSearch} type="search" id="default-search" className="block w-full py-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder='Search products...' required />
                           </div>
 
-                          <div className="h-[28rem] md:h-[18rem] overflow-y-scroll">
+                          <div className="h-5/6 md:h-[18rem] overflow-y-scroll">
                             {dbProducts.map((item, index) => {
 
                               return <div key={index} className="flex justify-between items-center border-t border-b py-2 text-sm text-gray-700">
