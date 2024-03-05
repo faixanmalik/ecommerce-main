@@ -2,8 +2,8 @@ import React from 'react'
 
 const ContentPage = () => {
   return (
-    <div>
-      <h1>content Page</h1>
+    <div className=''>
+      <h1>Content</h1>
     </div>
   )
 }

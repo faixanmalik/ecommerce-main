@@ -34,6 +34,7 @@ export default function NewDiscount() {
 
 
   const [discountCode, setDiscountCode] = useState('');
+  const [discountTitle, setDiscountTitle] = useState('');
   const [discountValue, setDiscountValue] = useState('');
   const [discountType, setDiscountType] = useState('Percentage')
   const [appliesTo, setAppliesTo] = useState('Specific Collections');
@@ -326,6 +327,9 @@ export default function NewDiscount() {
       case 'discountCode':
         setDiscountCode(value);
         break;
+      case 'discountTitle':
+        setDiscountTitle(value);
+        break;
       case 'discountValue':
         setDiscountValue(value);
         break;
@@ -433,6 +437,8 @@ export default function NewDiscount() {
   const [openProductModal, setOpenProductModal] = useState(false)
   const [openCustomerModal, setOpenCustomerModal] = useState(false)
   const cancelButtonRef = useRef(null)
+
+  const [discountMethod, setDiscountMethod] = useState('discountCode')
   
 
   return (
@@ -473,12 +479,12 @@ export default function NewDiscount() {
                       Method
                     </label>
                     <div className="mt-1">
-                      <button className="bg-gray-300 rounded-l-md border border-black py-2 text-xs px-3 font-medium lg:font-semibold text-black">Discount code</button>
-                      <button className="bg-white rounded-r-md border border-black py-2 text-xs px-3 font-medium lg:font-semibold text-black">Automatic discount</button>
+                      <button onClick={()=>{setDiscountMethod('discountCode')}} className={`${discountMethod === 'discountCode' ? 'bg-[#cccccc]' : 'bg-white'} rounded-l-md border border-black py-2 text-xs px-3 font-medium lg:font-semibold text-black`}>Discount code</button>
+                      <button onClick={()=>{setDiscountMethod('automaticDiscount')}} className={`${discountMethod === 'automaticDiscount' ? 'bg-[#cccccc]' : 'bg-white'} rounded-r-md border border-black py-2 text-xs px-3 font-medium lg:font-semibold text-black`}>Automatic discount</button>
                     </div>
                   </div>}
 
-                  <div className="mt-4">
+                  { discountMethod === 'discountCode' ?  <div className="mt-4">
                     <div className="flex justify-between">
                       <label htmlFor="discountCode" className="block text-sm font-medium leading-6 text-gray-900">
                         Discount code
@@ -496,7 +502,25 @@ export default function NewDiscount() {
                       className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     />
                     <h1 className="text-sm tracking-tight mt-1">Customers must enter this code at checkout.</h1>
-                  </div>
+                  </div> 
+                  : <div className="mt-4">
+                    <div className="flex justify-between">
+                      <label htmlFor="discountTitle" className="block text-sm font-medium leading-6 text-gray-900">
+                        Title
+                      </label>
+                    </div>
+                    <input
+                      type="text"
+                      name="discountTitle"
+                      value={discountTitle}
+                      onChange={handleChange}
+                      id="discountTitle"
+                      className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    />
+                    <h1 className="text-sm tracking-tight mt-1">Customers will see this in their cart and at checkout.</h1>
+                  </div>}
+
+                  
                 </div>
 
               </CardBody>
@@ -1119,7 +1143,7 @@ export default function NewDiscount() {
                 <div className="flex-col space-y-1">
                   
                   <h1 className="text-sm text-gray-900 font-semibold">Combinations</h1>
-                  <h1 className="text-sm font-medium tracking-tight">This product discount can be combined with:</h1>
+                  <h1 className="text-sm font-medium tracking-tight">{discountCode || discountTitle || 'This product discount'} can be combined with:</h1>
 
                   <div className="flex pt-3 flex-col space-y-2">
 
@@ -1181,6 +1205,20 @@ export default function NewDiscount() {
                           </div>
                           <select value={startTime} name='startTime' onChange={handleChange} id="time" className="bg-white ps-10 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             <option value='8:10' selected>8:10 PM</option>
+                            <option value='6:02'>6:02 PM</option>
+                            <option value='6:30'>6:30 PM</option>
+                            <option value='7:00'>7:00 PM</option>
+                            <option value='7:30'>7:30 PM</option>
+                            <option value='8:00'>8:00 PM</option>
+                            <option value='8:30'>8:30 PM</option>
+                            <option value='9:00'>9:00 PM</option>
+                            <option value='9:30'>9:30 PM</option>
+                            <option value='10:00'>10:00 PM</option>
+                            <option value='10:30'>10:30 PM</option>
+                            <option value='11:00'>11:00 PM</option>
+                            <option value='11:30'>11:30 PM</option>
+                            <option value='12:00'>12:00 PM</option>
+                            <option value='12:30'>12:30 PM</option>
                           </select>
                         </div>
                         
@@ -1212,24 +1250,34 @@ export default function NewDiscount() {
 
                         <div className="relative">
                           <div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
-                            <IoMdTime className='text-lg' />
+                            <IoMdTime className='text-lg'/>
                           </div>
                           <select value={endTime} name='endTime' onChange={handleChange} id="time" className="bg-white ps-10 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             <option value='8:10' selected>8:10 PM</option>
+                            <option value='6:02'>6:02 PM</option>
+                            <option value='6:30'>6:30 PM</option>
+                            <option value='7:00'>7:00 PM</option>
+                            <option value='7:30'>7:30 PM</option>
+                            <option value='8:00'>8:00 PM</option>
+                            <option value='8:30'>8:30 PM</option>
+                            <option value='9:00'>9:00 PM</option>
+                            <option value='9:30'>9:30 PM</option>
+                            <option value='10:00'>10:00 PM</option>
+                            <option value='10:30'>10:30 PM</option>
+                            <option value='11:00'>11:00 PM</option>
+                            <option value='11:30'>11:30 PM</option>
+                            <option value='12:00'>12:00 PM</option>
+                            <option value='12:30'>12:30 PM</option>
                           </select>
                         </div>
                         
                       </div>
-
                     </div>
                   </div>
-
-
                 </div>
 
               </CardBody>
             </Card>
-
           </div>
           <div className="w-full lg:w-1/3 flex-col space-y-5">
 
@@ -1243,14 +1291,14 @@ export default function NewDiscount() {
                     <h1 className="text-sm font-semibold">Summary</h1>
                     { id 
                       ? <h1 className="text-sm font-semibold">{discountCode}</h1>
-                      : <h1 className="text-sm font-semibold">No discount code yet</h1>
+                      : <h1 className="text-sm font-semibold">{discountMethod ==='discountCode' ? discountCode : discountMethod ==='automaticDiscount' ? discountTitle : 'No discount code yet'}</h1>
                     }
                   </div>
                   <div className="flex-col space-y-2">
                     <h1 className="text-sm font-semibold">Type and method</h1>
                     <ul className="list-disc text-sm px-6">
                       <li>{label}</li>
-                      <li>Code</li>
+                      <li>{discountMethod ==='discountCode' ? 'Code' : 'Automatic'}</li>
                     </ul>
                   </div>
 
@@ -1327,7 +1375,7 @@ export default function NewDiscount() {
                   leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                   leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                 >
-                  <Dialog.Panel className="w-full h-[31rem] mt-14 md:h-96 relative transform rounded-lg bg-white text-left shadow-xl transition-all sm:w-full sm:max-w-lg">
+                  <Dialog.Panel className="w-full h-[31rem] mt-14 md:h-96 relative transform rounded-lg bg-white text-left shadow-xl transition-all sm:w-full sm:max-w-3xl">
                     <div className="bg-white sm:px-0 sm:pb-4">
                       <div className="sm:items-start w-full">
                         <div className="text-center mt-0 sm:text-left">
@@ -1349,7 +1397,7 @@ export default function NewDiscount() {
                             <input name="searchCollection" value={searchCollection} onChange={handleSearch} type="search" id="default-search" className="block w-full py-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder='Search collections...' required />
                           </div>
 
-                          <div className="h-[36rem] md:h-[18rem] overflow-y-scroll">
+                          <div className="h-[36rem] md:h-[15rem] overflow-y-scroll">
                             {dbCollections.map((item, index) => {
 
                               return <div key={index} className="flex justify-between items-center border-t border-b py-2 text-sm text-gray-700">
@@ -1430,7 +1478,7 @@ export default function NewDiscount() {
                   leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                   leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                 >
-                  <Dialog.Panel className="w-full h-[31rem] mt-14 md:h-96 relative transform rounded-lg bg-white text-left shadow-xl transition-all sm:w-full sm:max-w-lg">
+                  <Dialog.Panel className="w-full h-[31rem] mt-14 md:h-96 relative transform rounded-lg bg-white text-left shadow-xl transition-all sm:w-full sm:max-w-3xl">
                     <div className="bg-white sm:px-0 sm:pb-4">
                       <div className="sm:items-start w-full">
                         <div className="text-center mt-0 sm:text-left">
@@ -1452,7 +1500,7 @@ export default function NewDiscount() {
                             <input name="searchProduct" value={searchProduct} onChange={handleSearch} type="search" id="default-search" className="block w-full py-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder='Search products...' required />
                           </div>
 
-                          <div className="h-[36rem] md:h-[18rem] overflow-y-scroll">
+                          <div className="h-[36rem] md:h-[15rem] overflow-y-scroll">
                             {dbProducts.map((item, index) => {
 
                               return <div key={index} className="flex justify-between items-center border-t border-b py-2 text-sm text-gray-700">
@@ -1534,7 +1582,7 @@ export default function NewDiscount() {
                   leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                   leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                 >
-                  <Dialog.Panel className="w-full h-[31rem] mt-14 md:h-96 relative transform rounded-lg bg-white text-left shadow-xl transition-all sm:w-full sm:max-w-lg">
+                  <Dialog.Panel className="w-full h-[31rem] mt-14 md:h-96 relative transform rounded-lg bg-white text-left shadow-xl transition-all sm:w-full sm:max-w-3xl">
                     <div className="bg-white sm:px-0 sm:pb-4">
                       <div className="sm:items-start w-full">
                         <div className="text-center mt-0 sm:text-left">
@@ -1556,7 +1604,7 @@ export default function NewDiscount() {
                             <input name="searchCustomer" value={searchCustomer} onChange={handleSearch} type="search" id="default-search" className="block w-full py-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder='Search customers...' required />
                           </div>
 
-                          <div className="h-[36rem] md:h-[18rem] overflow-y-scroll">
+                          <div className="h-[36rem] md:h-[15rem] overflow-y-scroll">
                             {dbCustomers.map((item, index) => {
 
                               return <div key={index} className="flex justify-between items-center border-t border-b py-2 text-sm text-gray-700">
