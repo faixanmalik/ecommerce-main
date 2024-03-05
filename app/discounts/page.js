@@ -307,19 +307,26 @@ const DiscountsPage = () => {
         <DialogBody className="">
           {discountData.map((item, index) => (
             <Link href={item.link} onClick={()=> handleOpen(null)} key={index} className="items-center my-4 text-sm text-gray-700">
-              <div className={`${isMediumScreen === false ?'flex-col' : 'flex'} justify-between items-center py-3 w-full border-b-2`}>
-                <div className="">
-                  <h3 className="font-semibold">{item.name}</h3>
-                  <p className="py-1">{item.desc}</p>
+              <div className={`flex justify-between items-center py-3 w-full border-b-2`}>
+
+                <div className="flex-col">
+                  <div className="">
+                    <h3 className="font-semibold">{item.name}</h3>
+                    <p className="py-1">{item.desc}</p>
+                  </div>
+                  {isMediumScreen === false && <div className="flex justify-between items-center">
+                    <div className="flex py-1 space-x-1 bg-gray-300 rounded-lg px-3 text-gray-800">
+                      <item.icon className='text-lg'/>
+                      <p>{item.label}</p>
+                    </div>
+                  </div>}
                 </div>
-                <div className="flex items-center">
-                  <div className="flex py-1 space-x-1 bg-gray-300 rounded-lg px-3 text-gray-800">
+                 <div className="flex items-center">
+                  {isMediumScreen === true && <div className="flex py-1 space-x-1 bg-gray-300 rounded-lg px-3 text-gray-800">
                     <item.icon className='text-lg'/>
                     <p>{item.label}</p>
-                  </div>
-                  <div>
-                    <IoIosArrowForward className='text-lg ml-2 text-gray-600'/>
-                  </div>
+                  </div>}
+                  <IoIosArrowForward className='text-lg ml-2 text-gray-600'/>
                 </div>
               </div>
             </Link>
