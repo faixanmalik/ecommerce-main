@@ -344,27 +344,43 @@ export default function NewDiscount() {
         break;
       case 'noMinimumRequirements':
         setNoMinimumRequirements(checked);
+        setMinimumPurchasechqbox(false);
+        setMinimumQuantitychqbox(false);
         break;
+
+      case 'minimumPurchasechqbox':
+        setMinimumPurchasechqbox(checked);
+        setNoMinimumRequirements(false);
+        setMinimumQuantitychqbox(false);
+
+        break;
+
+      case 'minimumQuantitychqbox':
+        setMinimumQuantitychqbox(checked);
+        setMinimumPurchasechqbox(false);
+        setNoMinimumRequirements(false);
+        break;
+
+
       case 'minimumPurchaseAmount':
         setMinimumPurchaseAmount(value);
         break;
-      case 'minimumPurchasechqbox':
-        setMinimumPurchasechqbox(checked);
-        break;
+        
       case 'minimumQuantityOfAmount':
         setMinimumQuantityOfAmount(checked);
         break;
-      case 'minimumQuantitychqbox':
-        setMinimumQuantitychqbox(checked);
-        break;
+      
       case 'allCustomers':
         setAllCustomers(checked);
-        break;
-      case 'specificCustomerSegments':
-        setSpecificCustomerSegments(checked);
+        setSpecificCustomerschq(false);
         break;
       case 'specificCustomerschq':
         setSpecificCustomerschq(checked);
+        setAllCustomers(false);
+        break;
+
+      case 'specificCustomerSegments':
+        setSpecificCustomerSegments(checked);
         break;
       case 'specificCustomers':
         setSpecificCustomers(value);
@@ -1151,6 +1167,9 @@ export default function NewDiscount() {
                       <input name="productDiscount" checked={productDiscount} onChange={handleChange} defaultChecked type="checkbox" id="productDiscount" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
                       <label className="text-sm tracking-tight" htmlFor="myCheckbox">Product discounts</label>
                     </div>
+                    {productDiscount === true && <div className="flex-col space-y-1 ml-3 md:ml-7">
+                      <h1 className="text-sm tracking-tight mt-0">If an item is eligible for multiple product discounts, only the largest will apply.</h1>
+                    </div>}
 
                     {type === 'buyXgetY' || type === 'moneyOffOrder' && <div className="flex space-x-2 items-center">
                       <input name="otherDiscount" checked={otherDiscount} onChange={handleChange} type="checkbox" id="otherDiscount" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
@@ -1161,6 +1180,9 @@ export default function NewDiscount() {
                       <input name="shippingDiscount" checked={shippingDiscount} onChange={handleChange} type="checkbox" id="shippingDiscount" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
                       <label className="text-sm tracking-tight" htmlFor="myCheckbox">Shipping discounts</label>
                     </div>
+                    {shippingDiscount === true && <div className="flex-col space-y-1 ml-3 md:ml-7">
+                      <h1 className="text-sm tracking-tight mt-0">No shipping discounts are set to combine. To let customers use more than one discount, set up at least one shipping discount that combines with product discounts.</h1>
+                    </div>}
 
                   </div>
 
