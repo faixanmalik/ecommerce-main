@@ -1420,7 +1420,7 @@ export default function NewDiscount() {
             </Transition.Child>
 
             <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
-              <div className="flex items-end justify-center text-center sm:items-center sm:p-0">
+              <div className="flex min-h-full items-end justify-center text-center sm:items-center sm:p-0">
                 <Transition.Child
                   as={Fragment}
                   enter="ease-out duration-300"
