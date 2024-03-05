@@ -558,7 +558,25 @@ export default function NewDiscount() {
                         <option value="Fixed Amount">Fixed Amount</option>
                       </select>
                       <div className="w-72 flex items-center">
-                        <input
+                        <div className="relative w-full">
+                          {discountType === 'Percentage' 
+                            ?<div className="absolute inset-y-0 end-0 flex items-center pe-7 pointer-events-none">
+                              <AiOutlinePercentage className="text-black text-lg"/>
+                            </div>
+                            :<div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                              <FaRupeeSign  className="text-black text-lg"/>
+                            </div>
+                          }
+                          <input
+                            type="number"
+                            name="discountValue"
+                            value={discountValue}
+                            onChange={handleChange}
+                            id="discountValue"
+                            className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                          />
+                        </div>
+                        {/* <input
                           type="number"
                           name="discountValue"
                           value={discountValue}
@@ -566,7 +584,7 @@ export default function NewDiscount() {
                           id="discountValue"
                           className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         />
-                        <AiOutlinePercentage className="text-black text-lg"/>
+                        <AiOutlinePercentage className="text-black text-lg"/> */}
                       </div>
                     </div>
                     
