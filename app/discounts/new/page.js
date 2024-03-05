@@ -430,7 +430,7 @@ export default function NewDiscount() {
 
 
   const [openCollectionModal, setOpenCollectionModal ] = useState(false)
-  const [openProductModal, setOpenProductModal] = useState(true)
+  const [openProductModal, setOpenProductModal] = useState(false)
   const [openCustomerModal, setOpenCustomerModal] = useState(false)
   const cancelButtonRef = useRef(null)
   
