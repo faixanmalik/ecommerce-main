@@ -1327,7 +1327,7 @@ export default function NewDiscount() {
                   leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                   leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                 >
-                  <Dialog.Panel className="w-full h-96 relative transform rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                  <Dialog.Panel className="w-full h-[31rem] mt-14 md:h-96 relative transform rounded-lg bg-white text-left shadow-xl transition-all sm:w-full sm:max-w-lg">
                     <div className="bg-white sm:px-0 sm:pb-4">
                       <div className="sm:items-start w-full">
                         <div className="text-center mt-0 sm:text-left">
@@ -1340,7 +1340,7 @@ export default function NewDiscount() {
                             </div>
                           </Dialog.Title>
                           
-                          <div className="relative w-full py-3 ">
+                          <div className="relative w-full py-3">
                             <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                               <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                                   <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
@@ -1349,7 +1349,7 @@ export default function NewDiscount() {
                             <input name="searchCollection" value={searchCollection} onChange={handleSearch} type="search" id="default-search" className="block w-full py-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder='Search collections...' required />
                           </div>
 
-                          <div className="h-72 overflow-y-scroll">
+                          <div className="h-[21rem] overflow-y-scroll">
                             {dbCollections.map((item, index) => {
 
                               return <div key={index} className="flex justify-between items-center border-t border-b py-2 text-sm text-gray-700">
@@ -1420,7 +1420,7 @@ export default function NewDiscount() {
             </Transition.Child>
 
             <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
-              <div className="flex min-h-full items-end justify-center text-center sm:items-center sm:p-0">
+              <div className="flex items-end justify-center text-center sm:items-center sm:p-0">
                 <Transition.Child
                   as={Fragment}
                   enter="ease-out duration-300"
@@ -1430,7 +1430,7 @@ export default function NewDiscount() {
                   leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                   leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                 >
-                  <Dialog.Panel className="w-full h-screen md:h-96 relative transform rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                  <Dialog.Panel className="w-full h-[31rem] mt-14 md:h-96 relative transform rounded-lg bg-white text-left shadow-xl transition-all sm:w-full sm:max-w-lg">
                     <div className="bg-white sm:px-0 sm:pb-4">
                       <div className="sm:items-start w-full">
                         <div className="text-center mt-0 sm:text-left">
@@ -1443,8 +1443,8 @@ export default function NewDiscount() {
                             </div>
                           </Dialog.Title>
                           
-                          <div className="relative w-full py-3 ">
-                            <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                          <div className="relative w-full px-2 py-3">
+                            <div className="absolute inset-y-0 start-0 flex items-center ps-5 pointer-events-none">
                               <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                               </svg>
@@ -1452,7 +1452,7 @@ export default function NewDiscount() {
                             <input name="searchProduct" value={searchProduct} onChange={handleSearch} type="search" id="default-search" className="block w-full py-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder='Search products...' required />
                           </div>
 
-                          <div className="h-72 overflow-y-scroll">
+                          <div className="h-[21rem] md:h-[18rem] overflow-y-scroll">
                             {dbProducts.map((item, index) => {
 
                               return <div key={index} className="flex justify-between items-center border-t border-b py-2 text-sm text-gray-700">
@@ -1534,7 +1534,7 @@ export default function NewDiscount() {
                   leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                   leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                 >
-                  <Dialog.Panel className="w-full h-96 relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                  <Dialog.Panel className="w-full h-[31rem] mt-14 md:h-96 relative transform rounded-lg bg-white text-left shadow-xl transition-all sm:w-full sm:max-w-lg">
                     <div className="bg-white sm:px-0 sm:pb-4">
                       <div className="sm:items-start w-full">
                         <div className="text-center mt-0 sm:text-left">
@@ -1556,7 +1556,7 @@ export default function NewDiscount() {
                             <input name="searchCustomer" value={searchCustomer} onChange={handleSearch} type="search" id="default-search" className="block w-full py-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder='Search customers...' required />
                           </div>
 
-                          <div className="h-72 overflow-y-scroll">
+                          <div className="h-[21rem] md:h-[18rem] overflow-y-scroll">
                             {dbCustomers.map((item, index) => {
 
                               return <div key={index} className="flex justify-between items-center border-t border-b py-2 text-sm text-gray-700">
