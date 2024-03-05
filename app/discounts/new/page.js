@@ -860,13 +860,13 @@ export default function NewDiscount() {
                   <div className="flex flex-col space-y-2">
 
                     <div className="flex space-x-2 items-center">
-                      <input onChange={handleChange} name="noMinimumRequirements" checked={noMinimumRequirements} defaultChecked type="checkbox" id="myCheckbox" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                      <input onChange={handleChange} name="noMinimumRequirements" checked={noMinimumRequirements} defaultChecked type="checkbox" id="noMinimumRequirements" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
                       <label className="text-sm tracking-tight" htmlFor="myCheckbox">No minimum requirements</label>
                     </div>
 
                     <div className="flex-col space-y-2 items-center">
                       <div className="flex space-x-2 items-center">
-                        <input onChange={handleChange} name="minimumPurchasechqbox" checked={minimumPurchasechqbox} type="checkbox" id="myCheckbox" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                        <input onChange={handleChange} name="minimumPurchasechqbox" checked={minimumPurchasechqbox} type="checkbox" id="minimumPurchasechqbox" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
                         <label className="text-sm tracking-tight" htmlFor="myCheckbox">Minimum purchase amount (Rs)</label>
                       </div>
                       {minimumPurchasechqbox === true && <div className="flex-col space-y-1 ml-3 md:ml-7">
@@ -886,7 +886,7 @@ export default function NewDiscount() {
 
                     <div className="flex-col space-y-2 items-center">
                       <div className="flex space-x-2 items-center">
-                        <input onChange={handleChange} name="minimumQuantitychqbox" checked={minimumQuantitychqbox} type="checkbox" id="myCheckbox" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                        <input onChange={handleChange} name="minimumQuantitychqbox" checked={minimumQuantitychqbox} type="checkbox" id="minimumQuantitychqbox" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
                         <label className="text-sm tracking-tight" htmlFor="myCheckbox">Minimum quantity of items</label>
                       </div>
                       {minimumQuantitychqbox === true && <div className="flex-col space-y-1 ml-3 md:ml-7">
@@ -1019,7 +1019,7 @@ export default function NewDiscount() {
                   <div className="flex flex-col space-y-2">
 
                     <div className="flex space-x-2 items-center">
-                      <input name="allCustomers" onChange={handleChange} checked={allCustomers} defaultChecked type="checkbox" id="myCheckbox" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                      <input name="allCustomers" onChange={handleChange} checked={allCustomers} defaultChecked type="checkbox" id="allCustomers" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
                       <label className="text-sm tracking-tight" htmlFor="myCheckbox">All customers</label>
                     </div>
 
@@ -1033,7 +1033,7 @@ export default function NewDiscount() {
 
                     <div className="flex-col space-y-2 items-center">
                       <div className="flex space-x-2 items-center">
-                        <input name="specificCustomerschq" onChange={handleChange} checked={specificCustomerschq} type="checkbox" id="myCheckbox" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                        <input name="specificCustomerschq" onChange={handleChange} checked={specificCustomerschq} type="checkbox" id="specificCustomerschq" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
                         <label className="text-sm tracking-tight" htmlFor="myCheckbox">Specific customers</label>
                       </div>
                       {specificCustomerschq === true && <div className="flex-col space-y-1">
@@ -1088,7 +1088,7 @@ export default function NewDiscount() {
                   <div className="flex flex-col space-y-2">
 
                     <div className="flex space-x-2 items-center">
-                      <input checked={limitTimeschq} name="limitTimeschq" onChange={handleChange} type="checkbox" id="myCheckbox" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                      <input checked={limitTimeschq} name="limitTimeschq" onChange={handleChange} type="checkbox" id="limitTimeschq" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
                       <label className="text-sm tracking-tight" htmlFor="myCheckbox">Limit number of times this discount can be used in total</label>
                     </div>
                     {limitTimeschq === true && <div className="flex-col space-y-1 ml-3 md:ml-7">
@@ -1103,7 +1103,7 @@ export default function NewDiscount() {
                     </div>}
 
                     <div className="flex space-x-2 items-center">
-                      <input checked={limitPerCustomer} name="limitPerCustomer" onChange={handleChange} type="checkbox" id="myCheckbox" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                      <input checked={limitPerCustomer} name="limitPerCustomer" onChange={handleChange} type="checkbox" id="limitPerCustomer" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
                       <label className="text-sm tracking-tight" htmlFor="myCheckbox">Limit to one use per customer</label>
                     </div>
                     
@@ -1124,17 +1124,17 @@ export default function NewDiscount() {
                   <div className="flex pt-3 flex-col space-y-2">
 
                     <div className="flex space-x-2 items-center">
-                      <input name="productDiscount" checked={productDiscount} onChange={handleChange} defaultChecked type="checkbox" id="myCheckbox" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                      <input name="productDiscount" checked={productDiscount} onChange={handleChange} defaultChecked type="checkbox" id="productDiscount" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
                       <label className="text-sm tracking-tight" htmlFor="myCheckbox">Product discounts</label>
                     </div>
 
                     {type === 'buyXgetY' || type === 'moneyOffOrder' && <div className="flex space-x-2 items-center">
-                      <input name="otherDiscount" checked={otherDiscount} onChange={handleChange} type="checkbox" id="myCheckbox" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                      <input name="otherDiscount" checked={otherDiscount} onChange={handleChange} type="checkbox" id="otherDiscount" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
                       <label className="text-sm tracking-tight" htmlFor="myCheckbox">Order discounts</label>
                     </div>}
 
                     <div className="flex space-x-2 items-center">
-                      <input name="shippingDiscount" checked={shippingDiscount} onChange={handleChange} type="checkbox" id="myCheckbox" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
+                      <input name="shippingDiscount" checked={shippingDiscount} onChange={handleChange} type="checkbox" id="shippingDiscount" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
                       <label className="text-sm tracking-tight" htmlFor="myCheckbox">Shipping discounts</label>
                     </div>
 
