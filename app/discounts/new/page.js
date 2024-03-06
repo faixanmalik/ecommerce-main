@@ -216,69 +216,8 @@ export default function NewDiscount() {
   }, [searchCountries])
 
 
-  const addCollection = (e) => {
-    e.preventDefault();
+  
 
-    const newCollections = [...collections];
-
-    // Filter the data
-    let data = dbCollections.filter((item) => {
-      return item.title === selectedValue;
-    });
-
-    // Check if data is found
-    if (data.length > 0) {
-      // Push the first item of the filtered array
-      newCollections.push(data[0]);
-
-      // Set the updated collections state
-      setCollections(newCollections);
-      setOpenCollectionModal(false);
-    } else {
-      console.log("Data not found");
-    }
-  }
-
-  const addProduct = (e) => {
-    e.preventDefault();
-
-    const newProducts = [...products];
-
-    // Filter the data
-    let data = dbProducts.filter((item) => {
-      return item.title === selectedValue;
-    });
-
-    // Check if data is found
-    if (data.length > 0) {
-      // Push the first item of the filtered array
-      newProducts.push(data[0]);
-
-      // Set the updated collections state
-      setProducts(newProducts);
-      setOpenProductModal(false);
-    } else {
-      console.log("Data not found");
-    }
-  }
-
-  const addCustomer = (e) => {
-    e.preventDefault();
-
-    const newCustomers = [...customers];
-
-    let data = dbCustomers.filter((item) => {
-      return item.email === selectedValue;
-    });
-
-    if (data.length > 0) {
-      newCustomers.push(data[0]);
-      setCustomers(newCustomers);
-      setOpenCustomerModal(false);
-    } else {
-      console.log("Data not found");
-    }
-  }
 
   const addCountry = (e) => {
     e.preventDefault();
@@ -298,13 +237,7 @@ export default function NewDiscount() {
     }
   }
 
-  const deleteItem = (e, indexToDelete, type)=>{
-    e.preventDefault();
-
-    const newCollections = [...collections];
-    newCollections.splice(indexToDelete, 1);
-    setCollections(newCollections);
-  }
+  
 
   let label; 
   if(type === 'moneyOffProduct'){
@@ -455,6 +388,95 @@ export default function NewDiscount() {
   const cancelButtonRef = useRef(null)
 
   const [discountMethod, setDiscountMethod] = useState('discountCode')
+
+
+  const [selectedCollections, setSelectedCollections] = useState([]);
+  const [selectedProducts, setSelectedProducts] = useState([])
+  const [selectedCustomers, setSelectedCustomers] = useState([])
+
+  const handleCheckBox = (event, item, type) => {
+    const isChecked = event.target.checked;
+
+    if(type === 'Collections'){
+      if (isChecked) {
+        // Add the selected item to the array
+        setSelectedCollections([...selectedCollections, item]);
+      } else {
+        // Remove the deselected item from the array
+        setSelectedCollections(selectedCollections.filter(selectedItem => selectedItem !== item));
+      }
+    }
+    else if(type === 'Products'){
+      if (isChecked) {
+        // Add the selected item to the array
+        setSelectedProducts([...selectedProducts, item]);
+      } else {
+        // Remove the deselected item from the array
+        setSelectedProducts(selectedProducts.filter(selectedItem => selectedItem !== item));
+      }
+    }
+    else if(type === 'Customers'){
+      if (isChecked) {
+        // Add the selected item to the array
+        setSelectedCustomers([...selectedCustomers, item]);
+      } else {
+        // Remove the deselected item from the array
+        setSelectedCustomers(selectedCustomers.filter(selectedItem => selectedItem !== item));
+      }
+    }
+    
+  };
+
+  const addCollection = (e) => {
+    e.preventDefault();
+    setCollections(selectedCollections);
+    setOpenCollectionModal(false);
+  }
+  const addProduct = (e) => {
+    e.preventDefault();
+    setProducts(selectedProducts);
+    setOpenProductModal(false);
+  }
+  
+  const addCustomer = (e) => {
+    e.preventDefault();
+    setCustomers(selectedCustomers);
+    setOpenProductModal(false);
+  }
+
+  const delCollection = (e, indexToDelete)=>{
+    e.preventDefault();
+
+    const newData = [...collections];
+    newData.splice(indexToDelete, 1);
+    setCollections(newData);
+  }
+
+  const delProducts = (e, indexToDelete)=>{
+    e.preventDefault();
+
+    const newData = [...products];
+    newData.splice(indexToDelete, 1);
+    setProducts(newData);
+  }
+
+  const delCustomers = (e, indexToDelete)=>{
+    e.preventDefault();
+
+    const newData = [...customers];
+    newData.splice(indexToDelete, 1);
+    setCustomers(newData);
+  }
+
+  const delCountries = (e, indexToDelete)=>{
+    e.preventDefault();
+
+    const newData = [...addedCountries];
+    newData.splice(indexToDelete, 1);
+    setAddedCountries(newData);
+  }
+  
+  
   
 
   return (
@@ -618,24 +640,46 @@ export default function NewDiscount() {
                       </div>
 
                     <div className="mt-2">
-                      {collections.map((item, index) => {
-                        return <div key={index} className="flex mt-2 justify-between items-center border rounded-md py-2 px-3 text-sm text-gray-700">
-                          
-                          <div className="flex space-x-3">
-                            <div className="border border-gray-300 rounded-md items-center my-auto p-2">
-                              <IoImageOutline className='text-xl'/>
+                      {appliesTo === 'Specific Collections' && (
+                        collections.map((item, index) => {
+                          return (
+                            <div key={index} className="flex mt-2 justify-between items-center border rounded-md py-2 px-3 text-sm text-gray-700">
+                              <div className="flex space-x-3">
+                                <div className="border border-gray-300 rounded-md items-center my-auto p-2">
+                                  <IoImageOutline className='text-xl'/>
+                                </div>
+                                <div className="flex-col">
+                                  <h3 className="font-semibold">{item.title}</h3>
+                                  <p className="">{item?.products?.length}</p>
+                                </div>
+                              </div>
+                              <div>
+                                <IoCloseSharp onClick={(e) => delCollection(e,index)} className='text-lg cursor-pointer'/>
+                              </div>
                             </div>
-                            <div className="flex-col">
-                              <h3 className="font-semibold">{item.title}</h3>
-                              <p className="">{item?.products?.length}</p>
+                          );
+                        })
+                      )}
+                      {appliesTo === 'Specific Products' && (
+                        products.map((item, index) => {
+                          return (
+                            <div key={index} className="flex mt-2 justify-between items-center border rounded-md py-2 px-3 text-sm text-gray-700">
+                              <div className="flex space-x-3">
+                                <div className="border border-gray-300 rounded-md items-center my-auto p-2">
+                                  <IoImageOutline className='text-xl'/>
+                                </div>
+                                <div className="flex-col">
+                                  <h3 className="font-semibold">{item.title}</h3>
+                                  <p className="">{item?.products?.length}</p>
+                                </div>
+                              </div>
+                              <div>
+                                <IoCloseSharp onClick={(e) => delProducts(e,index)} className='text-lg cursor-pointer'/>
+                              </div>
                             </div>
-                          </div>
-                          <div>
-                            <IoCloseSharp onClick={(e) => deleteItem(e,index,'collections')} className='text-lg cursor-pointer'/>
-                          </div>
-                          
-                        </div>
-                      })}
+                          );
+                        })
+                      )}
                     </div>
                   </div>
 
@@ -758,7 +802,7 @@ export default function NewDiscount() {
                               </div>
                             </div>
                             <div>
-                              <IoCloseSharp onClick={(e) => deleteItem(e,index, 'collections')} className='text-lg cursor-pointer'/>
+                              <IoCloseSharp onClick={(e) => delCollection(e,index)} className='text-lg cursor-pointer'/>
                             </div>
                             
                           </div>
@@ -843,7 +887,7 @@ export default function NewDiscount() {
                               </div>
                             </div>
                             <div>
-                              <IoCloseSharp onClick={(e) => deleteItem(e,index, 'collections')} className='text-lg cursor-pointer'/>
+                              <IoCloseSharp onClick={(e) => delCollection(e,index)} className='text-lg cursor-pointer'/>
                             </div>
                             
                           </div>
@@ -1027,7 +1071,7 @@ export default function NewDiscount() {
                               </div>
                             </div>
                             <div>
-                              <IoCloseSharp onClick={(e) => deleteItem(e,index, 'countries')} className='text-lg cursor-pointer'/>
+                              <IoCloseSharp onClick={(e) => delCountries(e,index)} className='text-lg cursor-pointer'/>
                             </div>
                             
                           </div>
@@ -1121,7 +1165,7 @@ export default function NewDiscount() {
                                 </div>
                               </div>
                               <div>
-                                <IoCloseSharp onClick={(e) => deleteItem(e,index, 'Customers')} className='text-lg cursor-pointer'/>
+                                <IoCloseSharp onClick={(e) => delCustomers(e,index)} className='text-lg cursor-pointer'/>
                               </div>
                             </div>
                           })}
@@ -1435,30 +1479,31 @@ export default function NewDiscount() {
                             <input name="searchCollection" value={searchCollection} onChange={handleSearch} type="search" id="default-search" className="block w-full py-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder='Search collections...' required />
                           </div>
 
-                          <div className="h-[36rem] md:h-[15rem] overflow-y-scroll">
-                            {dbCollections.map((item, index) => {
-
-                              return <div key={index} className="flex justify-between items-center border-t border-b py-2 text-sm text-gray-700">
-                                
-                                <Radio
-                                  name="terms"
-                                  checked={selectedValue === item.title}
-                                  value={item.title}
-                                  onChange={handleRadioChange}
-                                  label={
+                          <div className="h-[36rem] md:h-[15rem] px-4 overflow-y-scroll">
+                            {dbCollections.map((item, index) => (
+                              <div key={index} className="flex justify-between items-center border-t border-b py-2 text-sm text-gray-700">
+                                <div className="flex space-x-2 items-center">
+                                  <input
+                                    checked={selectedCollections.includes(item)}
+                                    onChange={(event) => handleCheckBox(event, item, 'Collections' )}
+                                    type="checkbox"
+                                    id={item.title}
+                                    className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black"
+                                  />
+                                  <label htmlFor={item.title} className="text-sm tracking-tight">
                                     <div className="flex space-x-3">
                                       <div className="border border-gray-300 rounded-md items-center my-auto p-2">
                                         <IoImageOutline className='text-xl'/>
                                       </div>
                                       <div className="flex-col text-left">
                                         <h3 className="font-semibold">{item.title}</h3>
-                                        <p className="">{item?.products?.length} products</p>
+                                        <p>{item?.products?.length} products</p>
                                       </div>
                                     </div>
-                                  }
-                                />
+                                  </label>
+                                </div>
                               </div>
-                            })}
+                            ))}
                           </div>
 
 
@@ -1538,17 +1583,19 @@ export default function NewDiscount() {
                             <input name="searchProduct" value={searchProduct} onChange={handleSearch} type="search" id="default-search" className="block w-full py-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder='Search products...' required />
                           </div>
 
-                          <div className="h-[36rem] md:h-[15rem] overflow-y-scroll">
-                            {dbProducts.map((item, index) => {
+                          <div className="h-[36rem] md:h-[15rem] px-3 overflow-y-scroll">
+                            {dbProducts.map((item, index) => (
 
-                              return <div key={index} className="flex justify-between items-center border-t border-b py-2 text-sm text-gray-700">
-                                
-                                <Radio
-                                  name="terms"
-                                  checked={selectedValue === item.title}
-                                  value={item.title}
-                                  onChange={handleRadioChange}
-                                  label={
+                              <div key={index} className="flex justify-between items-center border-t border-b py-2 text-sm text-gray-700">
+                                <div className="flex space-x-2 items-center">
+                                  <input
+                                    checked={selectedProducts.includes(item)}
+                                    onChange={(event) => handleCheckBox(event, item, 'Products')}
+                                    type="checkbox"
+                                    id={item.title}
+                                    className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black"
+                                  />
+                                  <label htmlFor={item.title} className="text-sm tracking-tight">
                                     <div className="flex space-x-3">
                                       <div className="border border-gray-300 rounded-md items-center my-auto p-2">
                                         <IoImageOutline className='text-xl'/>
@@ -1558,11 +1605,11 @@ export default function NewDiscount() {
                                         <p className="">{item?.variants?.length} products</p>
                                       </div>
                                     </div>
-                                  }
-                                />
-                                
+                                  </label>
+                                </div>
                               </div>
-                            })}
+
+                            ))}
                           </div>
 
 
@@ -1642,17 +1689,19 @@ export default function NewDiscount() {
                             <input name="searchCustomer" value={searchCustomer} onChange={handleSearch} type="search" id="default-search" className="block w-full py-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder='Search customers...' required />
                           </div>
 
-                          <div className="h-[36rem] md:h-[15rem] overflow-y-scroll">
-                            {dbCustomers.map((item, index) => {
+                          <div className="h-[36rem] md:h-[15rem] px-3 overflow-y-scroll">
+                            {dbCustomers.map((item, index) => (
 
-                              return <div key={index} className="flex justify-between items-center border-t border-b py-2 text-sm text-gray-700">
-                                
-                                <Radio
-                                  name="terms"
-                                  checked={selectedValue === item.email}
-                                  value={item.email}
-                                  onChange={handleRadioChange}
-                                  label={
+                              <div key={index} className="flex justify-between items-center border-t border-b py-2 text-sm text-gray-700">
+                                <div className="flex space-x-2 items-center">
+                                  <input
+                                    checked={selectedCustomers.includes(item)}
+                                    onChange={(event) => handleCheckBox(event, item, 'Customers')}
+                                    type="checkbox"
+                                    id={item.email}
+                                    className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black"
+                                  />
+                                  <label htmlFor={item.email} className="text-sm tracking-tight">
                                     <div className="flex space-x-3">
                                       <div className="border border-gray-300 rounded-md items-center my-auto p-2">
                                         <IoImageOutline className='text-xl'/>
@@ -1660,14 +1709,34 @@ export default function NewDiscount() {
                                       <div className="flex-col text-left">
                                         <h3 className="font-semibold">{item.firstName + '' + item.lastName}</h3>
                                         <p className="">{item.email}</p>
-                                      </div>
+                                       </div>
                                     </div>
-                                  }
-                                />
-                              </div>
-                            })}
-                          </div>
+                                  </label>
+                                </div>
+                                </div>
 
+                              // <div key={index} className="flex justify-between items-center border-t border-b py-2 text-sm text-gray-700">
+                                
+                              //   <Radio
+                              //     name="terms"
+                              //     checked={selectedValue === item.email}
+                              //     value={item.email}
+                              //     onChange={handleRadioChange}
+                              //     label={
+                              //       <div className="flex space-x-3">
+                              //         <div className="border border-gray-300 rounded-md items-center my-auto p-2">
+                              //           <IoImageOutline className='text-xl'/>
+                              //         </div>
+                              //         <div className="flex-col text-left">
+                              //           <h3 className="font-semibold">{item.firstName + '' + item.lastName}</h3>
+                              //           <p className="">{item.email}</p>
+                              //         </div>
+                              //       </div>
+                              //     }
+                              //   />
+                              // </div>
+                            ))}
+                          </div>
 
                         </div>
                       </div>
