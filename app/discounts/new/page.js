@@ -383,7 +383,7 @@ export default function NewDiscount() {
 
 
   const [openCollectionModal, setOpenCollectionModal ] = useState(false)
-  const [openProductModal, setOpenProductModal] = useState(false)
+  const [openProductModal, setOpenProductModal] = useState(true)
   const [openCustomerModal, setOpenCustomerModal] = useState(false)
   const cancelButtonRef = useRef(null)
 
@@ -392,6 +392,7 @@ export default function NewDiscount() {
 
   const [selectedCollections, setSelectedCollections] = useState([]);
   const [selectedProducts, setSelectedProducts] = useState([])
+  const [selectedVariants, setSelectedVariants] = useState([])
   const [selectedCustomers, setSelectedCustomers] = useState([])
 
   const handleCheckBox = (event, item, type) => {
@@ -413,6 +414,15 @@ export default function NewDiscount() {
       } else {
         // Remove the deselected item from the array
         setSelectedProducts(selectedProducts.filter(selectedItem => selectedItem !== item));
+      }
+    }
+    else if(type === 'Variants'){
+      if (isChecked) {
+        // Add the selected item to the array
+        setSelectedVariants([...selectedVariants, item]);
+      } else {
+        // Remove the deselected item from the array
+        setSelectedVariants(selectedVariants.filter(selectedItem => selectedItem !== item));
       }
     }
     else if(type === 'Customers'){
@@ -1585,8 +1595,8 @@ export default function NewDiscount() {
 
                           <div className="h-[36rem] md:h-[15rem] px-3 overflow-y-scroll">
                             {dbProducts.map((item, index) => {
-                              console.log(item.variants)
-                              return <div key={index} className="flex justify-between items-center border-t border-b py-2 text-sm text-gray-700">
+                              let variants = item.variants;
+                              return <div key={index} className="flex-col space-y-4 justify-between items-center border-t border-b py-2 text-sm text-gray-700">
                                 <div className="flex space-x-2 items-center">
                                   <input
                                     checked={selectedProducts.includes(item)}
@@ -1607,9 +1617,36 @@ export default function NewDiscount() {
                                     </div>
                                   </label>
                                 </div>
-                                <div>
+                                {selectedProducts.includes(item) && <div className="mx-8">
+
+                                  {variants.map((variant, index)=>{
+                                    return <div className="flex py-3 w-full space-x-2 items-center">
+                                    <input
+                                      checked={selectedVariants.includes(variant)}
+                                      onChange={(event) => handleCheckBox(event, variant, 'Variants')}
+                                      type="checkbox"
+                                      id={variant}
+                                      className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black"
+                                    />
+                                    <label htmlFor={variant} className="w-full text-sm tracking-tight">
+
+
+                                      <div className="flex w-full justify-between text-left">
+                                        <div>
+                                          <h3 className="font-medium">Title of product {index}</h3>
+                                        </div>
+                                        <div className="flex space-x-6">
+                                          <h3 className="font-medium">Avaiable pieces</h3>
+                                          <p className="font-medium">RS: 90.00</p>
+                                        </div>
+                                      </div>
+
+
+                                    </label>
+                                  </div>
+                                  })}
                                   
-                                </div>
+                                </div>}
                               </div>
 
                             })}
