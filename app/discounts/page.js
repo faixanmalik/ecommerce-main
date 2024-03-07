@@ -151,7 +151,7 @@ const DiscountsPage = () => {
 
       {discounts.length != 0 &&  <MaterialCard className="w-full">
 
-        <div className="flex justify-between items-center py-2 px-0 md:px-2">
+        <div className="flex justify-between items-center px-2 md:px-2 py-2">
 
           <div className="flex items-center space-x-1 md:space-x-4">
             {tableButtons.map((item, index)=>{
@@ -177,7 +177,7 @@ const DiscountsPage = () => {
               {TABLE_HEAD.map((head, index) => (
                 <th
                   key={index}
-                  className="bg-[#f7f7f7] border-b border-t border-blue-gray-100 p-2 py-3"
+                  className="bg-[#f7f7f7] border-b border-t border-blue-gray-100 py-3"
                 >
                   <Typography
                     variant="small"
@@ -262,7 +262,7 @@ const DiscountsPage = () => {
                 </td>
               </tr>
             ) : (
-             <div key={index} className="px-1 md:px-5 py-4 md:py-5 w-full flex justify-between items-center">
+             <div key={index} className="px-3 md:px-5 py-4 md:py-5 w-full flex justify-between items-center">
                 <div className="">
                   <div className="font-bold text-sm">{item.discountCode} - ({item.used} used)</div>
                   <div className="font-semibold text-xs">{item.discountValue}% off {item.collections[0]?.title} - <span>{item.limitPerCustomer === true ? 'One use per customer' : ''}</span></div>
