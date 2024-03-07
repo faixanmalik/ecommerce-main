@@ -480,8 +480,8 @@ export default function NewDiscount() {
   
 
   return (
-    <div className="w-full mx-4 font-sans bg-gray-100 min-h-screen items-center flex flex-col">
-      <div className="flex-col max-w-5xl w-full flex gap-6 md:px-8 py-8">
+    <div className="mx-4 font-sans bg-gray-100 min-h-screen items-center flex flex-col">
+      <div className="flex-col md:max-w-5xl md:w-full flex gap-6 md:px-8 py-8">
 
         <div className="flex gap-3 items-center">
           <Link
