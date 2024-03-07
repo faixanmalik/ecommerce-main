@@ -1496,7 +1496,7 @@ export default function NewDiscount() {
                                         <IoImageOutline className='text-xl'/>
                                       </div>
                                       <div className="flex-col text-left">
-                                        <h3 className="font-semibold">{item.title}</h3>
+                                        <h3 className="font-semibold w-10/12">{item.title}</h3>
                                         <p>{item?.products?.length} products</p>
                                       </div>
                                     </div>
