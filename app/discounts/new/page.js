@@ -1482,7 +1482,7 @@ export default function NewDiscount() {
                           <div className="h-[36rem] md:h-[15rem] px-4 overflow-y-scroll">
                             {dbCollections.map((item, index) => (
                               <div key={index} className="flex justify-between items-center border-t border-b py-2 text-sm text-gray-700">
-                                <div className="flex space-x-2 items-center">
+                                <div className="flex w-full space-x-2 items-center">
                                   <input
                                     checked={selectedCollections.includes(item)}
                                     onChange={(event) => handleCheckBox(event, item, 'Collections' )}
@@ -1496,7 +1496,7 @@ export default function NewDiscount() {
                                         <IoImageOutline className='text-xl'/>
                                       </div>
                                       <div className="flex-col text-left">
-                                        <h3 className="font-semibold w-10/12">{item.title}</h3>
+                                        <h3 className="font-semibold">{item.title.substring(0, 55)}</h3>
                                         <p>{item?.products?.length} products</p>
                                       </div>
                                     </div>
