@@ -480,7 +480,7 @@ export default function NewDiscount() {
   
 
   return (
-    <div className="w-full bg-gray-100 min-h-screen items-center flex flex-col">
+    <div className="w-full font-sans bg-gray-100 min-h-screen items-center flex flex-col">
       <div className="flex-col max-w-5xl w-full flex gap-6 md:px-8 py-8">
 
         <div className="flex gap-3 items-center">
@@ -570,7 +570,7 @@ export default function NewDiscount() {
                 <div className="flex-col space-y-5">
 
                   <div className="">
-                    <label className="block text-sm font-medium leading-6 text-gray-900">
+                    <label className="block text-sm font-semibold leading-6 text-gray-900">
                       Discount value
                     </label>
                     
@@ -613,7 +613,7 @@ export default function NewDiscount() {
                   </div>
 
                   <div className="">
-                    <label htmlFor="appliesTo" className="block text-sm font-medium leading-6 text-gray-900">
+                    <label htmlFor="appliesTo" className="block text-sm font-semibold leading-6 text-gray-900">
                       Applies to
                     </label>
                     

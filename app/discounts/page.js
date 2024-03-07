@@ -123,7 +123,7 @@ const DiscountsPage = () => {
   }
 
   return (
-    <div className="py-5 md:px-5">
+    <div className="py-5 md:px-5 font-sans">
       <div className="flex px-1 mb-5 justify-between items-center">
         <Heading>Discounts</Heading>
         <div className="flex justify-center items-center gap-2">
@@ -202,10 +202,10 @@ const DiscountsPage = () => {
                   <Typography
                     variant="small"
                     color="blue-gray"
-                    className="flex-col font-normal text-xs"
+                    className="flex-col font-normal text-sm"
                   >
-                    <div className="font-bold text-sm">{item.discountCode}</div>
-                    <div className="font-semibold">{item.discountValue}% off {item.collections[0]?.title} - <span>{item.limitPerCustomer === true ? 'One use per customer' : ''}</span></div>
+                    <div className="font-bold">{item.discountCode}</div>
+                    <div className="font-medium">{item.discountValue}% off {item.collections[0]?.title} - <span>{item.limitPerCustomer === true ? 'One use per customer' : ''}</span></div>
                   </Typography>
                 </td>
                 <td className={classes}>
@@ -232,9 +232,9 @@ const DiscountsPage = () => {
                     href="#"
                     variant="small"
                     color="blue-gray"
-                    className="font-medium text-xs"
+                    className="font-medium text-sm"
                   >
-                    <div className="font-medium">Amount off products</div>
+                    <div className="font-medium font-sans">Amount off products</div>
                     <div className="font-medium">{item.productDiscount === true ? 'Product Discount' : item.shippingDiscount === true ? 'Shipping Discount' : ''}</div>
                   </Typography>
                 </td>
