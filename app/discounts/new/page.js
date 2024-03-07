@@ -480,7 +480,7 @@ export default function NewDiscount() {
   
 
   return (
-    <div className="w-full font-sans bg-gray-100 min-h-screen items-center flex flex-col">
+    <div className="w-full mx-4 font-sans bg-gray-100 min-h-screen items-center flex flex-col">
       <div className="flex-col max-w-5xl w-full flex gap-6 md:px-8 py-8">
 
         <div className="flex gap-3 items-center">
@@ -1584,9 +1584,9 @@ export default function NewDiscount() {
                           </div>
 
                           <div className="h-[36rem] md:h-[15rem] px-3 overflow-y-scroll">
-                            {dbProducts.map((item, index) => (
-
-                              <div key={index} className="flex justify-between items-center border-t border-b py-2 text-sm text-gray-700">
+                            {dbProducts.map((item, index) => {
+                              console.log(item.variants)
+                              return <div key={index} className="flex justify-between items-center border-t border-b py-2 text-sm text-gray-700">
                                 <div className="flex space-x-2 items-center">
                                   <input
                                     checked={selectedProducts.includes(item)}
@@ -1607,9 +1607,12 @@ export default function NewDiscount() {
                                     </div>
                                   </label>
                                 </div>
+                                <div>
+                                  
+                                </div>
                               </div>
 
-                            ))}
+                            })}
                           </div>
 
 

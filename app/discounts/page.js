@@ -123,7 +123,7 @@ const DiscountsPage = () => {
   }
 
   return (
-    <div className="py-5 md:px-5 font-sans">
+    <div className="py-5 mx-4 md:px-5 font-sans">
       <div className="flex px-1 mb-5 justify-between items-center">
         <Heading>Discounts</Heading>
         <div className="flex justify-center items-center gap-2">
@@ -155,7 +155,7 @@ const DiscountsPage = () => {
 
           <div className="flex items-center space-x-1 md:space-x-4">
             {tableButtons.map((item, index)=>{
-              return <button key={index} onClick={()=>setButtonIndex(index)} className={`font-semibold text-xs md:text-sm px-1 py-1 ${buttonIndex === index ? 'bg-gray-200 rounded-md' : ''}`}>{item.name}</button>
+              return <button key={index} onClick={()=>setButtonIndex(index)} className={`font-semibold text-sm md:text-sm px-1 py-1 ${buttonIndex === index ? 'bg-gray-200 rounded-md' : ''}`}>{item.name}</button>
             })}
             <FaPlus className='text-xs md:text-sm'/>
           </div>
