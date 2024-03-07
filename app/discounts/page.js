@@ -123,7 +123,7 @@ const DiscountsPage = () => {
   }
 
   return (
-    <div className="py-5 mx-4 md:px-5 font-sans">
+    <div className="py-5 mx-4 md:mx-0 md:px-5 font-sans">
       <div className="flex px-1 mb-5 justify-between items-center">
         <Heading>Discounts</Heading>
         <div className="flex justify-center items-center gap-2">
