@@ -1601,7 +1601,7 @@ export default function NewDiscount() {
                                         <IoImageOutline className='text-xl'/>
                                       </div>
                                       <div className="flex-col text-left">
-                                        <h3 className="font-semibold">{item.title}</h3>
+                                        <h3 className="font-semibold">{item.title.substring(0, 55)}</h3>
                                         <p className="">{item?.variants?.length} products</p>
                                       </div>
                                     </div>
@@ -1707,7 +1707,7 @@ export default function NewDiscount() {
                                         <IoImageOutline className='text-xl'/>
                                       </div>
                                       <div className="flex-col text-left">
-                                        <h3 className="font-semibold">{item.firstName + '' + item.lastName}</h3>
+                                        <h3 className="font-semibold">{(item.firstName + '' + item.lastName).substring(0, 55)}</h3>
                                         <p className="">{item.email}</p>
                                        </div>
                                     </div>
