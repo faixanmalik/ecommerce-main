@@ -383,7 +383,7 @@ export default function NewDiscount() {
 
 
   const [openCollectionModal, setOpenCollectionModal ] = useState(false)
-  const [openProductModal, setOpenProductModal] = useState(true)
+  const [openProductModal, setOpenProductModal] = useState(false)
   const [openCustomerModal, setOpenCustomerModal] = useState(false)
   const cancelButtonRef = useRef(null)
 
@@ -392,7 +392,6 @@ export default function NewDiscount() {
 
   const [selectedCollections, setSelectedCollections] = useState([]);
   const [selectedProducts, setSelectedProducts] = useState([])
-  const [selectedVariants, setSelectedVariants] = useState([])
   const [selectedCustomers, setSelectedCustomers] = useState([])
 
   const handleCheckBox = (event, item, type) => {
@@ -408,6 +407,7 @@ export default function NewDiscount() {
       }
     }
     else if(type === 'Products'){
+      item.selectedVariants = []
       if (isChecked) {
         // Add the selected item to the array
         setSelectedProducts([...selectedProducts, item]);
@@ -416,15 +416,7 @@ export default function NewDiscount() {
         setSelectedProducts(selectedProducts.filter(selectedItem => selectedItem !== item));
       }
     }
-    else if(type === 'Variants'){
-      if (isChecked) {
-        // Add the selected item to the array
-        setSelectedVariants([...selectedVariants, item]);
-      } else {
-        // Remove the deselected item from the array
-        setSelectedVariants(selectedVariants.filter(selectedItem => selectedItem !== item));
-      }
-    }
+    
     else if(type === 'Customers'){
       if (isChecked) {
         // Add the selected item to the array
@@ -437,14 +429,47 @@ export default function NewDiscount() {
     
   };
 
+
+  const handleVariantCheckBox = (event, variant, item) => {
+    const isChecked = event.target.checked;
+
+    if (isChecked) {
+      if (!item.selectedVariants.includes(variant)) {
+        // Variant is not already selected, add it
+        item.selectedVariants.push(variant);
+        setSelectedProducts([...selectedProducts, item]);
+      }
+    } else {
+      // Remove the deselected variant from the array
+      item.selectedVariants = item.selectedVariants.filter(v => v !== variant);
+      setSelectedProducts([...selectedProducts.filter(p => p.id !== item.id), item]);
+    }
+    
+  };
+
   const addCollection = (e) => {
     e.preventDefault();
     setCollections(selectedCollections);
     setOpenCollectionModal(false);
   }
+
+
+  function removeDuplicates(array) {
+    let uniqueIds = {};
+    return array.filter(obj => {
+      if (!uniqueIds[obj._id]) {
+          uniqueIds[obj._id] = true;
+          return true;
+      }
+      return false;
+    });
+}
+
   const addProduct = (e) => {
     e.preventDefault();
-    setProducts(selectedProducts);
+
+    const uniqueArrayOfObjects = removeDuplicates(selectedProducts);
+    setProducts(uniqueArrayOfObjects);
     setOpenProductModal(false);
   }
   
@@ -680,7 +705,7 @@ export default function NewDiscount() {
                                 </div>
                                 <div className="flex-col">
                                   <h3 className="font-semibold">{item.title}</h3>
-                                  <p className="">{item?.products?.length}</p>
+                                  <p className="">({item?.selectedVariants?.length} of {item?.variants?.length} selected)</p>
                                 </div>
                               </div>
                               <div>
@@ -1595,6 +1620,7 @@ export default function NewDiscount() {
 
                           <div className="h-[36rem] md:h-[15rem] px-3 overflow-y-scroll">
                             {dbProducts.map((item, index) => {
+
                               let variants = item.variants;
                               return <div key={index} className="flex-col space-y-4 justify-between items-center border-t border-b py-2 text-sm text-gray-700">
                                 <div className="flex space-x-2 items-center">
@@ -1612,7 +1638,7 @@ export default function NewDiscount() {
                                       </div>
                                       <div className="flex-col text-left">
                                         <h3 className="font-semibold">{item.title.substring(0, 55)}</h3>
-                                        <p className="">{item?.variants?.length} products</p>
+                                        <p className="">{item?.variants?.length} variants</p>
                                       </div>
                                     </div>
                                   </label>
@@ -1620,10 +1646,13 @@ export default function NewDiscount() {
                                 {selectedProducts.includes(item) && <div className="mx-8">
 
                                   {variants.map((variant, index)=>{
-                                    return <div className="flex py-3 w-full space-x-2 items-center">
+                                    console.log(variant )
+                                    
+
+                                    return <div key={index} className="flex py-3 w-full space-x-2 items-center">
                                     <input
-                                      checked={selectedVariants.includes(variant)}
-                                      onChange={(event) => handleCheckBox(event, variant, 'Variants')}
+                                      checked={(item.selectedVariants).includes(variant)}
+                                      onChange={(event) => handleVariantCheckBox(event, variant, item)}
                                       type="checkbox"
                                       id={variant}
                                       className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black"
@@ -1633,10 +1662,10 @@ export default function NewDiscount() {
 
                                       <div className="flex w-full justify-between text-left">
                                         <div>
-                                          <h3 className="font-medium">Title of product {index}</h3>
+                                          <h3 className="font-medium">{variant.name}</h3>
                                         </div>
                                         <div className="flex space-x-6">
-                                          <h3 className="font-medium">Avaiable pieces</h3>
+                                          <h3 className="font-medium">Available: {variant.inventoryLevels.length === 0 ? 0 : variant.inventoryLevels[0]?.available } Piece</h3>
                                           <p className="font-medium">RS: 90.00</p>
                                         </div>
                                       </div>
