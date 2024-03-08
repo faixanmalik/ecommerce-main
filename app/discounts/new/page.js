@@ -21,6 +21,7 @@ import { IoCloseSharp, IoImageOutline } from "react-icons/io5";
 import { FaRupeeSign } from "react-icons/fa6";
 import { useCountries } from "use-react-countries";
 import { useRouter } from "next/navigation";
+import moment from 'moment/moment';
 
 export const dynamic = "force-dynamic"
 
@@ -1442,10 +1443,16 @@ export default function NewDiscount() {
                       {allCustomers === true && <li>All customers</li>}
                       {specificCustomerschq === true && customers.length > 0 && <li>For {customers[0].firstName + '' + customers[0].lastName}</li>}
 
-                      {limitTimes === 0 && limitPerCustomer === false && <li>No usage limits</li>}
-                      {limitTimes === 0 && limitPerCustomer === true && <li>One use per customer</li>}
-                      {limitTimes > 0 && limitPerCustomer === false && <li>Limit of {limitTimes} uses</li>}
-                      {limitTimes > 0 && limitPerCustomer === true && <li>Limit of {limitTimes} uses, One use per customer</li>}
+                      {limitTimeschq === false && limitPerCustomer === false && <li>No usage limits</li>}
+                      {limitPerCustomer === true && <li>One use per customer</li>}
+                      {limitTimeschq === true && limitTimes > 0 && <li>Limit of {limitTimes} uses</li>}
+
+                      {productDiscount === false && shippingDiscount === false && <li>Can’t combine with other discounts</li>}
+                      {productDiscount === true && shippingDiscount === false && <li>Combines with product discounts</li>}
+                      {shippingDiscount === true && productDiscount === false && <li>Combines with shipping discounts</li>}
+                      {shippingDiscount === true && productDiscount === true && <li>Combines with product and shipping discounts</li>}
+
+                      {startDate && <li>Active From {moment(startDate).format('D MMM YYYY')} {endDate ? 'to ' + moment(endDate).format('D MMM YYYY') : ''}</li>}
 
                     </ul>}
                   </div>
