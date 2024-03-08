@@ -39,7 +39,7 @@ export default function NewDiscount() {
   const [discountType, setDiscountType] = useState('Percentage')
   const [appliesTo, setAppliesTo] = useState('Specific Collections');
 
-  const [noMinimumRequirements, setNoMinimumRequirements] = useState(false);
+  const [noMinimumRequirements, setNoMinimumRequirements] = useState(true);
 
   const [minimumPurchasechqbox, setMinimumPurchasechqbox] = useState(false);
   const [minimumPurchaseAmount, setMinimumPurchaseAmount] = useState('');
@@ -47,7 +47,7 @@ export default function NewDiscount() {
   const [minimumQuantitychqbox, setMinimumQuantitychqbox] = useState(false);
   const [minimumQuantityOfAmount, setMinimumQuantityOfAmount] = useState('');
 
-  const [allCustomers, setAllCustomers] = useState(false);
+  const [allCustomers, setAllCustomers] = useState(true);
   const [specificCustomerSegments, setSpecificCustomerSegments] = useState(false);
 
   const [specificCustomerschq, setSpecificCustomerschq] = useState(false);
@@ -55,7 +55,7 @@ export default function NewDiscount() {
 
   const [limitTimes, setLimitTimes] = useState(false);
   const [limitTimeschq, setLimitTimeschq] = useState(false);
-  const [limitPerCustomer, setLimitPerCustomer] = useState('');
+  const [limitPerCustomer, setLimitPerCustomer] = useState(false);
   const [otherDiscount, setOtherDiscount] = useState(false);
   const [shippingDiscount, setShippingDiscount] = useState(false);
   const [productDiscount, setProductDiscount] = useState(false)
@@ -300,8 +300,9 @@ export default function NewDiscount() {
         break;
         
       case 'minimumQuantityOfAmount':
-        setMinimumQuantityOfAmount(checked);
+        setMinimumQuantityOfAmount(value);
         break;
+
       
       case 'allCustomers':
         setAllCustomers(checked);
@@ -319,13 +320,13 @@ export default function NewDiscount() {
         setSpecificCustomers(value);
         break;
       case 'limitTimes':
-        setLimitTimes(checked);
+        setLimitTimes(value);
         break;
       case 'limitTimeschq':
         setLimitTimeschq(checked);
         break;
       case 'limitPerCustomer':
-        setLimitPerCustomer(value);
+        setLimitPerCustomer(checked);
         break;
       case 'otherDiscount':
         setOtherDiscount(checked);
@@ -510,7 +511,9 @@ export default function NewDiscount() {
     newData.splice(indexToDelete, 1);
     setAddedCountries(newData);
   }
-  
+
+
+  console.log(customers)
   
   
 
@@ -620,7 +623,7 @@ export default function NewDiscount() {
                             ?<div className="absolute inset-y-0 end-0 flex items-center pe-7 pointer-events-none">
                               <AiOutlinePercentage className="text-black text-lg"/>
                             </div>
-                            :<div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                            :<div className="absolute inset-y-0 end-0 flex items-center ps-3 pointer-events-none">
                               <FaRupeeSign  className="text-black text-lg"/>
                             </div>
                           }
@@ -1423,9 +1426,28 @@ export default function NewDiscount() {
 
                   <div className="flex-col space-y-2">
                     <h1 className="text-sm font-semibold">Details</h1>
-                    <ul className="list-disc text-sm px-6">
+                    {!discountCode && <ul className="list-disc text-sm px-6">
                       <li>Can’t combine with other discounts</li>
-                    </ul>
+                    </ul>}
+                    {discountCode && <ul className="list-disc text-sm px-6">
+                      <li>For Online Store</li>
+
+                      {discountValue > 0 && <li>{ discountType === 'Percentage' ? discountValue + '%' : discountValue + ' RS' } off {appliesTo === 'Specific Collections' ? collections.length > 0 ? collections[0].title : 'collections' : products.length > 0 ? products[0].title : 'products'} </li>}
+
+                      {noMinimumRequirements === true && <li>No minimum purchase requirement</li>}
+                      {minimumPurchasechqbox === true && minimumPurchaseAmount > 0 && <li>Minimum purchase of Rs {minimumPurchaseAmount}.00</li>}
+                      {minimumQuantitychqbox === true && minimumQuantityOfAmount > 0 && <li>Minimum purchase of {minimumQuantityOfAmount} items </li>}
+
+
+                      {allCustomers === true && <li>All customers</li>}
+                      {specificCustomerschq === true && customers.length > 0 && <li>For {customers[0].firstName + '' + customers[0].lastName}</li>}
+
+                      {limitTimes === 0 && limitPerCustomer === false && <li>No usage limits</li>}
+                      {limitTimes === 0 && limitPerCustomer === true && <li>One use per customer</li>}
+                      {limitTimes > 0 && limitPerCustomer === false && <li>Limit of {limitTimes} uses</li>}
+                      {limitTimes > 0 && limitPerCustomer === true && <li>Limit of {limitTimes} uses, One use per customer</li>}
+
+                    </ul>}
                   </div>
 
                   <div className="flex-col space-y-2">
