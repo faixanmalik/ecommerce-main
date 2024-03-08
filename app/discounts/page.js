@@ -291,7 +291,7 @@ const DiscountsPage = () => {
           size === "xl" ||
           size === "xxl"
         }
-        size={ isMediumScreen === false ? 'xxl' : "sm"}
+        size={ isMediumScreen === false ? 'xxl' : "md"}
         className=""
         handler={handleOpen}
       >
