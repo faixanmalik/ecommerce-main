@@ -261,7 +261,7 @@ const DiscountsPage = () => {
                 </td>
               </tr>
             ) : (
-              <Link onClick={()=> openDiscount(item._id, item.type)} key={index} className="cursor-pointer px-3 md:px-5 py-4 md:py-5 w-full flex justify-between items-center">
+             <div onClick={()=> openDiscount(item._id, item.type)} key={index} className="cursor-pointer px-3 md:px-5 py-4 md:py-5 w-full flex justify-between items-center">
                 <div className="">
                   <div className="font-bold text-sm">{item.discountCode} - ({item.used} used)</div>
                   <div className="font-semibold text-xs">{item.discountValue}% off {item.collections[0]?.title} - <span>{item.limitPerCustomer === true ? 'One use per customer' : ''}</span></div>
@@ -271,7 +271,7 @@ const DiscountsPage = () => {
                     {item.status}
                   </div>
                 </div> */}
-             </Link>
+             </div>
             );
           })}
           </tbody>
