@@ -1272,7 +1272,7 @@ export default function NewDiscount() {
                       <h1 className="text-sm tracking-tight mt-0">If an item is eligible for multiple product discounts, only the largest will apply.</h1>
                     </div>}
 
-                    {type === 'buyXgetY' || type === 'moneyOffOrder' && <div className="flex space-x-2 items-center">
+                    {type === 'buyXgetY' || type === 'moneyOffProduct' || type === 'moneyOffOrder' && <div className="flex space-x-2 items-center">
                       <input name="otherDiscount" checked={otherDiscount} onChange={handleChange} type="checkbox" id="otherDiscount" className="rounded-full appearance-none w-[18px] h-[18px] border border-gray-300 checked:bg-white checked:border-4 checked:border-black focus:outline-none focus:border-black " />
                       <label className="text-sm tracking-tight" htmlFor="myCheckbox">Order discounts</label>
                     </div>}
@@ -1448,9 +1448,15 @@ export default function NewDiscount() {
                       {limitTimeschq === true && limitTimes > 0 && <li>Limit of {limitTimes} uses</li>}
 
                       {productDiscount === false && shippingDiscount === false && <li>Can’t combine with other discounts</li>}
-                      {productDiscount === true && shippingDiscount === false && <li>Combines with product discounts</li>}
-                      {shippingDiscount === true && productDiscount === false && <li>Combines with shipping discounts</li>}
-                      {shippingDiscount === true && productDiscount === true && <li>Combines with product and shipping discounts</li>}
+
+                      {productDiscount === true && shippingDiscount === false  && otherDiscount === false && <li>Combines with product discounts</li>}
+
+                      {shippingDiscount === true && productDiscount === false && otherDiscount === false && <li>Combines with shipping discounts</li>}
+
+                      {shippingDiscount === false && productDiscount === false && otherDiscount === true && <li>Combines with other discounts</li>}
+
+                      {shippingDiscount === true && productDiscount === true && otherDiscount === false && <li>Combines with product and shipping discounts</li>}
+                      {shippingDiscount === true && productDiscount === true && otherDiscount === true && <li>Combines with product, shipping and other discounts</li>}
 
                       {startDate && <li>Active From {moment(startDate).format('D MMM YYYY')} {endDate ? 'to ' + moment(endDate).format('D MMM YYYY') : ''}</li>}
 
