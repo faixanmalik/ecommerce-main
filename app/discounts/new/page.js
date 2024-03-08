@@ -1675,8 +1675,6 @@ export default function NewDiscount() {
                                 {selectedProducts.includes(item) && <div className="mx-8">
 
                                   {variants.map((variant, index)=>{
-                                    console.log(variant )
-                                    
 
                                     return <div key={index} className="flex py-3 w-full space-x-2 items-center">
                                     <input
