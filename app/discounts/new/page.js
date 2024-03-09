@@ -560,8 +560,8 @@ export default function NewDiscount() {
                       Method
                     </label>
                     <div className="mt-1">
-                      <button onClick={()=>{setDiscountMethod('discountCode')}} className={`${discountMethod === 'discountCode' ? 'bg-[#cccccc]' : 'bg-white'} rounded-l-md border border-black py-2 text-xs px-3 font-medium lg:font-semibold text-black`}>Discount code</button>
-                      <button onClick={()=>{setDiscountMethod('automaticDiscount')}} className={`${discountMethod === 'automaticDiscount' ? 'bg-[#cccccc]' : 'bg-white'} rounded-r-md border border-black py-2 text-xs px-3 font-medium lg:font-semibold text-black`}>Automatic discount</button>
+                      <button onClick={()=>{setDiscountMethod('discountCode')}} className={`${discountMethod === 'discountCode' ? 'bg-[#cccccc]' : 'bg-white'} rounded-l-md shadow-inner border border-black py-2 text-xs px-3 font-medium lg:font-semibold text-black`}>Discount code</button>
+                      <button onClick={()=>{setDiscountMethod('automaticDiscount')}} className={`${discountMethod === 'automaticDiscount' ? 'bg-[#cccccc]' : 'bg-white'} shadow-inner rounded-r-md border border-black py-2 text-xs px-3 font-medium lg:font-semibold text-black`}>Automatic discount</button>
                     </div>
                   </div>}
 
@@ -716,7 +716,8 @@ export default function NewDiscount() {
                                   <p className="">({item?.selectedVariants?.length} of {item?.variants?.length} selected)</p>
                                 </div>
                               </div>
-                              <div>
+                              <div className="flex space-x-3">
+                                <h3 onClick={() => setOpenProductModal(true)} className="font-medium tracking-wide text-blue-700 cursor-pointer">Edit</h3>
                                 <IoCloseSharp onClick={(e) => delProducts(e,index)} className='text-lg cursor-pointer'/>
                               </div>
                             </div>
