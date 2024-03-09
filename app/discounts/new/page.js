@@ -22,6 +22,8 @@ import { FaRupeeSign } from "react-icons/fa6";
 import { useCountries } from "use-react-countries";
 import { useRouter } from "next/navigation";
 import moment from 'moment/moment';
+import { nanoid, customAlphabet } from 'nanoid'
+
 
 export const dynamic = "force-dynamic"
 
@@ -513,10 +515,12 @@ export default function NewDiscount() {
     setAddedCountries(newData);
   }
 
+  const generateRandomCode = () => {
+    const customAlphabetGenerator = customAlphabet('123456789abcdefghijklmnopqrstuvwxyz', 12);
+    const randomCode = customAlphabetGenerator();
+    setDiscountCode(randomCode);
+  };
 
-  console.log(customers)
-  
-  
 
   return (
     <div className="mx-4 md:mx0 font-sans bg-gray-100 min-h-screen items-center flex flex-col">
@@ -566,12 +570,12 @@ export default function NewDiscount() {
                       <label htmlFor="discountCode" className="block text-sm font-medium leading-6 text-gray-900">
                         Discount code
                       </label>
-                      <label htmlFor="randomCode" className="block text-sm font-medium leading-6 text-blue-600">
+                      <label onClick={generateRandomCode} htmlFor="discountCode" className="cursor-pointer block text-sm font-medium leading-6 text-blue-600">
                         Generate random code
                       </label>
                     </div>
                     <input
-                      type="number"
+                      type="text"
                       name="discountCode"
                       value={discountCode}
                       onChange={handleChange}
