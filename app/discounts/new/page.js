@@ -541,8 +541,8 @@ export default function NewDiscount() {
           }
         </div>
 
-        <div className="flex flex-col lg:flex-row min-h-screen space-y-5 lg:space-y-0 lg:space-x-5">
-          <div className="flex-col w-full lg:w-2/3 space-y-5">
+        <div className="flex flex-col lg:flex-row min-h-screen space-y-4 lg:space-y-0 lg:space-x-5">
+          <div className="flex-col w-full lg:w-2/3 space-y-4 sm:space-y-5">
 
             <Card className="w-full rounded-none sm:rounded-xl  bg-[#ffffff] flex-col border border-gray-300">
               <CardHeader
