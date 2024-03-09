@@ -387,7 +387,7 @@ export default function NewDiscount() {
 
 
   const [openCollectionModal, setOpenCollectionModal] = useState(false)
-  const [openProductModal, setOpenProductModal] = useState(false)
+  const [openProductModal, setOpenProductModal] = useState(true)
   const [openCustomerModal, setOpenCustomerModal] = useState(false)
   const [openDiscountModal, setOpenDiscountModal] = useState(false)
   const cancelButtonRef = useRef(null)
@@ -1529,10 +1529,10 @@ export default function NewDiscount() {
                   leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                 >
                   <Dialog.Panel className="w-full font-sans h-[31rem] mt-14 md:h-96 relative transform rounded-lg bg-white text-left shadow-xl transition-all sm:w-full sm:max-w-3xl">
-                    <div className="bg-white rounded-2xl sm:px-0 sm:pb-4">
+                    <div className="bg-white rounded-t-2xl sm:px-0 sm:pb-4">
                       <div className="sm:items-start w-full">
                         <div className="text-center mt-0 sm:text-left">
-                          <Dialog.Title as="h3" className="bg-gray-100 rounded-t-2xl px-4 py-3 flex justify-between">
+                          <Dialog.Title as="h3" className="bg-gray-100 rounded-t-xl px-4 py-3 flex justify-between">
                             <div className="text-sm font-bold">
                               Add Collections
                             </div>
@@ -1633,10 +1633,10 @@ export default function NewDiscount() {
                   leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                 >
                   <Dialog.Panel className="w-full font-sans h-[31rem] mt-14 md:h-96 relative transform rounded-lg bg-white text-left shadow-xl transition-all sm:w-full sm:max-w-3xl">
-                    <div className="bg-white sm:px-0 rounded-2xl sm:pb-4">
+                    <div className="bg-white sm:px-0 rounded-t-2xl sm:pb-4">
                       <div className="sm:items-start w-full">
                         <div className="text-center mt-0 sm:text-left">
-                          <Dialog.Title as="h3" className="bg-gray-100 rounded-t-2xl px-4 py-3 flex justify-between">
+                          <Dialog.Title as="h3" className="bg-gray-100 rounded-t-xl px-4 py-3 flex justify-between">
                             <div className="text-sm font-bold">
                               Add Product
                             </div>
@@ -1771,10 +1771,10 @@ export default function NewDiscount() {
                   leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                 >
                   <Dialog.Panel className="w-full font-sans h-[31rem] mt-14 md:h-96 relative transform rounded-lg bg-white text-left shadow-xl transition-all sm:w-full sm:max-w-3xl">
-                    <div className="bg-white sm:px-0 sm:pb-4 rounded-2xl">
+                    <div className="bg-white sm:px-0 sm:pb-4 rounded-t-2xl">
                       <div className="sm:items-start w-full">
                         <div className="text-center mt-0 sm:text-left">
-                          <Dialog.Title as="h3" className="bg-gray-100 rounded-t-2xl px-4 py-3 flex justify-between">
+                          <Dialog.Title as="h3" className="bg-gray-100 rounded-t-xl px-4 py-3 flex justify-between">
                             <div className="text-sm font-bold">
                               Add Customer
                             </div>
@@ -1877,11 +1877,11 @@ export default function NewDiscount() {
                   leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                   leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                 >
-                  <Dialog.Panel className="w-full font-sans relative transform rounded-2xl bg-white text-left shadow-xl transition-all sm:w-full sm:max-w-xl">
-                    <div className="bg-white rounded-2xl sm:px-0 sm:pb-4">
+                  <Dialog.Panel className="w-full font-sans relative transform bg-white text-left shadow-xl transition-all sm:w-full sm:max-w-xl">
+                    <div className="bg-white rounded-t-2xl sm:px-0 sm:pb-4">
                       <div className="sm:items-start w-full">
                         <div className="text-center mt-0 sm:text-left">
-                          <Dialog.Title as="h3" className="bg-gray-100 rounded-t-2xl px-4 py-3 flex justify-between">
+                          <Dialog.Title as="h3" className="bg-gray-100 rounded-t-xl px-4 py-3 flex justify-between">
                             <div className="text-sm font-bold">
                               Leave page with unsaved changes?
                             </div>
