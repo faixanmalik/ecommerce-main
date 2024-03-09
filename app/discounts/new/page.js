@@ -538,7 +538,7 @@ export default function NewDiscount() {
         <div className="flex flex-col lg:flex-row min-h-screen space-y-5 lg:space-y-0 lg:space-x-5">
           <div className="flex-col w-full lg:w-2/3 space-y-5">
 
-            <Card className="w-full flex-col">
+            <Card className="w-full bg-[#ffffff] flex-col border border-gray-300">
               <CardHeader
                 shadow={false}
                 floated={false}
@@ -576,7 +576,7 @@ export default function NewDiscount() {
                       value={discountCode}
                       onChange={handleChange}
                       id="discountCode"
-                      className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 ring-1 ring-inset ring-gray-500 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     />
                     <h1 className="text-sm tracking-tight mt-1">Customers must enter this code at checkout.</h1>
                   </div> 
@@ -592,7 +592,7 @@ export default function NewDiscount() {
                       value={discountTitle}
                       onChange={handleChange}
                       id="discountTitle"
-                      className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 ring-1 ring-inset ring-gray-500 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     />
                     <h1 className="text-sm tracking-tight mt-1">Customers will see this in their cart and at checkout.</h1>
                   </div>}
@@ -603,7 +603,7 @@ export default function NewDiscount() {
               </CardBody>
             </Card>
 
-            {type === 'moneyOffProduct' && <Card className="w-full flex-col">
+            {type === 'moneyOffProduct' && <Card className="w-full bg-[#ffffff] flex-col border border-gray-300">
               <CardBody className="px-4">
 
                 <div className="flex-col space-y-5">
@@ -614,7 +614,7 @@ export default function NewDiscount() {
                     </label>
                     
                     <div className="flex space-x-4">
-                      <select id="discountType" onChange={handleChange} name="discountType" value={discountType} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                      <select id="discountType" onChange={handleChange} name="discountType" value={discountType} className="bg-gray-50 border border-gray-500 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         <option defaultValue='Percentage'>Percentage</option>
                         <option value="Fixed Amount">Fixed Amount</option>
                       </select>
@@ -634,7 +634,7 @@ export default function NewDiscount() {
                             value={discountValue}
                             onChange={handleChange}
                             id="discountValue"
-                            className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            className="block w-full rounded-md py-1.5 px-2 text-gray-900 ring-1 ring-inset ring-gray-500 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                           />
                         </div>
                         {/* <input
@@ -656,7 +656,7 @@ export default function NewDiscount() {
                       Applies to
                     </label>
                     
-                    <select name="appliesTo" onChange={handleChange} value={appliesTo} id="appliesTo" className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <select name="appliesTo" onChange={handleChange} value={appliesTo} id="appliesTo" className="bg-white border border-gray-500 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                       <option defaultValue='Specific Collections'>Specific Collections</option>
                       <option value="Specific Products">Specific products</option>
                     </select>
@@ -668,13 +668,13 @@ export default function NewDiscount() {
                             <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                           </svg>
                         </div>
-                        <input type="search" id="default-search" className="block w-full py-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder={`${appliesTo === 'Specific Collections' ? 'Search collections...' :'Search products...'}`} required />
+                        <input type="search" id="default-search" className="block w-full py-2 ps-10 text-sm text-gray-900 border border-gray-500 rounded-lg bg-white dark:bg-gray-700 dark:border-gray-500 placeholder-gray-700 dark:text-white" placeholder={`${appliesTo === 'Specific Collections' ? 'Search collections...' :'Search products...'}`} required />
                       </div>
 
                         {appliesTo === 'Specific Collections' ? (
-                          <button onClick={() => setOpenCollectionModal(true)} className="py-2 px-5 me-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-400 hover:bg-gray-100 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Browse</button>
+                          <button onClick={() => setOpenCollectionModal(true)} className="py-2 px-5 me-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-500 hover:bg-gray-100 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Browse</button>
                         ) : (
-                          <button onClick={() => setOpenProductModal(true)} className="py-2 px-5 me-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-400 hover:bg-gray-100 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Browse</button>
+                          <button onClick={() => setOpenProductModal(true)} className="py-2 px-5 me-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-500 hover:bg-gray-100 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Browse</button>
                         )}
                       </div>
 
@@ -727,7 +727,7 @@ export default function NewDiscount() {
               </CardBody>
             </Card>}
 
-            {type === 'moneyOffOrder' && <Card className="w-full flex-col">
+            {type === 'moneyOffOrder' && <Card className="w-full bg-[#ffffff] flex-col border border-gray-300">
               
               <CardBody className="px-4">
 
@@ -755,7 +755,7 @@ export default function NewDiscount() {
               </CardBody>
             </Card>}
 
-            {type === 'buyXgetY' && <Card className="w-full flex-col">
+            {type === 'buyXgetY' && <Card className="w-full bg-[#ffffff] flex-col border border-gray-300">
 
               <CardHeader
                 shadow={false}
@@ -992,7 +992,7 @@ export default function NewDiscount() {
               </CardBody>
             </Card>}
 
-            {type === 'moneyOffProduct' || type === 'shipping' ? <Card className="w-full flex-col">
+            {type === 'moneyOffProduct' || type === 'shipping' ? <Card className="w-full bg-[#ffffff] flex-col border border-gray-300">
               <CardBody className="px-4">
                 <div className="flex-col space-y-3">
                   
@@ -1049,7 +1049,7 @@ export default function NewDiscount() {
               </CardBody>
             </Card> : ''}
 
-            {type === 'shipping' && <Card className="w-full flex-col">
+            {type === 'shipping' && <Card className="w-full bg-[#ffffff] flex-col border border-gray-300">
 
               <CardHeader
                 shadow={false}
@@ -1151,7 +1151,7 @@ export default function NewDiscount() {
               </CardBody>
             </Card>}
 
-            <Card className="w-full flex-col">
+            <Card className="w-full bg-[#ffffff] flex-col border border-gray-300">
               <CardBody className="px-4">
                 <div className="flex-col space-y-3">
                   
@@ -1220,7 +1220,7 @@ export default function NewDiscount() {
               </CardBody>
             </Card>
             
-            <Card className="w-full flex-col">
+            <Card className="w-full bg-[#ffffff] flex-col border border-gray-300">
               <CardBody className="px-4">
                 <div className="flex-col space-y-3">
                   
@@ -1255,7 +1255,7 @@ export default function NewDiscount() {
               </CardBody>
             </Card>
 
-            <Card className="w-full flex-col">
+            <Card className="w-full bg-[#ffffff] flex-col border border-gray-300">
               <CardBody className="px-4">
                 <div className="flex-col space-y-1">
                   
@@ -1291,7 +1291,7 @@ export default function NewDiscount() {
               </CardBody>
             </Card>
 
-            <Card className="w-full flex-col">
+            <Card className="w-full bg-[#ffffff] flex-col border border-gray-300">
               
               <CardBody className="px-4">
 
@@ -1313,7 +1313,7 @@ export default function NewDiscount() {
                               <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
                             </svg>
                           </div>
-                          <input value={startDate} name='startDate' onChange={handleChange} type="date" className="bg-white ps-10 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-[6px] px-2 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date"/>
+                          <input value={startDate} name='startDate' onChange={handleChange} type="date" className="bg-white ps-10 border border-gray-500 text-gray-900 text-sm rounded-lg block w-full py-[6px] px-2 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date"/>
                         </div>
                       </div>
 
@@ -1326,7 +1326,7 @@ export default function NewDiscount() {
                           <div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
                             <IoMdTime className='text-lg' />
                           </div>
-                          <select value={startTime} name='startTime' onChange={handleChange} id="time" className="bg-white ps-10 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                          <select value={startTime} name='startTime' onChange={handleChange} id="time" className="bg-white ps-10 border border-gray-500 text-gray-900 text-sm rounded-lg block w-full p-2 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             <option value='8:10' selected>8:10 PM</option>
                             <option value='6:02'>6:02 PM</option>
                             <option value='6:30'>6:30 PM</option>
@@ -1362,7 +1362,7 @@ export default function NewDiscount() {
                               <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
                             </svg>
                           </div>
-                          <input value={endDate} name='endDate' onChange={handleChange} type="date" className="bg-white ps-10 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-[6px] px-2 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date"/>
+                          <input value={endDate} name='endDate' onChange={handleChange} type="date" className="bg-white ps-10 border border-gray-500 text-gray-900 text-sm rounded-lg block w-full py-[6px] px-2 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date"/>
                         </div>
                       </div>
 
@@ -1375,7 +1375,7 @@ export default function NewDiscount() {
                           <div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
                             <IoMdTime className='text-lg'/>
                           </div>
-                          <select value={endTime} name='endTime' onChange={handleChange} id="time" className="bg-white ps-10 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                          <select value={endTime} name='endTime' onChange={handleChange} id="time" className="bg-white ps-10 border border-gray-500 text-gray-900 text-sm rounded-lg block w-full p-2 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             <option value='8:10' selected>8:10 PM</option>
                             <option value='6:02'>6:02 PM</option>
                             <option value='6:30'>6:30 PM</option>
@@ -1404,7 +1404,7 @@ export default function NewDiscount() {
           </div>
           <div className="w-full lg:w-1/3 flex-col space-y-5">
 
-            <Card className="w-full flex-col">
+            <Card className="w-full bg-[#ffffff] flex-col border border-gray-300">
               
               <CardBody className="px-4">
               
@@ -1414,7 +1414,7 @@ export default function NewDiscount() {
                     <h1 className="text-sm font-semibold">Summary</h1>
                     { id 
                       ? <h1 className="text-sm font-semibold">{discountCode}</h1>
-                      : <h1 className="text-sm font-semibold">{discountMethod ==='discountCode' ? discountCode : discountMethod ==='automaticDiscount' ? discountTitle : 'No discount code yet'}</h1>
+                      : <h1 className="text-sm font-semibold">{discountMethod ==='discountCode' ? discountCode ? discountCode: 'No discount code yet' : discountMethod ==='automaticDiscount' ? discountTitle ? discountTitle : 'No title yet' : 'No discount code yet'}</h1>
                     }
                   </div>
                   <div className="flex-col space-y-2">
@@ -1467,7 +1467,7 @@ export default function NewDiscount() {
               </CardBody>
             </Card>
 
-            <Card className="w-full flex-col">
+            <Card className="w-full bg-[#ffffff] flex-col border border-gray-300">
               <CardBody className="px-4">
                 <div className="flex-col space-y-3">
                   
