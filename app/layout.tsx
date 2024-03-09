@@ -32,6 +32,7 @@ export default function RootLayout({
             <Dashboard>{children}</Dashboard>
           </>
         }
+
       </body>
     </html>
   );

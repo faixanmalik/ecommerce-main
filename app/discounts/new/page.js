@@ -521,18 +521,21 @@ export default function NewDiscount() {
     setDiscountCode(randomCode);
   };
 
+  const [openDiscountModal, setOpenDiscountModal] = useState(true)
+
+
 
   return (
     <div className="mx-4 md:mx-0 font-sans bg-gray-100 min-h-screen items-center flex flex-col">
       <div className="flex-col md:max-w-5xl md:w-full flex gap-6 md:px-8 py-8">
 
         <div className="flex gap-3 items-center">
-          <Link
-            href="/products"
+          <div
+            onClick={()=>setOpenDiscountModal(true)}
             className="p-1 rounded-md hover:bg-black/10 transition-all"
           >
             <IoIosArrowRoundBack size={20} className="text-[#1a1a1a]" />
-          </Link>
+          </div>
           {id ?
             <Heading>{discountCode}</Heading>
             : <Heading>Create { type==='moneyOffOrder' ? 'order' : type ==='shipping' ? 'shipping' : 'product' } discount</Heading>
@@ -542,7 +545,7 @@ export default function NewDiscount() {
         <div className="flex flex-col lg:flex-row min-h-screen space-y-5 lg:space-y-0 lg:space-x-5">
           <div className="flex-col w-full lg:w-2/3 space-y-5">
 
-            <Card className="w-full bg-[#ffffff] flex-col border border-gray-300">
+            <Card className="w-full rounded-none sm:rounded-xl  bg-[#ffffff] flex-col border border-gray-300">
               <CardHeader
                 shadow={false}
                 floated={false}
@@ -607,7 +610,7 @@ export default function NewDiscount() {
               </CardBody>
             </Card>
 
-            {type === 'moneyOffProduct' && <Card className="w-full bg-[#ffffff] flex-col border border-gray-300">
+            {type === 'moneyOffProduct' && <Card className="w-full rounded-none sm:rounded-xl bg-[#ffffff] flex-col border border-gray-300">
               <CardBody className="px-4">
 
                 <div className="flex-col space-y-5">
@@ -732,7 +735,7 @@ export default function NewDiscount() {
               </CardBody>
             </Card>}
 
-            {type === 'moneyOffOrder' && <Card className="w-full bg-[#ffffff] flex-col border border-gray-300">
+            {type === 'moneyOffOrder' && <Card className="w-full rounded-none sm:rounded-xl bg-[#ffffff] flex-col border border-gray-300">
               
               <CardBody className="px-4">
 
@@ -760,7 +763,7 @@ export default function NewDiscount() {
               </CardBody>
             </Card>}
 
-            {type === 'buyXgetY' && <Card className="w-full bg-[#ffffff] flex-col border border-gray-300">
+            {type === 'buyXgetY' && <Card className="w-full rounded-none sm:rounded-xl bg-[#ffffff] flex-col border border-gray-300">
 
               <CardHeader
                 shadow={false}
@@ -997,7 +1000,7 @@ export default function NewDiscount() {
               </CardBody>
             </Card>}
 
-            {type === 'moneyOffProduct' || type === 'shipping' ? <Card className="w-full bg-[#ffffff] flex-col border border-gray-300">
+            {type === 'moneyOffProduct' || type === 'shipping' ? <Card className="w-full rounded-none sm:rounded-xl bg-[#ffffff] flex-col border border-gray-300">
               <CardBody className="px-4">
                 <div className="flex-col space-y-3">
                   
@@ -1054,7 +1057,7 @@ export default function NewDiscount() {
               </CardBody>
             </Card> : ''}
 
-            {type === 'shipping' && <Card className="w-full bg-[#ffffff] flex-col border border-gray-300">
+            {type === 'shipping' && <Card className="w-full rounded-none sm:rounded-xl bg-[#ffffff] flex-col border border-gray-300">
 
               <CardHeader
                 shadow={false}
@@ -1156,7 +1159,7 @@ export default function NewDiscount() {
               </CardBody>
             </Card>}
 
-            <Card className="w-full bg-[#ffffff] flex-col border border-gray-300">
+            <Card className="w-full rounded-none sm:rounded-xl bg-[#ffffff] flex-col border border-gray-300">
               <CardBody className="px-4">
                 <div className="flex-col space-y-3">
                   
@@ -1225,7 +1228,7 @@ export default function NewDiscount() {
               </CardBody>
             </Card>
             
-            <Card className="w-full bg-[#ffffff] flex-col border border-gray-300">
+            <Card className="w-full rounded-none sm:rounded-xl bg-[#ffffff] flex-col border border-gray-300">
               <CardBody className="px-4">
                 <div className="flex-col space-y-3">
                   
@@ -1260,7 +1263,7 @@ export default function NewDiscount() {
               </CardBody>
             </Card>
 
-            <Card className="w-full bg-[#ffffff] flex-col border border-gray-300">
+            <Card className="w-full rounded-none sm:rounded-xl bg-[#ffffff] flex-col border border-gray-300">
               <CardBody className="px-4">
                 <div className="flex-col space-y-1">
                   
@@ -1296,7 +1299,7 @@ export default function NewDiscount() {
               </CardBody>
             </Card>
 
-            <Card className="w-full bg-[#ffffff] flex-col border border-gray-300">
+            <Card className="w-full rounded-none sm:rounded-xl bg-[#ffffff] flex-col border border-gray-300">
               
               <CardBody className="px-4">
 
@@ -1409,7 +1412,7 @@ export default function NewDiscount() {
           </div>
           <div className="w-full lg:w-1/3 flex-col space-y-5">
 
-            <Card className="w-full bg-[#ffffff] flex-col border border-gray-300">
+            <Card className="w-full rounded-none sm:rounded-xl bg-[#ffffff] flex-col border border-gray-300">
               
               <CardBody className="px-4">
               
@@ -1472,7 +1475,7 @@ export default function NewDiscount() {
               </CardBody>
             </Card>
 
-            <Card className="w-full bg-[#ffffff] flex-col border border-gray-300">
+            <Card className="w-full rounded-none sm:rounded-xl bg-[#ffffff] flex-col border border-gray-300">
               <CardBody className="px-4">
                 <div className="flex-col space-y-3">
                   
@@ -1496,6 +1499,9 @@ export default function NewDiscount() {
         </div>
 
         <div className="flex justify-end space-x-2">
+          <button type="button" class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" data-hs-overlay="#hs-slide-up-animation-modal">
+            Open modal
+          </button>
           <button type="button" className="py-1 px-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-400 hover:bg-gray-100 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Discard</button>
           <button onClick={(e)=>handleSubmit(e)} type="button" className="py-1 px-3 text-sm font-medium text-white focus:outline-none bg-gray-800 rounded-lg border border-gray-400 hover:bg-gray-900 focus:z-10 focus:ring-4 focus:ring-gray-100">Save discount</button>
         </div>
@@ -1526,7 +1532,7 @@ export default function NewDiscount() {
                   leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                   leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                 >
-                  <Dialog.Panel className="w-full h-[31rem] mt-14 md:h-96 relative transform rounded-lg bg-white text-left shadow-xl transition-all sm:w-full sm:max-w-3xl">
+                  <Dialog.Panel className="w-full font-sans h-[31rem] mt-14 md:h-96 relative transform rounded-lg bg-white text-left shadow-xl transition-all sm:w-full sm:max-w-3xl">
                     <div className="bg-white sm:px-0 sm:pb-4">
                       <div className="sm:items-start w-full">
                         <div className="text-center mt-0 sm:text-left">
@@ -1630,7 +1636,7 @@ export default function NewDiscount() {
                   leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                   leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                 >
-                  <Dialog.Panel className="w-full h-[31rem] mt-14 md:h-96 relative transform rounded-lg bg-white text-left shadow-xl transition-all sm:w-full sm:max-w-3xl">
+                  <Dialog.Panel className="w-full font-sans h-[31rem] mt-14 md:h-96 relative transform rounded-lg bg-white text-left shadow-xl transition-all sm:w-full sm:max-w-3xl">
                     <div className="bg-white sm:px-0 sm:pb-4">
                       <div className="sm:items-start w-full">
                         <div className="text-center mt-0 sm:text-left">
@@ -1768,7 +1774,7 @@ export default function NewDiscount() {
                   leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                   leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                 >
-                  <Dialog.Panel className="w-full h-[31rem] mt-14 md:h-96 relative transform rounded-lg bg-white text-left shadow-xl transition-all sm:w-full sm:max-w-3xl">
+                  <Dialog.Panel className="w-full font-sans h-[31rem] mt-14 md:h-96 relative transform rounded-lg bg-white text-left shadow-xl transition-all sm:w-full sm:max-w-3xl">
                     <div className="bg-white sm:px-0 sm:pb-4">
                       <div className="sm:items-start w-full">
                         <div className="text-center mt-0 sm:text-left">
@@ -1868,6 +1874,78 @@ export default function NewDiscount() {
             </div>
           </Dialog>
         </Transition.Root>
+
+
+        {/* <Transition.Root show={openDiscountModal} as={Fragment}>
+          <Dialog as="div" className="relative z-20" initialFocus={cancelButtonRef} onClose={setOpenDiscountModal}>
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0"
+              enterTo="opacity-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
+            >
+              <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+            </Transition.Child>
+
+            <div className="fixed rounded-2xl inset-0 z-10 w-screen overflow-y-auto">
+              <div className="flex rounded-2xl min-h-screen items-end justify-center text-center sm:items-center sm:p-0">
+                <Transition.Child
+                  as={Fragment}
+                  enter="ease-out duration-300"
+                  enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                  enterTo="opacity-100 translate-y-0 sm:scale-100"
+                  leave="ease-in duration-200"
+                  leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+                  leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                >
+                  <Dialog.Panel className="w-full font-sans relative transform rounded-lg bg-white text-left shadow-xl transition-all sm:w-full sm:max-w-xl">
+                    <div className="bg-white sm:px-0 sm:pb-4">
+                      <div className="sm:items-start w-full">
+                        <div className="text-center mt-0 sm:text-left">
+                          <Dialog.Title as="h3" className="bg-gray-100 px-4 py-3 flex justify-between">
+                            <div className="text-sm font-bold">
+                              Leave page with unsaved changes?
+                            </div>
+                            <div>
+                              <IoCloseSharp onClick={() => setOpenDiscountModal(false)} className='text-lg cursor-pointer'/>
+                            </div>
+                          </Dialog.Title>
+
+                          <h1 className="text-sm py-5 ml-5 tracking-tight font-sans">Leaving this page will delete all unsaved changes.</h1>
+                          
+                          
+                        </div>
+                      </div>
+                    </div>
+                    <div className="bg-white w-full border-t border-gray-500">
+                      <div className="flex justify-end space-x-3 px-4 py-2 sm:px-6">
+                        <button
+                          type="button"
+                          className="inline-flex justify-center rounded-md bg-white px-3 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
+                          onClick={() => setOpenDiscountModal(false)}
+                          ref={cancelButtonRef}
+                        >
+                          Stay
+                        </button>
+                        <button
+                          type="button"
+                          className="inline-flex justify-center rounded-md bg-red-800 px-3 py-1 text-sm font-semibold text-white shadow-sm hover:bg-black sm:ml-3 sm:w-auto"
+                          // onClick={router.push('/discounts')}
+                        >
+                          Leave Page
+                        </button>
+                      </div>
+                    </div>
+                    
+                  </Dialog.Panel>
+                </Transition.Child>
+              </div>
+            </div>
+          </Dialog>
+        </Transition.Root> */}
 
         
       </div>
