@@ -1499,9 +1499,6 @@ export default function NewDiscount() {
         </div>
 
         <div className="flex justify-end space-x-2">
-          <button type="button" class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" data-hs-overlay="#hs-slide-up-animation-modal">
-            Open modal
-          </button>
           <button type="button" className="py-1 px-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-400 hover:bg-gray-100 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Discard</button>
           <button onClick={(e)=>handleSubmit(e)} type="button" className="py-1 px-3 text-sm font-medium text-white focus:outline-none bg-gray-800 rounded-lg border border-gray-400 hover:bg-gray-900 focus:z-10 focus:ring-4 focus:ring-gray-100">Save discount</button>
         </div>
@@ -1536,7 +1533,7 @@ export default function NewDiscount() {
                     <div className="bg-white sm:px-0 sm:pb-4">
                       <div className="sm:items-start w-full">
                         <div className="text-center mt-0 sm:text-left">
-                          <Dialog.Title as="h3" className="bg-gray-100 px-4 py-3 flex justify-between">
+                          <Dialog.Title as="h3" className="bg-gray-100 rounded-t-xl px-4 py-3 flex justify-between">
                             <div className="text-sm font-bold">
                               Add Collections
                             </div>
@@ -1585,7 +1582,7 @@ export default function NewDiscount() {
                         </div>
                       </div>
                     </div>
-                    <div className="bg-gray-50 w-full">
+                    <div className="bg-gray-50 rounded-b-xl w-full">
                       <div className="flex justify-end space-x-3 px-4 py-3 sm:px-6">
                         <button
                           type="button"
@@ -1640,7 +1637,7 @@ export default function NewDiscount() {
                     <div className="bg-white sm:px-0 sm:pb-4">
                       <div className="sm:items-start w-full">
                         <div className="text-center mt-0 sm:text-left">
-                          <Dialog.Title as="h3" className="bg-gray-100 px-4 py-3 flex justify-between">
+                          <Dialog.Title as="h3" className="bg-gray-100 rounded-t-xl px-4 py-3 flex justify-between">
                             <div className="text-sm font-bold">
                               Add Product
                             </div>
@@ -1723,7 +1720,7 @@ export default function NewDiscount() {
                         </div>
                       </div>
                     </div>
-                    <div className="bg-gray-50 w-full">
+                    <div className="bg-gray-50 rounded-b-xl w-full">
                       <div className="flex justify-end space-x-3 px-4 py-3 sm:px-6">
                         <button
                           type="button"
@@ -1778,7 +1775,7 @@ export default function NewDiscount() {
                     <div className="bg-white sm:px-0 sm:pb-4">
                       <div className="sm:items-start w-full">
                         <div className="text-center mt-0 sm:text-left">
-                          <Dialog.Title as="h3" className="bg-gray-100 px-4 py-3 flex justify-between">
+                          <Dialog.Title as="h3" className="bg-gray-100 rounded-t-xl px-4 py-3 flex justify-between">
                             <div className="text-sm font-bold">
                               Add Customer
                             </div>
@@ -1848,7 +1845,7 @@ export default function NewDiscount() {
                         </div>
                       </div>
                     </div>
-                    <div className="bg-gray-50 w-full">
+                    <div className="bg-gray-50 rounded-b-xl w-full">
                       <div className="flex justify-end space-x-3 px-4 py-3 sm:px-6">
                         <button
                           type="button"
@@ -1876,7 +1873,7 @@ export default function NewDiscount() {
         </Transition.Root>
 
 
-        {/* <Transition.Root show={openDiscountModal} as={Fragment}>
+        <Transition.Root show={openDiscountModal} as={Fragment}>
           <Dialog as="div" className="relative z-20" initialFocus={cancelButtonRef} onClose={setOpenDiscountModal}>
             <Transition.Child
               as={Fragment}
@@ -1902,10 +1899,10 @@ export default function NewDiscount() {
                   leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                 >
                   <Dialog.Panel className="w-full font-sans relative transform rounded-lg bg-white text-left shadow-xl transition-all sm:w-full sm:max-w-xl">
-                    <div className="bg-white sm:px-0 sm:pb-4">
+                    <div className="bg-white rounded-lg sm:px-0 sm:pb-4">
                       <div className="sm:items-start w-full">
-                        <div className="text-center mt-0 sm:text-left">
-                          <Dialog.Title as="h3" className="bg-gray-100 px-4 py-3 flex justify-between">
+                        <div className="text-center rounded-lg mt-0 sm:text-left">
+                          <Dialog.Title as="h3" className="bg-gray-100 rounded-t-xl px-4 py-3 flex justify-between">
                             <div className="text-sm font-bold">
                               Leave page with unsaved changes?
                             </div>
@@ -1920,8 +1917,8 @@ export default function NewDiscount() {
                         </div>
                       </div>
                     </div>
-                    <div className="bg-white w-full border-t border-gray-500">
-                      <div className="flex justify-end space-x-3 px-4 py-2 sm:px-6">
+                    <div className="bg-white rounded-b-xl w-full border-t border-gray-200">
+                      <div className="flex justify-end space-x-3 px-4 py-4 sm:px-6">
                         <button
                           type="button"
                           className="inline-flex justify-center rounded-md bg-white px-3 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
@@ -1945,7 +1942,7 @@ export default function NewDiscount() {
               </div>
             </div>
           </Dialog>
-        </Transition.Root> */}
+        </Transition.Root>
 
         
       </div>
