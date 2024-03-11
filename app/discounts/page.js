@@ -29,6 +29,7 @@ import { FaPlus } from "react-icons/fa";
 import { CgSortAz } from "react-icons/cg";
 import { BiSortAlt2 } from "react-icons/bi";
 import { useRouter } from "next/navigation";
+import { GoDotFill } from "react-icons/go";
 
 const DiscountsPage = () => {
 
@@ -170,13 +171,13 @@ const DiscountsPage = () => {
           </div>
 
         </div>
-        <table className="w-full shadow-lg min-w-max table-auto text-left">
+        <table className="w-full shadow-lg table-auto text-left">
           <thead>
             {isMediumScreen ? (<tr className="">
               {TABLE_HEAD.map((head, index) => (
                 <th
                   key={index}
-                  className="bg-[#f7f7f7] border-b border-t border-blue-gray-100 py-3"
+                  className={`${head === 'Title' ? 'max-w-96' : 'bg-white'} border-b border-t border-blue-gray-100 px-2 py-3`}
                 >
                   <Typography
                     variant="small"
@@ -201,10 +202,19 @@ const DiscountsPage = () => {
                   <Typography
                     variant="small"
                     color="blue-gray"
-                    className="flex-col font-normal text-sm"
+                    className="flex-col font-normal text-sm max-w-96"
                   >
                     <div className="font-bold">{item.discountCode}</div>
-                    <div className="font-medium">{item.discountValue}% off {item.collections[0]?.title} - <span>{item.limitPerCustomer === true ? 'One use per customer' : ''}</span></div>
+                    <div className="font-medium flex flex-wrap space-x-0">
+                      {item.discountValue > 0 && <span>{ item?.discountType === 'Percentage' ? item?.discountValue + '%' : item?.discountValue + ' RS' } off {item?.appliesTo === 'Specific Collections' ? item?.collections?.length > 0 ? item?.collections[0]?.title : 'collections' : item?.products?.length > 0 ? item?.products[0]?.title : 'products'}</span> }
+
+                      {item.noMinimumRequirements === true && <span className="flex items-center"> <GoDotFill className='text-xs mr-1 ml-2'/> No minimum purchase requirement</span>}
+                      {item.minimumPurchasechqbox === true && item.minimumPurchaseAmount > 0 && <span className="flex items-center"> <GoDotFill className='text-xs mr-1'/> Minimum purchase of Rs {item.minimumPurchaseAmount}.00</span>}
+                      {item.minimumQuantitychqbox === true && item.minimumQuantityOfAmount > 0 && <span className="flex items-center"> <GoDotFill className='text-xs mr-1'/> Minimum purchase of {item.minimumQuantityOfAmount} items </span>}
+
+                      {item.limitPerCustomer === true && <span className="flex items-center"> <GoDotFill className='text-xs mr-1'/> One use per customer </span>}
+                      {item.limitTimeschq === true && item.limitTimes > 0 && <span className="flex items-center"> <GoDotFill className='text-xs mr-1'/> Limit of {item.limitTimes} uses </span>}
+                    </div>
                   </Typography>
                 </td>
                 <td className={classes}>

@@ -387,13 +387,12 @@ export default function NewDiscount() {
 
 
   const [openCollectionModal, setOpenCollectionModal] = useState(false)
-  const [openProductModal, setOpenProductModal] = useState(true)
+  const [openProductModal, setOpenProductModal] = useState(false)
   const [openCustomerModal, setOpenCustomerModal] = useState(false)
   const [openDiscountModal, setOpenDiscountModal] = useState(false)
   const cancelButtonRef = useRef(null)
 
   const [discountMethod, setDiscountMethod] = useState('discountCode')
-
 
   const [selectedCollections, setSelectedCollections] = useState([]);
   const [selectedProducts, setSelectedProducts] = useState([])
@@ -434,7 +433,6 @@ export default function NewDiscount() {
     
   };
 
-
   const handleVariantCheckBox = (event, variant, item) => {
     const isChecked = event.target.checked;
 
@@ -458,7 +456,6 @@ export default function NewDiscount() {
     setOpenCollectionModal(false);
   }
 
-
   function removeDuplicates(array) {
     let uniqueIds = {};
     return array.filter(obj => {
@@ -468,7 +465,7 @@ export default function NewDiscount() {
       }
       return false;
     });
-}
+  }
 
   const addProduct = (e) => {
     e.preventDefault();
@@ -522,8 +519,6 @@ export default function NewDiscount() {
     setDiscountCode(randomCode);
   };
 
-
-
   return (
     <div className="mx-0 md:mx-0 font-sans bg-gray-100 min-h-screen items-center flex flex-col">
       <div className="flex-col w-full md:max-w-5xl md:w-full flex gap-6 md:px-8 py-8">
@@ -543,6 +538,8 @@ export default function NewDiscount() {
 
         <div className="flex flex-col lg:flex-row min-h-screen space-y-4 lg:space-y-0 lg:space-x-5">
           <div className="flex-col w-full lg:w-2/3 space-y-4 sm:space-y-5">
+
+            
 
             <Card className="w-full rounded-none sm:rounded-xl  bg-[#ffffff] flex-col border border-gray-300">
               <CardHeader
@@ -1656,10 +1653,9 @@ export default function NewDiscount() {
 
                           <div className="h-[36rem] md:h-[15rem] px-3 overflow-y-scroll">
                             {dbProducts.map((item, index) => {
-
                               let variants = item.variants;
-                              return <div key={index} className="flex-col space-y-4 justify-between items-center border-t border-b py-2 text-sm text-gray-700">
-                                <div className="flex space-x-2 items-center">
+                              return <div key={index} className={`flex-col space-y-4 justify-between items-center border-t border-b py-2 text-sm text-gray-700`}>
+                                <div className={` flex space-x-2 items-center`}>
                                   <input
                                     checked={selectedProducts.includes(item)}
                                     onChange={(event) => handleCheckBox(event, item, 'Products')}
