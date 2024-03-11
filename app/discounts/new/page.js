@@ -519,6 +519,11 @@ export default function NewDiscount() {
     setDiscountCode(randomCode);
   };
 
+
+  const deleteDiscount = (id)=>{
+    console.log(id)
+  }
+
   return (
     <div className="mx-0 md:mx-0 font-sans bg-gray-100 min-h-screen items-center flex flex-col">
       <div className="flex-col w-full md:max-w-5xl md:w-full flex gap-6 md:px-8 py-8">
@@ -1495,8 +1500,15 @@ export default function NewDiscount() {
         </div>
 
         <div className="flex justify-end space-x-2">
-          <button type="button" className="py-1 px-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-400 hover:bg-gray-100 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Discard</button>
-          <button onClick={(e)=>handleSubmit(e)} type="button" className="py-1 px-3 text-sm font-medium text-white focus:outline-none bg-gray-800 rounded-lg border border-gray-400 hover:bg-gray-900 focus:z-10 focus:ring-4 focus:ring-gray-100">Save discount</button>
+          {id 
+            ? <button type="button" onClick={(e)=>deleteDiscount(e)} className="py-1 px-3 text-sm font-medium text-white focus:outline-none bg-[#e51c00] hover:bg-[#b5260b] rounded-lg border border-gray-400  focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Delete Discount</button>
+            : <button type="button" className="py-1 px-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-400 hover:bg-gray-100 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Discard</button>
+          }
+          {id
+            ? <button onClick={(e)=>handleSubmit(e)} type="button" className="py-1 px-3 text-sm font-medium text-white focus:outline-none bg-gray-800 rounded-lg border border-gray-400 hover:bg-gray-900 focus:z-10 focus:ring-4 focus:ring-gray-100">Save</button>
+            : <button onClick={(e)=>handleSubmit(e)} type="button" className="py-1 px-3 text-sm font-medium text-white focus:outline-none bg-gray-800 rounded-lg border border-gray-400 hover:bg-gray-900 focus:z-10 focus:ring-4 focus:ring-gray-100">Save discount</button>
+          }
+          
         </div>
 
 
