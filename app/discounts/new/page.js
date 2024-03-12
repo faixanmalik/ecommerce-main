@@ -563,7 +563,7 @@ export default function NewDiscount() {
           }
         </div>
 
-        <div className="flex flex-col lg:flex-row min-h-screen space-y-4 lg:space-y-0 lg:space-x-5">
+        <div className="flex flex-col lg:flex-row min-h-screen space-y-3 lg:space-y-0 lg:space-x-5">
           <div className="flex-col w-full lg:w-2/3 space-y-4 sm:space-y-5">
 
             
@@ -1487,7 +1487,7 @@ export default function NewDiscount() {
               </Timeline>
             </div>
           </div>
-          <div className="w-full lg:w-1/3 flex-col space-y-5">
+          <div className="w-full lg:w-1/3 flex-col space-y-3 lg:space-y-0">
 
             <Card className="w-full rounded-none sm:rounded-xl bg-[#ffffff] flex-col border border-gray-300">
               
