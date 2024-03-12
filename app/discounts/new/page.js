@@ -564,7 +564,7 @@ export default function NewDiscount() {
         </div>
 
         <div className="flex flex-col lg:flex-row min-h-screen space-y-3 lg:space-y-0 lg:space-x-5">
-          <div className="flex-col w-full lg:w-2/3 space-y-4 sm:space-y-5">
+          <div className="flex-col w-full lg:w-2/3 space-y-3 sm:space-y-5">
 
             
 
@@ -1487,7 +1487,7 @@ export default function NewDiscount() {
               </Timeline>
             </div>
           </div>
-          <div className="w-full lg:w-1/3 flex-col space-y-3 lg:space-y-0">
+          <div className="w-full lg:w-1/3 flex-col space-y-3 sm:space-y-5">
 
             <Card className="w-full rounded-none sm:rounded-xl bg-[#ffffff] flex-col border border-gray-300">
               
@@ -1614,10 +1614,10 @@ export default function NewDiscount() {
                   leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                 >
                   <Dialog.Panel className="w-full font-sans h-[31rem] mt-14 md:h-96 relative transform rounded-lg bg-white text-left shadow-xl transition-all sm:w-full sm:max-w-3xl">
-                    <div className="bg-white rounded-t-2xl sm:px-0 sm:pb-4">
+                    <div className="bg-white sm:px-0 sm:pb-4">
                       <div className="sm:items-start w-full">
                         <div className="text-center mt-0 sm:text-left">
-                          <Dialog.Title as="h3" className="bg-gray-100 rounded-t-xl px-4 py-3 flex justify-between">
+                          <Dialog.Title as="h3" className="bg-gray-100 px-4 py-3 flex justify-between">
                             <div className="text-sm font-bold">
                               Add Collections
                             </div>
@@ -1666,7 +1666,7 @@ export default function NewDiscount() {
                         </div>
                       </div>
                     </div>
-                    <div className="bg-gray-50 rounded-2xl w-full">
+                    <div className="bg-gray-50 w-full">
                       <div className="flex justify-end space-x-3 px-4 py-3 sm:px-6">
                         <button
                           type="button"
@@ -1718,10 +1718,10 @@ export default function NewDiscount() {
                   leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                 >
                   <Dialog.Panel className="w-full font-sans h-[31rem] mt-14 md:h-96 relative transform rounded-lg bg-white text-left shadow-xl transition-all sm:w-full sm:max-w-3xl">
-                    <div className="bg-white sm:px-0 rounded-t-2xl sm:pb-4">
+                    <div className="bg-white sm:px-0 sm:pb-4">
                       <div className="sm:items-start w-full">
                         <div className="text-center mt-0 sm:text-left">
-                          <Dialog.Title as="h3" className="bg-gray-100 rounded-t-xl px-4 py-3 flex justify-between">
+                          <Dialog.Title as="h3" className="bg-gray-100 px-4 py-3 flex justify-between">
                             <div className="text-sm font-bold">
                               Add Product
                             </div>
@@ -1803,7 +1803,7 @@ export default function NewDiscount() {
                         </div>
                       </div>
                     </div>
-                    <div className="bg-gray-50 rounded-b-2xl w-full">
+                    <div className="bg-gray-50 w-full">
                       <div className="flex justify-end space-x-3 px-4 py-3 sm:px-6">
                         <button
                           type="button"
@@ -1855,10 +1855,10 @@ export default function NewDiscount() {
                   leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                 >
                   <Dialog.Panel className="w-full font-sans h-[31rem] mt-14 md:h-96 relative transform rounded-lg bg-white text-left shadow-xl transition-all sm:w-full sm:max-w-3xl">
-                    <div className="bg-white sm:px-0 sm:pb-4 rounded-t-2xl">
+                    <div className="bg-white sm:px-0 sm:pb-4">
                       <div className="sm:items-start w-full">
                         <div className="text-center mt-0 sm:text-left">
-                          <Dialog.Title as="h3" className="bg-gray-100 rounded-t-xl px-4 py-3 flex justify-between">
+                          <Dialog.Title as="h3" className="bg-gray-100 px-4 py-3 flex justify-between">
                             <div className="text-sm font-bold">
                               Add Customer
                             </div>
@@ -1908,7 +1908,7 @@ export default function NewDiscount() {
                         </div>
                       </div>
                     </div>
-                    <div className="bg-gray-50 rounded-b-2xl w-full">
+                    <div className="bg-gray-50 w-full">
                       <div className="flex justify-end space-x-3 px-4 py-3 sm:px-6">
                         <button
                           type="button"
