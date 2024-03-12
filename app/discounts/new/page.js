@@ -14,6 +14,7 @@ import {
   Button,
   Input,
   Radio,
+  TimelineBody,
 } from "@material-tailwind/react";
 import { AiOutlinePercentage } from "react-icons/ai";
 
@@ -22,7 +23,28 @@ import { FaRupeeSign } from "react-icons/fa6";
 import { useCountries } from "use-react-countries";
 import { useRouter } from "next/navigation";
 import moment from 'moment/moment';
-import { nanoid, customAlphabet } from 'nanoid'
+import { customAlphabet } from 'nanoid'
+
+
+
+
+import {
+  Timeline,
+  TimelineItem,
+  TimelineConnector,
+  TimelineIcon,
+  Typography,
+  TimelineHeader,
+} from "@material-tailwind/react";
+import {
+  BellIcon,
+  ArchiveBoxIcon,
+  CurrencyDollarIcon,
+} from "@heroicons/react/24/solid";
+import { BsEmojiSmile } from "react-icons/bs";
+import { FiHash } from "react-icons/fi";
+import { LuAtSign } from "react-icons/lu";
+import { RiAttachment2 } from "react-icons/ri";
 
 
 export const dynamic = "force-dynamic"
@@ -1410,6 +1432,60 @@ export default function NewDiscount() {
 
               </CardBody>
             </Card>
+
+
+            <div className="w-full">
+              <Timeline>
+
+                <TimelineItem className="h-52">
+                  <TimelineConnector className="!w-[78px]"/>
+                  <TimelineHeader className="relative w-full flex flex-col gap-0 rounded-xl border border-blue-gray-50 bg-white  shadow-lg shadow-blue-gray-900/5">
+
+                    <div className="flex w-full py-2 pl-4 pr-3">
+                      <TimelineIcon className="p-1 bg-white" variant="ghost">
+                        <button class="flex-shrink-0 bg-[#9474ff] border-[#9474ff] hover:border-[#9474ff] text-sm border-4 text-white py-1 px-2 rounded" type="button">
+                          bK
+                        </button>
+                      </TimelineIcon>
+                      <div className="flex gap-1 w-full">
+                        <input type="text" placeholder="Leave a comment" aria-label="Full name" className="placeholder:text-sm placeholder:text-gray-600 appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"  />
+                      </div>
+                    </div>
+
+                    <div className="w-full rounded-b-xl flex justify-between px-5  py-4 bg-[#f7f7f7]">
+
+                      <div className="flex space-x-4">
+                        <BsEmojiSmile className='text-gray-700' />
+                        <LuAtSign className='text-gray-700' />
+                        <FiHash className='text-gray-700' />
+                        <RiAttachment2 className='text-gray-700' />
+                      </div>
+                      <div className="">
+                        <button className="text-gray-400 bg-[#eaeaea] px-3 py-1 text-sm rounded-md">Post</button>
+                      </div>
+
+                    </div>
+
+                  </TimelineHeader>
+                  <TimelineBody>
+
+
+                    <div className='flex flex-col justify-around h-24'>
+                      <Typography color="gary" className="font-semibold text-sm text-gray-600">
+                        March 13
+                      </Typography>
+                      <Typography color="gary" className="font-normal text-sm text-gray-700">
+                        You created this discount.
+                      </Typography>
+                    </div>
+
+
+                  </TimelineBody>
+                  
+                </TimelineItem>
+                
+              </Timeline>
+            </div>
           </div>
           <div className="w-full lg:w-1/3 flex-col space-y-5">
 
