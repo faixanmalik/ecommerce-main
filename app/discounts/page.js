@@ -277,7 +277,7 @@ const DiscountsPage = () => {
                 <div className="">
 
                   <div className="flex justify-between">
-                    <div className="font-bold text-base">{item.discountCode}</div>
+                    <div className="font-extrabold text-base">{item.discountCode}</div>
                     <div className="font-bold text-sm bg-gray-100 px-2 py-1 rounded-md">{item.status}</div>
                   </div>
 
