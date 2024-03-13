@@ -141,7 +141,7 @@ const DiscountsPage = () => {
           alt="Discounts Image"
         />
         <Title>Manage discounts and promotions</Title>
-        <Text className="text-center pb-4 w-96">
+        <Text className="text-center pb-4 w-10/12">
           Create discount codes and automatic discounts that apply at checkout.
           You can also use discounts with compare at prices.
         </Text>
@@ -273,10 +273,31 @@ const DiscountsPage = () => {
                 </td>
               </tr>
             ) : (
-             <div onClick={()=> openDiscount(item._id, item.type)} key={index} className="cursor-pointer px-3 md:px-5 py-4 md:py-5 w-full flex justify-between items-center">
+             <div onClick={()=> openDiscount(item._id, item.type)} key={index} className="cursor-pointer border-b border-gray-300 px-3 md:px-5 py-4 md:py-5 w-full flex justify-between items-center">
                 <div className="">
-                  <div className="font-bold text-sm">{item.discountCode} - ({item.used} used)</div>
-                  <div className="font-semibold text-xs">{item.discountValue}% off {item.collections[0]?.title} - <span>{item.limitPerCustomer === true ? 'One use per customer' : ''}</span></div>
+
+                  <div className="flex justify-between">
+                    <div className="font-bold text-sm">{item.discountCode}</div>
+                    <div className="font-bold text-sm bg-gray-100 px-2 py-1 rounded-md">{item.status}</div>
+                  </div>
+
+                  <div className="flex justify-between">
+                    <div className="w-10/12 font-medium text-xs flex flex-wrap space-x-0">
+                      {item.discountValue > 0 && <span>{ item?.discountType === 'Percentage' ? item?.discountValue + '%' : item?.discountValue + ' RS' } off {item?.appliesTo === 'Specific Collections' ? item?.collections?.length > 0 ? item?.collections[0]?.title : 'collections' : item?.products?.length > 0 ? item?.products[0]?.title : 'products'}</span> }
+
+                      {item.noMinimumRequirements === true && <span className="flex items-center"> <GoDotFill className='text-xs mr-1 ml-2'/> No minimum purchase requirement</span>}
+                      {item.minimumPurchasechqbox === true && item.minimumPurchaseAmount > 0 && <span className="flex items-center"> <GoDotFill className='text-xs mr-1'/> Minimum purchase of Rs {item.minimumPurchaseAmount}.00</span>}
+                      {item.minimumQuantitychqbox === true && item.minimumQuantityOfAmount > 0 && <span className="flex items-center"> <GoDotFill className='text-xs mr-1'/> Minimum purchase of {item.minimumQuantityOfAmount} items </span>}
+
+                      {item.limitPerCustomer === true && <span className="flex items-center"> <GoDotFill className='text-xs mr-1'/> One use per customer </span>}
+                      {item.limitTimeschq === true && item.limitTimes > 0 && <span className="flex items-center"> <GoDotFill className='text-xs mr-1'/> Limit of {item.limitTimes} uses </span>}
+                    </div>
+
+                    <div className="mt-1">
+                      <div className="font-medium text-xs">{item.used}-used</div>
+                    </div>
+                  </div>
+                  {/* <div className="font-medium text-xs">SET TO COMBINE</div> */}
                 </div>
                 {/* <div>
                   <div className={`font-semibold px-2 py-1 rounded-lg text-center ${item.status === 'Active' ? 'bg-[#92cb32]' : 'bg-red-400'} text-xs`}>
