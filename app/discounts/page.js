@@ -141,7 +141,7 @@ const DiscountsPage = () => {
           alt="Discounts Image"
         />
         <Title>Manage discounts and promotions</Title>
-        <Text className="text-center pb-4 w-10/12">
+        <Text className="text-center pb-4 w-11/12">
           Create discount codes and automatic discounts that apply at checkout.
           You can also use discounts with compare at prices.
         </Text>
@@ -153,7 +153,7 @@ const DiscountsPage = () => {
 
         <div className="flex justify-between items-center px-4 md:px-2 py-2">
 
-          <div className="w-[70%] overflow-x-scroll border-r-2 border-gray-300 sm:border-none">
+          <div className="w-[60%] overflow-x-scroll border-r-2 border-gray-300 sm:border-none">
             <div className="flex items-center space-x-4 md:space-x-4">
               {tableButtons.map((item, index)=>{
                 return <button key={index} onClick={()=>setButtonIndex(index)} className={`font-semibold text-sm md:text-sm px-3 py-1 ${buttonIndex === index ? 'bg-gray-200 rounded-md' : ''}`}>{item.name}</button>
