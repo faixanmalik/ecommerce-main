@@ -154,7 +154,7 @@ const DiscountsPage = () => {
         <div className="flex justify-between items-center px-4 md:px-2 py-2">
 
           <div className="w-[60%] overflow-x-scroll border-r-2 border-gray-300 sm:border-none">
-            <div className="flex items-center space-x-4 md:space-x-4">
+            <div className="flex items-center space-x-3 md:space-x-4">
               {tableButtons.map((item, index)=>{
                 return <button key={index} onClick={()=>setButtonIndex(index)} className={`font-semibold text-sm md:text-sm px-3 py-1 ${buttonIndex === index ? 'bg-gray-200 rounded-md' : ''}`}>{item.name}</button>
               })}
