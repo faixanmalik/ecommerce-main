@@ -189,7 +189,7 @@ const OrdersPage = () => {
   }
 
   return (
-    <div className="min-h-screen md:p-5 md:w-[100%] flex flex-col lg:px-[20%]">
+    <div className="min-h-screen md:p-5 md:w-[100%] flex flex-col lg:px-[5%]">
       <div className="flex flex-col gap-4">
         <div className="flex items-center gap-2 p-5 md:p-0">
           <Link href="/orders">

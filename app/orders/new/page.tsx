@@ -244,8 +244,8 @@ const OrdersPage = () => {
   }
 
   return (
-    <div className="min-h-screen md:p-5 md:w-[100%] flex flex-col lg:px-[20%]">
-      <div className="flex flex-col gap-4">
+    <div className="min-h-screen md:p-5 md:w-[100%] flex flex-col lg:px-[5%]">
+      <div className="flex  flex-col gap-4">
         <div className="flex items-center gap-2 p-5 md:p-0">
           <Link href="/orders">
             <FaArrowLeft className="text-2xl text-neutral-800 rounded-md p-1 hover:bg-neutral-200" />
@@ -253,8 +253,8 @@ const OrdersPage = () => {
           <Heading className="!pb-0.5">Create Order</Heading>
         </div>
 
-        <div className="flex flex-col lg:flex-row gap-4">
-          <div className="lg:w-[70%] flex flex-col gap-4">
+        <div className="flex flex-col  lg:flex-row gap-4">
+          <div className="lg:w-[70%]  flex flex-col gap-4">
             <Card className="!p-0">
               <div className="flex px-4 pt-4 justify-between align-middle">
                 <SectionTitle title="Products" />

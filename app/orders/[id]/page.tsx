@@ -29,7 +29,7 @@ export default function OrderPage({ params }: { params: { id: string } }) {
   const unfulfilled = order?.fulfillment_status === "Unfulfilled";
 
   return (
-    <div className="min-h-screen md:p-5 md:w-[100%] lg:px-[20%]">
+    <div className="min-h-screen md:p-5 md:w-[100%] lg:px-[5%]">
       <div className="flex flex-col-reverse sm:flex-row gap-4 justify-between p-5 md:p-0 md:pb-5">
         <div className="flex gap-4">
           <Link href="/orders" className="hidden sm:block">
