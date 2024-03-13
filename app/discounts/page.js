@@ -278,7 +278,7 @@ const DiscountsPage = () => {
 
                   <div className="flex justify-between">
                     <div className="font-extrabold text-base">{item.discountCode}</div>
-                    <div className="font-bold text-sm bg-gray-100 px-2 py-1 rounded-md">{item.status}</div>
+                    <div className={`font-bold text-sm ${item.status === 'Active' ? 'bg-[#b4fed2]' : 'bg-red-400'} px-2 py-1 rounded-md`}>{item.status}</div>
                   </div>
 
                   <div className="flex justify-between">
