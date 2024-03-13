@@ -153,11 +153,13 @@ const DiscountsPage = () => {
 
         <div className="flex justify-between items-center px-2 md:px-2 py-2">
 
-          <div className="flex items-center space-x-1 md:space-x-4">
-            {tableButtons.map((item, index)=>{
-              return <button key={index} onClick={()=>setButtonIndex(index)} className={`font-semibold text-sm md:text-sm px-1 py-1 ${buttonIndex === index ? 'bg-gray-200 rounded-md' : ''}`}>{item.name}</button>
-            })}
-            <FaPlus className='text-xs md:text-sm'/>
+          <div className=" w-1/2 overflow-x-scroll">
+            <div className="flex items-center space-x-4 md:space-x-4">
+              {tableButtons.map((item, index)=>{
+                return <button key={index} onClick={()=>setButtonIndex(index)} className={`font-semibold text-sm md:text-sm px-1 py-1 ${buttonIndex === index ? 'bg-gray-200 rounded-md' : ''}`}>{item.name}</button>
+              })}
+              <button><FaPlus className='text-xs md:text-sm'/></button>
+            </div>
           </div>
 
           <div className="flex space-x-1 md:space-x-2 items-center">
