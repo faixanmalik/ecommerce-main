@@ -154,7 +154,7 @@ const DiscountsPage = () => {
         <div className="flex justify-between items-center px-4 md:px-2 py-2">
 
           <div className="w-[70%] overflow-x-scroll border-r-2 border-gray-300 sm:border-none">
-            <div className="flex items-center space-x-2 md:space-x-4">
+            <div className="flex items-center space-x-4 md:space-x-4">
               {tableButtons.map((item, index)=>{
                 return <button key={index} onClick={()=>setButtonIndex(index)} className={`font-semibold text-sm md:text-sm px-3 py-1 ${buttonIndex === index ? 'bg-gray-200 rounded-md' : ''}`}>{item.name}</button>
               })}
@@ -162,13 +162,13 @@ const DiscountsPage = () => {
             </div>
           </div>
 
-          <div className="flex space-x-1 md:space-x-2 items-center">
-            <div className="flex space-x-1 items-center bg-gray-50 px-1 border border-gray-300 rounded-lg shadow-xl">
-              <IoSearchOutline className='text-lg md:text-xl font-semibold' />
-              <CgSortAz className='text-2xl md:text-3xl' />
+          <div className="flex space-x-2 md:space-x-2 items-center">
+            <div className="flex space-x-1 items-center bg-gray-50 px-2 border border-gray-300 rounded-lg shadow-xl">
+              <IoSearchOutline className='text-xl md:text-xl font-semibold' />
+              <CgSortAz className='text-3xl md:text-3xl' />
             </div>
-            <div className="flex space-x-1 items-center bg-gray-50 px-1 py-1 border border-gray-300 rounded-lg shadow-xl">
-              <TbArrowsSort className='text-lg md:text-xl font-semibold' />
+            <div className="flex space-x-1 items-center bg-gray-50 px-2 py-1 border border-gray-300 rounded-lg shadow-xl">
+              <TbArrowsSort className='text-xl md:text-xl font-semibold' />
             </div>
           </div>
 
