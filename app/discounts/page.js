@@ -123,7 +123,7 @@ const DiscountsPage = () => {
   }
 
   return (
-    <div className="py-5 mx-2 md:mx-0 md:px-5 font-sans">
+    <div className="py-5 mx-0 md:px-5 font-sans">
       <div className="flex px-1 mb-5 justify-between items-center">
         <Heading>Discounts</Heading>
         <div className="flex justify-center items-center gap-2">
@@ -153,7 +153,7 @@ const DiscountsPage = () => {
 
         <div className="flex justify-between items-center px-4 md:px-2 py-2">
 
-          <div className=" w-[70%] overflow-x-scroll border-r-2 border-gray-300 sm:border-none">
+          <div className="w-[70%] overflow-x-scroll border-r-2 border-gray-300 sm:border-none">
             <div className="flex items-center space-x-2 md:space-x-4">
               {tableButtons.map((item, index)=>{
                 return <button key={index} onClick={()=>setButtonIndex(index)} className={`font-semibold text-sm md:text-sm px-3 py-1 ${buttonIndex === index ? 'bg-gray-200 rounded-md' : ''}`}>{item.name}</button>
@@ -277,7 +277,7 @@ const DiscountsPage = () => {
                 <div className="">
 
                   <div className="flex justify-between">
-                    <div className="font-bold text-sm">{item.discountCode}</div>
+                    <div className="font-bold text-base">{item.discountCode}</div>
                     <div className="font-bold text-sm bg-gray-100 px-2 py-1 rounded-md">{item.status}</div>
                   </div>
 
