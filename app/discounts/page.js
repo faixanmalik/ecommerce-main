@@ -206,7 +206,7 @@ const DiscountsPage = () => {
                     color="blue-gray"
                     className="flex-col font-normal text-sm max-w-96"
                   >
-                    <div className="font-bold">{item.discountCode}</div>
+                    <div className="font-bold text-base">{item.discountCode}</div>
                     <div className="font-medium flex flex-wrap space-x-0">
                       {item.discountValue > 0 && <span>{ item?.discountType === 'Percentage' ? item?.discountValue + '%' : item?.discountValue + ' RS' } off {item?.appliesTo === 'Specific Collections' ? item?.collections?.length > 0 ? item?.collections[0]?.title : 'collections' : item?.products?.length > 0 ? item?.products[0]?.title : 'products'}</span> }
 
